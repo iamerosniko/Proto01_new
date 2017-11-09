@@ -108,7 +108,7 @@
         <div class="row">
             <div class="dep-skillset">
                 <div class="col-md-12">
-                    <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-12">
                         <div class="panel-group" id="accordion">
                                             
                             <div 
@@ -127,17 +127,62 @@
                                             <div class="col-md-3"><input id="checkall" type="checkbox" class="css-checkbox med"><label for="checkall" class="css-label med elegant">Check All</label></div>
                                         </div>-->
                                         <br />
-                                        <div class="row">
-                                            <div *ngFor="let dptSklDBO of departmentSkillsetDBOs">
-                                                <div class="col-md-3" *ngIf="dptSklDBO.DepartmentID == dpt.DepartmentID">
-                                                    <input 
-                                                        id="{{dptSklDBO.DepartmentSkillsetID}}" 
-                                                        (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);"
-                                                        type="checkbox" 
-                                                        class="css-checkbox med"
-                                                        [(ngModel)]="skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]" [ngModelOptions]="{standalone: true}" >
-                                                    <label for="{{dptSklDBO.DepartmentSkillsetID}}" class="css-label med elegant">{{dptSklDBO.SkillsetDescr}}</label>
-                                                </div>
+                                        <div class="container">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                                Skills
+                                                        </th>
+                                                        <th>
+                                                                30 Days Ago
+                                                        </th>
+                                                        <th>
+                                                                1-6 Months
+                                                        </th>
+                                                        <th>
+                                                                6-12 Months
+                                                        </th>
+                                                        <th>
+                                                                Over 1 Year ago
+                                                        </th>
+    
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let dptSklDBO of departmentSkillsetDBOs">
+                                                        <td>
+                                                            <input 
+                                                            id="{{dptSklDBO.DepartmentSkillsetID}}" 
+                                                            (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);"
+                                                            type="checkbox" 
+                                                            class="css-checkbox med"
+                                                            [(ngModel)]="skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]" [ngModelOptions]="{standalone: true}" >
+                                                            <label for="{{dptSklDBO.DepartmentSkillsetID}}" class="css-label med elegant">{{dptSklDBO.SkillsetDescr}}</label>
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" name="lastupdated_1" (change)="lastWorked(1)" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" name="lastupdated_1" (change)="lastWorked(1)" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" name="lastupdated_1" (change)="lastWorked(1)" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" name="lastupdated_1" (change)="lastWorked(1)" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                
+                                            </table>
+                                            <div >
+                                                <!-- <div class="col-md-3" *ngIf="dptSklDBO.DepartmentID == dpt.DepartmentID">
+                                                    
+                                                </div> -->
+                                                
+                                                <!-- <br *ngIf="dptSklDBO.DepartmentID == dpt.DepartmentID" /> -->
                                             </div>
                                         </div>
                                     </div><!--panelbody-->
