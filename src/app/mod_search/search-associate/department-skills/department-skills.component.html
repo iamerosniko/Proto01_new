@@ -1,0 +1,17 @@
+<div class="col-md-3" >
+  <table class="table">
+    <thead>
+      <tr>
+          <th>{{departmentSkill.DepartmentName}}</th>
+      </tr>
+    </thead>
+    <tbody style="background-color:white;" >
+      <tr *ngFor="let y of departmentSkill.Skills">
+          <td>{{y.SkillsetDescr}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-md-3" *ngIf="departmentSkill.Skills.length==0">
+  No Skills found in this associate.
+</div>

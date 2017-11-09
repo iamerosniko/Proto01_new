@@ -1,0 +1,50 @@
+<!--associate name-->
+<div class="col-md-12">
+    <h4>{{associate.Associate.Name}}</h4>
+    <br />
+</div>
+<!--details-->
+<div class="col-md-12">
+    <table class="table table-striped table-hover input-sm">
+        <tbody>
+            <tr>
+                <th>Best Phone Number:</th> <!--variable-->
+                <td>{{associate.Associate.Phone}}</td> <!--value-->
+                <td>&nbsp;</td><!--separator-->
+                <th>VPN:</th> <!--variable-->
+                <td>{{associate.Associate.VPN}}</td> <!--value-->
+            </tr>
+            <tr>
+                <th>Current Department:</th> <!--variable-->
+                <td>{{associate.Associate.Department}}</td> <!--value-->
+                <td>&nbsp;</td><!--separator-->
+                <th>Last Updated:</th> <!--variable-->
+                <td>{{associate.Associate.UpdatedOn}}</td> <!--value-->
+            </tr>
+            <tr>
+                <th>Location:</th> <!--variable-->
+                <td>{{associate.Associate.Location}}</td> <!--value-->
+                <td>&nbsp;</td><!--separator-->
+                <th>&nbsp;</th> <!--blank field-->
+                <td>&nbsp;</td> <!--blank field-->
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="col-md-12">
+    <hr style="border-bottom: 1px solid #2196F3; margin-left: -15px; margin-right: -15px; " />  
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="searchByAssocDepartmentSection" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
+            <div class="row" *ngFor="let x of deptSkillsGrp">
+                <div class="col-md-12">
+                    <department-skills [departmentSkill]="y" *ngFor="let y of x"></department-skills>
+                </div>
+            </div>
+        </div>
+            <hr style="border-bottom: 1px solid #2196F3; margin-left: -15px; margin-right: -15px; " />  
+
+    </div>
+    
+</div>

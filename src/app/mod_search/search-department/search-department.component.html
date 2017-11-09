@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-12">
+        <div style="max-height: 600px; overflow-y: auto; overflow-x: hidden;">
+            <!--repeating-->
+            <div class="row">
+                <!--skillset-->
+                <div class="col-md-12">
+                    <h4>{{departmentRpt.Department}}</h4>
+                    <br />
+                </div>
+                <table>
+                </table>
+                <associate-skills [assoc]="x" *ngFor="let x of departmentRpt.AssociateRpts"></associate-skills>
+                <div class="col-md-12" *ngIf="departmentRpt.AssociateRpts.length==0">
+                    no associates found in this department
+                </div>
+                <!--details-->
+                <!--repeating-->
+                <!--divider-->
+                <!--last item hide-->
+                <div class="col-md-12 ">
+                    <hr style="border-bottom: 1px solid #2196F3; margin-left: -15px; margin-right: -15px; " />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

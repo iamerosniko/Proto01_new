@@ -1,0 +1,29 @@
+<div class="col-md-12">
+        <!-- *ngIf="skillsetRpt.Associates.length>0"-->
+    <table class="table table-striped table-hover input-sm">
+        <thead>
+            <tr>
+                <th>Associate Name</th>
+                <th>Location</th>
+                <th>Current Department</th>
+                <th>VPN</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of AssociateDetails">
+                <td>{{x.Name}}</td>
+                <td>{{x.Location}}</td>
+                <td>{{x.Department}}</td>
+                <td>{{x.VPN}}</td>
+                <td>{{x.UpdatedOn}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<div *ngIf="skillsetRpt.Associates.length==0">
+        No Associates found in this Skillset
+    </div>-->
+</div>
+<div class="col-md-12" *ngIf="AssociateDetails.length==0">
+    no associates found
+</div>

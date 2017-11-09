@@ -1,0 +1,18 @@
+<div class="col-md-12">
+  <strong>{{lastTimeWorkedOnRpt.lastWorkOnItem}}</strong>
+
+  <br />
+  <div class="col-md-12">
+    <search-skillset [skillsetRpt]="x" *ngFor="let x of lastTimeWorkedOnRpt.skillsetRpt"></search-skillset>
+  </div>
+  <br />
+
+  <div class="col-md-12" *ngIf="lastTimeWorkedOnRpt.skillsetRpt.length==0">
+      No Skills found.
+      
+  </div>
+  <br />
+  <hr style="border-bottom: 1px solid #2196F3; margin-left: -15px; margin-right: -15px; " />
+
+  <br />
+</div>

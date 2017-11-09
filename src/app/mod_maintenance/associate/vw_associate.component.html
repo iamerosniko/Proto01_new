@@ -1,0 +1,157 @@
+<div class="tab-content">
+    <div id="asc_default" class="tab-pane fade in active">
+        <div class="col-md-12">
+            <!--tool bar-->
+            <div class="row">
+                <a href="#" class="btn btn-primary btn-sm" data-toggle="tab" data-target="#asc_editor"><i class="fa fa-plus"></i>&nbsp;New Record</a>
+            </div>
+            <br />
+            <!--table-->
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover input-sm">
+                        <thead>
+                            <tr>
+                                <!--<th>Associate Id</th>-->
+                                <th>Name</th>
+                                <th>Phone Number</th>
+                                <th>VPN Capable</th>
+                                <th>Department</th>
+                                <th>Location</th>
+                                <th>Updated On</th>
+                                <th>Is Active</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let x of associates | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <!--<td>{{x.AssociateID}}</td>-->
+                                <td>{{getFullName(x.UserName)}}</td>
+                                <td>{{x.PhoneNumber}}</td>
+                                <td>{{getStatus(x.VPN)}}</td>
+                                <td>{{getDepartmentName(x.DepartmentID)}}</td>
+                                <td>{{getLocationName(x.LocationID)}}</td>
+                                <td>{{x.UpdatedOn | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{getStatus(x.IsActive)}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a (click)="editDetails(x)" class="btn btn-default btn-xs" data-toggle="tab" data-target="#asc_editor" title="Edit"><i class="fa fa-edit"></i></a>
+                                        <a (click)="changeStatus(x)" class="btn btn-default btn-xs" title="Delete"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--pagination-->
+            <div class="row">
+                <div class="pull-right">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="asc_editor" class="tab-pane fade">
+        <div class="col-md-12">
+            <!--return button-->
+            <div class="row">
+                <a id="btnGoBack" (click)="goBack()" class="btn btn-default btn-sm" data-toggle="tab" data-target="#asc_default"><i class="fa fa-chevron-left"></i>&nbsp;Go Back</a>
+            </div>
+            <br />
+            <!--header-->
+            <div class="row">
+                <!--for example you are in adding mode, span.add should be displayed while span.edit will be hidden-->
+                <h4>
+                  <span class="add" *ngIf="mode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
+                  <span class="edit" *ngIf="mode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
+                </h4>
+            </div>
+            <br />
+            <!--fields-->
+            <!--<div class="row">
+                <label class="col-md-2 control-label">Associate Id</label>
+                <div class="col-md-4">
+                    <input [(ngModel)]="associate.AssociateID" readonly type="text" class="form-control input-sm" />
+                </div>
+            </div>
+            <br />-->
+            <div class="row" *ngIf="mode==0">
+                <label class="col-md-2 control-label">Full Name</label>
+                <div class="col-md-4">
+                    <select class="form-control input-sm" [(ngModel)]="associate.UserName">
+                        <option value=""  disabled selected> Select Name </option>
+                        <option *ngFor="let x of getUnusedUsers()" [value]="x.user_name"> {{x.user_first_name+" " +x.user_last_name}} </option>
+                    </select>
+                </div>
+            </div>
+            <br *ngIf="mode==0"/>
+            <div class="row">
+                <label class="col-md-2 control-label">Username</label>
+                <div class="col-md-4">
+                    <input value="{{associate.UserName + ' - ' +getFullName(associate.UserName) }}" readonly type="text" class="form-control input-sm" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-md-2 control-label">Phone Number</label>
+                <div class="col-md-4">
+                    <input maxlength="20" [(ngModel)]="associate.PhoneNumber" type="text" class="form-control input-sm" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-md-2 control-label">VPN Capable</label>
+                <div class="col-md-4">
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="associate.VPN" />
+                        <div class="slider round"></div>
+                    </label>
+                    <br />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-md-2 control-label">Department</label>
+                <div class="col-md-4">
+                    <select [(ngModel)]="associate.DepartmentID" class="form-control input-sm">
+                        <option value="0"  disabled selected> Select Department </option>
+                        <option *ngFor="let x of getActiveDepartments()" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-md-2 control-label">Location</label>
+                <div class="col-md-4">
+                    <select [(ngModel)]="associate.LocationID" class="form-control input-sm">
+                        <option value="0"  disabled selected> Select Location </option>
+                        <option *ngFor="let x of getActiveLocations()" [value]="x.LocationID"> {{x.LocationDescr}} </option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-md-2 control-label">Updated On</label>
+                <div class="col-md-4">
+                    <input value="{{associate.UpdatedOn | date: 'dd/MM/yyyy'}}" readonly type="text" class="form-control input-sm" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-md-2 control-label">Is Active</label>
+                <div class="col-md-4">
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="associate.IsActive" />
+                        <div class="slider round"></div>
+                    </label>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="save-bar">
+           <save-bar [buttonMode]="mode" (triggerParentFunc)="saveAssociate()"></save-bar>
+            <!--save bar component here-->
+        </div>
+    </div>
+</div>

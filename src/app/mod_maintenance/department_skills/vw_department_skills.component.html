@@ -1,0 +1,59 @@
+<div class="tab-content">
+    <div id="dep_skill_default" class="tab-pane fade in active">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <label class="control-label col-md-3">Department</label>
+                        <div class="col-md-7">
+                            <select (change)="getSkillSets(selectedDepartmentID)" class="form-control input-sm" [(ngModel)]="selectedDepartmentID">
+                                <option value="-1" disabled selected> Select Department </option>
+                                <option *ngFor="let x of departments" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                            </select>
+                            <br />
+                        </div>
+                        <div class="col-md-2">
+                            <a (click)="getSkillSets(selectedDepartmentID)" class="btn btn-primary btn-sm">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover input-sm">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1"><input id="checkall" [(ngModel)]="checkallValue" (change)="checkAllSkills(checkallValue)" type="checkbox" class="css-checkbox med"><label for="checkall" class="css-label med elegant"></label></th>
+                                <th class="col-md-11">Skill</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let x of selectedSkillsets | paginate: { itemsPerPage: 10, currentPage: p }" >
+                                <td><input [id]="x.departmentSkillset.SkillsetID" [(ngModel)]="x.IsSelected" type="checkbox" class="css-checkbox med"><label [attr.for]="x.departmentSkillset.SkillsetID" class="css-label med elegant"></label></td>
+                                <td>{{x.SkillsetDescr}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="row">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="save-bar">
+    <!--save bar component here-->
+    <save-bar [buttonMode]="0" (triggerParentFunc)="saveDepartmentSkillset()" ></save-bar>
+</div>

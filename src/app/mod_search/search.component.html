@@ -1,0 +1,149 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Search</h3>
+            <hr style="border-bottom: 1px solid #2196F3; margin-left: -15px; margin-right: -15px; " />  
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">Search by Location</label>
+                    <select class="form-control input-sm" (change)="getItems()" [(ngModel)]="selectedLocation">
+                        <option value="-1" disabled selected> Select Location </option>
+                        <option *ngFor="let x of locations" [value]="x.LocationID"> {{x.LocationDescr}} </option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">
+                        <input type="radio" [disabled]=" selectedLocation==-1" [(ngModel)]="radioSelect" (change)="yourVariableName=[]; getItems();" name="search_rdb" [value]="0"/>&nbsp;Search by Associate(s)
+                    </label>
+                    <!--<select class="form-control input-sm"></select>-->
+                    <ng-select  [multiple]="true"
+                    
+                        [active]="yourVariableName"
+                        [allowClear]="true"
+                        [items]="items"
+                        [disabled]="radioSelect!=0 || selectedLocation==-1"
+                        (data)="refreshValue($event)"
+                        
+                        placeholder="No Associate selected">
+                    </ng-select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">
+                        <input type="radio" [disabled]=" selectedLocation==-1" [(ngModel)]="radioSelect" (change)="yourVariableName=[]; getItems();" name="search_rdb" [value]="1"/>&nbsp;Search by Skillset(s)
+                    </label>
+                    <ng-select  [multiple]="true"
+                        [allowClear]="true"
+                        [active]="yourVariableName"
+                        [items]="items"
+                        [disabled]="radioSelect!=1 || selectedLocation==-1"
+                        (data)="refreshValue($event)"
+                        
+                        placeholder="No Skills selected">
+                    </ng-select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">
+                        <input type="radio" [disabled]=" selectedLocation==-1" [(ngModel)]="radioSelect" (change)="yourVariableName=[]; getItems();" name="search_rdb" [value]="2"/>&nbsp;Search by Department(s)
+                    </label>
+                    <ng-select  [multiple]="true"
+                    [allowClear]="true"
+                        [items]="items"
+                        [disabled]="radioSelect!=2 || selectedLocation==-1"
+                        [active]="yourVariableName"
+                        (data)="refreshValue($event)"
+                        placeholder="No Departments selected">
+                    </ng-select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">
+                        <input type="radio" [disabled]=" selectedLocation==-1" [(ngModel)]="radioSelect" (change)="yourVariableName=[]; getItems();" name="search_rdb" [value]="3"/>&nbsp;Search by Last Time Worked on
+                    </label>
+                    <!--<select class="form-control input-sm"></select>-->
+                    <ng-select  [multiple]="true"
+                    
+                        [active]="yourVariableName"
+                        [allowClear]="true"
+                        [items]="items"
+                        [disabled]="radioSelect!=3 || selectedLocation==-1"
+                        (data)="refreshValue($event)"
+                        
+                        placeholder="No Last Time Worked on selected">
+                    </ng-select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">Date From</label>
+                    <br />
+                    <md-input-container>  
+                        <input style="background-color:white;" mdInput readonly [mdDatepicker]="picker1" [(ngModel)]="dateFrom">
+                        <button mdSuffix [mdDatepickerToggle]="picker1"></button>
+                    </md-input-container>   
+                    <md-datepicker #picker1></md-datepicker>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">Date To</label>
+                    <br />
+                    <md-input-container> 
+                        <input  style="background-color:white;" mdInput readonly [mdDatepicker]="picker2" [(ngModel)]="dateTo" >
+                        <button mdSuffix [mdDatepickerToggle]="picker2" (disabled)="dateFrom==null"> </button>
+                    </md-input-container>    
+                    <md-datepicker #picker2 (disabled)="dateFrom==null"></md-datepicker>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <a (click)="getResult()" class="btn btn-primary btn-sm pull-right"><i class="fa fa-send"></i>&nbsp;View Report</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9" id="assocRpt" #assocRpt>
+            <!--report content here-->
+            <!--<div class="report-content"></div>-->
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <a class="btn btn-primary btn-sm" (click)="print()" title="Export to Excel"><i class="fa fa-file-excel-o"></i></a>
+                        <!--<a class="btn btn-primary btn-sm"></a>-->
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="radioSelect==0 ">
+                <search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>
+            </div>
+            <div *ngIf="radioSelect==1" >
+                <!--<search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>-->
+                <search-skillset [skillsetRpt]="x" *ngFor="let x of skillsetRpt"></search-skillset>
+            </div>
+            <div *ngIf="radioSelect==2" >
+                <search-department [departmentRpt]="x" *ngFor="let x of departmentRpt"></search-department>
+                <!--<search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>-->
+            </div>
+            <div *ngIf="radioSelect==3">
+                <search-lastworkedon [lastTimeWorkedOnRpt]="x" *ngFor="let x of lastTimeWorkedOnRpt"> </search-lastworkedon>
+            </div>
+            <iframe id="txtArea1" style="display:none"></iframe>
+        </div>
+    </div>
+</div>

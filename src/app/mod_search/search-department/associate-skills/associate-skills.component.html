@@ -1,0 +1,29 @@
+<div class="col-md-12">
+    <table class="table table-striped table-hover input-sm">
+      <tbody>
+        <tr>
+          <th class="col-md-1">Name:</th>
+          <td class="col-md-2">{{assoc.Associate.Name}}</td> <!--assoc name-->
+          <th class="col-md-1">Location:</th>
+          <td class="col-md-2">{{assoc.Associate.Location}}</td><!--location-->
+          <th class="col-md-1">VPN</th>
+          <td class="col-md-2">{{assoc.Associate.VPN}}</td><!--vpn-->
+          <th class="col-md-3">Last updated on {{assoc.Associate.UpdatedOn}}</th><!--last updated date-->
+        </tr>
+        <tr>
+          <td colspan="3" class="col-md-12">
+            <table class="table table-striped table-hover input-sm">
+              <thead>
+                  <tr>
+                      <th>Skills</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let x of assoc.DepartmentSkills[0].Skills"><td>{{x.SkillsetDescr}}</td></tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
