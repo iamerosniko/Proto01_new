@@ -256,7 +256,7 @@ export class SkillSetComponent {
       // console.log(s);
       if(<boolean>s==false||(<boolean>s==false&&dsDBO.IsSelected==true)){
         this.lastUpdated=null;
-        this.childModal.show();
+        // this.childModal.show(); //removed because modal is no longer needed.
       }
     }
     else{
