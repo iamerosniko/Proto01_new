@@ -162,18 +162,18 @@
                                                             <label for="{{dptSklDBO.DepartmentSkillsetID}}" class="css-label med elegant">{{dptSklDBO.SkillsetDescr}}</label>
                                                         </td>
                                                         <td>
-                                                            <input type="radio" name="lastupdated_1" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input type="radio" value="1" id="{{'rdb1'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
                                                         <td>
-                                                            <input type="radio" name="lastupdated_1" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input type="radio" value="2" id="{{'rdb2'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
                                                         <td>
-                                                            <input type="radio" name="lastupdated_1" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input type="radio" value="3" id="{{'rdb3'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
                                                         <td>
-                                                            <input type="radio" name="lastupdated_1" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input type="radio" value="4" id="{{'rdb4'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
-                                                        <input hidden type="radio" name="lastupdated_1"/>
+                                                        <input hidden type="radio" value="0" id="{{'rdb0'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}"/>
                                                          
                                                     </tr>
                                                 </tbody>

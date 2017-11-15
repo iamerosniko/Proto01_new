@@ -249,19 +249,42 @@ export class SkillSetComponent {
       x=>x.DepartmentSkillsetID==dsDBO.DepartmentSkillsetID && (
       x.LastWorkedOn=="" || x.LastWorkedOn==null)
     )
-    // console.log(ads);
-    // console.log(ads)
-    if(ads){
-      this.tempDBO=dsDBO;
-      // console.log(s);
-      if(<boolean>s==false||(<boolean>s==false&&dsDBO.IsSelected==true)){
-        this.lastUpdated=null;
-        // this.childModal.show(); //removed because modal is no longer needed.
+
+    if(!<boolean>s){
+      if(ads){
+
+        (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked = true
+        this.tempDBO=dsDBO;
+        console.log(this.tempDBO);
       }
+      
+      this.tempDBO.LastWorkedOn="sample checking"
+      // var a1 = (<HTMLInputElement>document.getElementById('rdb1'+ads.DepartmentSkillsetID)).checked;
+      // var a2 = (<HTMLInputElement>document.getElementById('rdb2'+ads.DepartmentSkillsetID)).checked;
+      // var a3 = (<HTMLInputElement>document.getElementById('rdb3'+ads.DepartmentSkillsetID)).checked;
+      // var a4 = (<HTMLInputElement>document.getElementById('rdb4'+ads.DepartmentSkillsetID)).checked;
+      // var a0 = (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked;
+      // // <HTMLInputElement>document.getElementById('rdb'+ads.DepartmentSkillsetID)
+      // console.log(a1);
+      // console.log(a2);
+      // console.log(a3);
+      // console.log(a4);
+      // console.log(a0);
     }
-    else{
-      dsDBO.LastWorkedOn=null;
-    }
+   
+    // console.log(ads)
+    // console.log(s)
+    // if(ads){
+    //   this.tempDBO=dsDBO;
+    //   // console.log(s);
+    //   if(<boolean>s==false||(<boolean>s==false&&dsDBO.IsSelected==true)){
+    //     this.lastUpdated=null;
+    //     // this.childModal.show(); //removed because modal is no longer needed.
+    //   }
+    // }
+    // else{
+    //   dsDBO.LastWorkedOn=null;
+    // }
     // console.log(dsDBO);
   }
 
