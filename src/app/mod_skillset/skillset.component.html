@@ -162,7 +162,7 @@
                                                         </td>
 
                                                         <td>
-                                                            <input [checked]="dptSklDBO.tempLastWorkedOn==1" type="radio" value="1" id="{{'rdb1'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input [checked]="dptSklDBO.tempLastWorkedOn==1" (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);" type="radio" value="1" id="{{'rdb1'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
                                                         <td>
                                                             <input [checked]="dptSklDBO.tempLastWorkedOn==2" (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);" type="radio" value="2" id="{{'rdb2'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
@@ -176,6 +176,11 @@
                                                         <input hidden [checked]="dptSklDBO.tempLastWorkedOn==0"  (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);" type="radio" value="0" id="{{'rdb0'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}"/>
                                                          
                                                     </tr>
+                                                    <!-- <tr *ngIf="dptSklDBO.DepartmentID == dpt.DepartmentID">
+                                                        <alert type="info" *ngIf="selectedSkill==dptSklDBO.DepartmentSkillsetID">
+                                                            <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+                                                        </alert>
+                                                    </tr> -->
                                                 </tbody>
                                                 
                                             </table>

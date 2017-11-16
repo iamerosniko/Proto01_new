@@ -88,13 +88,13 @@ export class SkillSetComponent {
  
   //TEMPLATE: memory clean up
   cleanUp(): void {
-      this.useSvc = null;
-      this.curUserSvc = null;
-      this.useSvc = null;
-      this.locSvc = null;
-      this.depSvc = null;
-      this.sklSvc = null;
-      this.dptSklSvc = null;
+      // this.useSvc = null;
+      // this.curUserSvc = null;
+      // this.useSvc = null;
+      // this.locSvc = null;
+      // this.depSvc = null;
+      // this.sklSvc = null;
+      // this.dptSklSvc = null;
   }
 
   //TEMPLATE: filter/sort data remove inactive
@@ -259,22 +259,32 @@ export class SkillSetComponent {
           tempAssociateDepartmentSkillset.DepartmentSkillsetID == tempDptSklDBO.DepartmentSkillsetID);
       
       if (assDptSkl) {
-        await this.assDptSklSvc.putAssociateDeptSkillset(assDptSkl);
-        // await this.assDptSklSvc.DeleteAssociateDeptSkillset(assDptSkl.Associa1teDepartmentSkillsetID);
+        //await this.assDptSklSvc.putAssociateDeptSkillset(assDptSkl);
+         await this.assDptSklSvc.DeleteAssociateDeptSkillset(assDptSkl.AssociateDepartmentSkillsetID);
         
       }
     }
   }
+  public alerts: any = [];
+  selectedSkill:any;
+  
+  public add(): void {
+    this.alerts.push({
+      type: 'info',
+      msg: `This alert will be closed in 5 seconds (added: ${(new Date()).toLocaleTimeString()})`,
+      timeout: 5000
+    });
 
+  }
   async onchange(dsDBO:DepartmentSkillsetDBO,s:any){
     
     var ads = this.associateDepartmentSkillsets.find(
-      x=>x.DepartmentSkillsetID==dsDBO.DepartmentSkillsetID && (
-      x.LastWorkedOn=="" || x.LastWorkedOn==null)
+      x=>x.DepartmentSkillsetID==dsDBO.DepartmentSkillsetID
     )
-
-  
+    console.log(ads)
     if(ads){
+      
+      console.log(ads)
       var a1 = (<HTMLInputElement>document.getElementById('rdb1'+ads.DepartmentSkillsetID)).checked;
       var a2 = (<HTMLInputElement>document.getElementById('rdb2'+ads.DepartmentSkillsetID)).checked;
       var a3 = (<HTMLInputElement>document.getElementById('rdb3'+ads.DepartmentSkillsetID)).checked;
@@ -318,6 +328,7 @@ export class SkillSetComponent {
     await this.mapSkillSet();
     await this.addSkillset();
     await this.removeSkillset();
+    await this.runFunctions();
   }
 
   ngOnInit(): void {
