@@ -114,10 +114,10 @@ export class SkillSetComponent {
     await this.cleanUp();
     await this.filterDataList();
     await this.prepareDBO();
-    await this.test();
+    await this.assignLastWorkedOn();
   }
 
-  async test(){
+  async assignLastWorkedOn(){
     this.departmentSkillsetDBOs.forEach(element => {
       switch(element.LastWorkedOn){
         case "< 30 Days Ago":element.tempLastWorkedOn=1
@@ -233,15 +233,18 @@ export class SkillSetComponent {
       let tempAssDeptSkl = await this.associateDepartmentSkillsets.find(associateDepartmentSkillset =>
           associateDepartmentSkillset.DepartmentSkillsetID == tempDptSklDBO.DepartmentSkillsetID);
       if (!tempAssDeptSkl) {
+        var tempLastWorkedOn = this.getSelectedLastUpdatedValue(tempDptSklDBO.DepartmentSkillsetID);
         let assDptSkl = await new AssociateDepartmentSkillset();
         assDptSkl.AssociateID = await this.associateForPosting.AssociateID;
         assDptSkl.DepartmentSkillsetID = await tempDptSklDBO.DepartmentSkillsetID;
         // assDptSkl.LastWorkedOn=await tempDptSklDBO.LastWorkedOn;
-        await this.assDptSklSvc.postAssociateDeptSkillset(assDptSkl);
+        assDptSkl.LastWorkedOn=tempLastWorkedOn;
+        assDptSkl.LastWorkedOn==null?null: await this.assDptSklSvc.postAssociateDeptSkillset(assDptSkl);
       }
       else
       {
         var tempLastWorkedOn = (tempDepartmentSkillsetDBOs.find(x=>x.DepartmentSkillsetID==tempAssDeptSkl.DepartmentSkillsetID)).LastWorkedOn;
+        
         tempAssDeptSkl.LastWorkedOn=await tempLastWorkedOn;
         await this.assDptSklSvc.putAssociateDeptSkillset(tempAssDeptSkl);
       }
@@ -265,17 +268,7 @@ export class SkillSetComponent {
       }
     }
   }
-  public alerts: any = [];
-  selectedSkill:any;
-  
-  public add(): void {
-    this.alerts.push({
-      type: 'info',
-      msg: `This alert will be closed in 5 seconds (added: ${(new Date()).toLocaleTimeString()})`,
-      timeout: 5000
-    });
 
-  }
   async onchange(dsDBO:DepartmentSkillsetDBO,s:any){
     
     var ads = this.associateDepartmentSkillsets.find(
@@ -283,8 +276,6 @@ export class SkillSetComponent {
     )
     console.log(ads)
     if(ads){
-      
-      console.log(ads)
       var a1 = (<HTMLInputElement>document.getElementById('rdb1'+ads.DepartmentSkillsetID)).checked;
       var a2 = (<HTMLInputElement>document.getElementById('rdb2'+ads.DepartmentSkillsetID)).checked;
       var a3 = (<HTMLInputElement>document.getElementById('rdb3'+ads.DepartmentSkillsetID)).checked;
@@ -297,6 +288,20 @@ export class SkillSetComponent {
       this.tempDBO.LastWorkedOn=this.lastWorked(a1,a2,a3,a4);
       console.log(this.tempDBO);
     }
+  }
+
+//for new skillsets
+  getSelectedLastUpdatedValue(dsDBOID:number):string{
+    var selectedLastUpdatedValue=null;
+    
+      var a1 = (<HTMLInputElement>document.getElementById('rdb1'+dsDBOID)).checked;
+      var a2 = (<HTMLInputElement>document.getElementById('rdb2'+dsDBOID)).checked;
+      var a3 = (<HTMLInputElement>document.getElementById('rdb3'+dsDBOID)).checked;
+      var a4 = (<HTMLInputElement>document.getElementById('rdb4'+dsDBOID)).checked;
+      var a0 = (<HTMLInputElement>document.getElementById('rdb0'+dsDBOID)).checked;
+      selectedLastUpdatedValue=this.lastWorked(a1,a2,a3,a4);
+    console.log(selectedLastUpdatedValue);
+    return selectedLastUpdatedValue;
   }
 
   lastWorked(rdb1:boolean,rdb2:boolean,rdb3:boolean,rdb4:boolean):string{
