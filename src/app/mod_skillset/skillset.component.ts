@@ -50,8 +50,8 @@ export class SkillSetComponent {
   public skillsetFrm: FormGroup;
   private skillsetCheck: any;
   @ViewChild('staticModal') public childModal:ModalDirective;
-  public lastUpdated: string=null;
   private tempDBO:DepartmentSkillsetDBO;
+  private checkedSkillsWithoutLastUpdated:string[]=[];
   constructor(
       private curUserSvc: CurrentUserSvc,
       private useSvc: Set_UserSvc,
@@ -114,6 +114,24 @@ export class SkillSetComponent {
     await this.cleanUp();
     await this.filterDataList();
     await this.prepareDBO();
+    await this.test();
+  }
+
+  async test(){
+    this.departmentSkillsetDBOs.forEach(element => {
+      switch(element.LastWorkedOn){
+        case "< 30 Days Ago":element.tempLastWorkedOn=1
+        break;
+        case "1-6 Months":element.tempLastWorkedOn=2
+        break;
+        case "6-12 Months":element.tempLastWorkedOn=3
+        break;
+        case "Over 1 Year ago":element.tempLastWorkedOn=4
+        break;
+        default : element.tempLastWorkedOn=0
+        break;
+      }
+    });
   }
 
   //this will get info of current user
@@ -128,9 +146,10 @@ export class SkillSetComponent {
         await this.associateDepartmentSkillsets.filter(AssociateDepartmentSkillsetSkillset => 
         AssociateDepartmentSkillsetSkillset.AssociateID == this.associateForPosting.AssociateID);
     for (let assDptSkl of this.associateDepartmentSkillsets) {
-      this.skillsetCheck[assDptSkl.DepartmentSkillsetID] = (assDptSkl.LastWorkedOn==null||assDptSkl.LastWorkedOn=="") ? await true : await false;
+      this.skillsetCheck[assDptSkl.DepartmentSkillsetID] = (assDptSkl.LastWorkedOn==null||assDptSkl.LastWorkedOn=="") ? await false : await true;
     }
   }
+
 
   //this will assign values to the object to be saved
   async assignValues(formData: any) {
@@ -141,7 +160,6 @@ export class SkillSetComponent {
     this.associateForPosting.PhoneNumber = await formData.PhoneNumber;
     this.associateForPosting.UpdatedOn = await new Date(this.dateToday.setHours(-3));  
     this.associate.UpdatedOn=await new Date();
-    console.log(this.associate.UpdatedOn);
   }
 
   //this will prepare DBO
@@ -153,6 +171,10 @@ export class SkillSetComponent {
         dptSklDBO.DepartmentSkillsetID = item.DepartmentSkillsetID;
         dptSklDBO.DepartmentID = item.DepartmentID;
         dptSklDBO.SkillsetID = item.SkillsetID
+
+        let ads = this.associateDepartmentSkillsets.find(a=>a.DepartmentSkillsetID==item.DepartmentSkillsetID);
+        ads?dptSklDBO.LastWorkedOn=ads.LastWorkedOn:dptSklDBO.LastWorkedOn=null;
+
         this.departmentSkillsetDBOs.push(dptSklDBO);
       }
 
@@ -184,6 +206,7 @@ export class SkillSetComponent {
       if( this.skillsetCheck.hasOwnProperty(property) ) {
         //let result += p + " , " + this.skillsetCheck[p] + "\n";
         for (let item of this.departmentSkillsetDBOs) {
+
           if( parseInt(property) == item.DepartmentSkillsetID) {
             item.IsSelected = this.skillsetCheck[property];
           }
@@ -213,13 +236,14 @@ export class SkillSetComponent {
         let assDptSkl = await new AssociateDepartmentSkillset();
         assDptSkl.AssociateID = await this.associateForPosting.AssociateID;
         assDptSkl.DepartmentSkillsetID = await tempDptSklDBO.DepartmentSkillsetID;
+        // assDptSkl.LastWorkedOn=await tempDptSklDBO.LastWorkedOn;
         await this.assDptSklSvc.postAssociateDeptSkillset(assDptSkl);
       }
       else
       {
-        tempAssDeptSkl.LastWorkedOn=null;
+        var tempLastWorkedOn = (tempDepartmentSkillsetDBOs.find(x=>x.DepartmentSkillsetID==tempAssDeptSkl.DepartmentSkillsetID)).LastWorkedOn;
+        tempAssDeptSkl.LastWorkedOn=await tempLastWorkedOn;
         await this.assDptSklSvc.putAssociateDeptSkillset(tempAssDeptSkl);
-
       }
     }
   }
@@ -235,7 +259,6 @@ export class SkillSetComponent {
           tempAssociateDepartmentSkillset.DepartmentSkillsetID == tempDptSklDBO.DepartmentSkillsetID);
       
       if (assDptSkl) {
-        assDptSkl.LastWorkedOn=await tempDptSklDBO.LastWorkedOn;
         await this.assDptSklSvc.putAssociateDeptSkillset(assDptSkl);
         // await this.assDptSklSvc.DeleteAssociateDeptSkillset(assDptSkl.Associa1teDepartmentSkillsetID);
         
@@ -250,76 +273,41 @@ export class SkillSetComponent {
       x.LastWorkedOn=="" || x.LastWorkedOn==null)
     )
 
-    if(!<boolean>s){
-      if(ads){
-
-        (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked = true
-        this.tempDBO=dsDBO;
-        console.log(this.tempDBO);
-      }
-      
-      this.tempDBO.LastWorkedOn="sample checking"
-      // var a1 = (<HTMLInputElement>document.getElementById('rdb1'+ads.DepartmentSkillsetID)).checked;
-      // var a2 = (<HTMLInputElement>document.getElementById('rdb2'+ads.DepartmentSkillsetID)).checked;
-      // var a3 = (<HTMLInputElement>document.getElementById('rdb3'+ads.DepartmentSkillsetID)).checked;
-      // var a4 = (<HTMLInputElement>document.getElementById('rdb4'+ads.DepartmentSkillsetID)).checked;
-      // var a0 = (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked;
-      // // <HTMLInputElement>document.getElementById('rdb'+ads.DepartmentSkillsetID)
-      // console.log(a1);
-      // console.log(a2);
-      // console.log(a3);
-      // console.log(a4);
-      // console.log(a0);
-    }
-   
-    // console.log(ads)
-    // console.log(s)
-    // if(ads){
-    //   this.tempDBO=dsDBO;
-    //   // console.log(s);
-    //   if(<boolean>s==false||(<boolean>s==false&&dsDBO.IsSelected==true)){
-    //     this.lastUpdated=null;
-    //     // this.childModal.show(); //removed because modal is no longer needed.
-    //   }
-    // }
-    // else{
-    //   dsDBO.LastWorkedOn=null;
-    // }
-    // console.log(dsDBO);
-  }
-
-  async revert(){
-    var ads = this.associateDepartmentSkillsets.find(
-      x=>x.DepartmentSkillsetID==this.tempDBO.DepartmentSkillsetID
-    )
+  
     if(ads){
-      this.skillsetCheck[''+this.tempDBO.DepartmentSkillsetID]=true;
+      var a1 = (<HTMLInputElement>document.getElementById('rdb1'+ads.DepartmentSkillsetID)).checked;
+      var a2 = (<HTMLInputElement>document.getElementById('rdb2'+ads.DepartmentSkillsetID)).checked;
+      var a3 = (<HTMLInputElement>document.getElementById('rdb3'+ads.DepartmentSkillsetID)).checked;
+      var a4 = (<HTMLInputElement>document.getElementById('rdb4'+ads.DepartmentSkillsetID)).checked;
+      var a0 = (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked;
+      this.tempDBO=dsDBO;
+      if(!<boolean>s){
+        (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked = true
+      }
+      this.tempDBO.LastWorkedOn=this.lastWorked(a1,a2,a3,a4);
+      console.log(this.tempDBO);
     }
   }
 
-  async lastWorked(i:number){
-    
-    if(i==1){
-      this.lastUpdated="< 30 Days Ago";
+  lastWorked(rdb1:boolean,rdb2:boolean,rdb3:boolean,rdb4:boolean):string{
+    var lastUpdated='';
+    if(rdb1){
+      lastUpdated="< 30 Days Ago";
     }
-    else if(i==2){
-      this.lastUpdated="1-6 Months";
+    else if(rdb2){
+      lastUpdated="1-6 Months";
     }
-    else if(i==3){
-      this.lastUpdated="6-12 Months";
+    else if(rdb3){
+      lastUpdated="6-12 Months";
     }
-    else if(i==4){
-      this.lastUpdated="Over 1 Year ago";
+    else if(rdb4){
+      lastUpdated="Over 1 Year ago";
     }
-    
-    this.tempDBO.LastWorkedOn=this.lastUpdated;
-    this.lastUpdated='0';
-    //console.log(this.tempDBO);
+    else{
+      lastUpdated=null
+    }
+    return lastUpdated;
   }
-
-
-
-
 
   //form submission
   async onSubmit(formData: any) {
@@ -333,8 +321,6 @@ export class SkillSetComponent {
   }
 
   ngOnInit(): void {
-    
-    
     this.runFunctions();
   } 
 }

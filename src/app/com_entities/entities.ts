@@ -9,7 +9,7 @@ export class AssociateDepartmentSkillset {
         this.AssociateDepartmentSkillsetID = 0,
         this.AssociateID = 0,
         this.DepartmentSkillsetID = 0,
-        this.LastWorkedOn='';
+        this.LastWorkedOn=null;
     }
 }
 

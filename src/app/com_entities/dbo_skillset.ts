@@ -9,7 +9,8 @@ export class DepartmentSkillsetDBO {
             public IsSelected?: boolean,
             public DepartmentIsActive?: Boolean,
             public SkillsetIsActive?: Boolean,
-            public LastWorkedOn?:string ){
+            public LastWorkedOn?:string,
+            public tempLastWorkedOn?:number ){
         this.DepartmentSkillsetID = 0,
         this.DepartmentID = 0,
         this.DepartmentDescr = '',
@@ -18,6 +19,8 @@ export class DepartmentSkillsetDBO {
         this.IsSelected = false,
         this.DepartmentIsActive = false,
         this.SkillsetIsActive = false,
-        this.LastWorkedOn=null
+        this.LastWorkedOn=null,
+        
+        this.tempLastWorkedOn=0;
     }
 }

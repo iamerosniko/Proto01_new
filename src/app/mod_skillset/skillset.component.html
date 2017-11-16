@@ -151,7 +151,6 @@
                                                 </thead>
                                                 <tbody *ngFor="let dptSklDBO of departmentSkillsetDBOs">
                                                     <tr  *ngIf="dptSklDBO.DepartmentID == dpt.DepartmentID">
-                                                        
                                                         <td>
                                                             <input 
                                                             id="{{dptSklDBO.DepartmentSkillsetID}}" 
@@ -161,19 +160,20 @@
                                                             [(ngModel)]="skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]" [ngModelOptions]="{standalone: true}" >
                                                             <label for="{{dptSklDBO.DepartmentSkillsetID}}" class="css-label med elegant">{{dptSklDBO.SkillsetDescr}}</label>
                                                         </td>
+
                                                         <td>
-                                                            <input type="radio" value="1" id="{{'rdb1'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input [checked]="dptSklDBO.tempLastWorkedOn==1" type="radio" value="1" id="{{'rdb1'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
                                                         <td>
-                                                            <input type="radio" value="2" id="{{'rdb2'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input [checked]="dptSklDBO.tempLastWorkedOn==2" (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);" type="radio" value="2" id="{{'rdb2'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
                                                         <td>
-                                                            <input type="radio" value="3" id="{{'rdb3'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input [checked]="dptSklDBO.tempLastWorkedOn==3"  (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);" type="radio" value="3" id="{{'rdb3'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
                                                         <td>
-                                                            <input type="radio" value="4" id="{{'rdb4'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
+                                                            <input [checked]="dptSklDBO.tempLastWorkedOn==4" (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);" type="radio" value="4" id="{{'rdb4'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}" [disabled]="!skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]"/>
                                                         </td>
-                                                        <input hidden type="radio" value="0" id="{{'rdb0'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}"/>
+                                                        <input hidden [checked]="dptSklDBO.tempLastWorkedOn==0"  (change)="onchange(dptSklDBO,skillsetCheck['' + dptSklDBO.DepartmentSkillsetID]);" type="radio" value="0" id="{{'rdb0'+dptSklDBO.DepartmentSkillsetID}}" name="{{'rdb'+dptSklDBO.DepartmentSkillsetID}}"/>
                                                          
                                                     </tr>
                                                 </tbody>
