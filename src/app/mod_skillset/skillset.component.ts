@@ -354,14 +354,19 @@ export class SkillSetComponent {
   //form submission
   async onSubmit(formData: any) {
     //console.log('you submitted value:', formData);
-    alert('Your record has been updated.');
     await this.assignValues(formData);
     await this.assSvc.putAssociate(this.associateForPosting);
     await this.mapSkillSet();
     await this.verifySkillset();
-    await this.addSkillset();
-    await this.removeSkillset();
-    await this.runFunctions();
+    if(this.dsWOlastWork.length==0){ 
+      alert('Your record has been updated.');
+      await this.addSkillset();
+      await this.removeSkillset();
+      await this.runFunctions();
+    }
+    else{
+      //do popup alert <list of errors>
+    }
   }
 
   ngOnInit(): void {
