@@ -204,8 +204,6 @@ export class LastTimeWorkedOnRpt{
     }
 }
 
-
-
 // SelectItem
 export class SelectItem{
     constructor (
@@ -214,3 +212,9 @@ export class SelectItem{
     ){}
 }
 
+export class DepartmentSkillsetDTO{
+    constructor(
+        public department:string,
+        public skillset:string
+    ){}
+}

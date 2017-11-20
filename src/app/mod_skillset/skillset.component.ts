@@ -15,7 +15,8 @@ import {
   Department,
   Skillset,
   DepartmentSkillsets,
-  AssociateDepartmentSkillset
+  AssociateDepartmentSkillset,
+  DepartmentSkillsetDTO
 } from '../com_entities/entities';
 import { DepartmentSkillsetDBO } from  '../com_entities/dbo_skillset';
 import { CurrentUserSvc } from '../com_services/currentuser.svc';
@@ -51,7 +52,7 @@ export class SkillSetComponent {
   private skillsetCheck: any;
   @ViewChild('staticModal') public childModal:ModalDirective;
   private tempDBO:DepartmentSkillsetDBO;
-  private checkedSkillsWithoutLastUpdated:string[]=[];
+  public dsWOlastWork:DepartmentSkillsetDTO[]=[];
   constructor(
       private curUserSvc: CurrentUserSvc,
       private useSvc: Set_UserSvc,
@@ -87,15 +88,15 @@ export class SkillSetComponent {
   }
  
   //TEMPLATE: memory clean up
-  cleanUp(): void {
-      // this.useSvc = null;
-      // this.curUserSvc = null;
-      // this.useSvc = null;
-      // this.locSvc = null;
-      // this.depSvc = null;
-      // this.sklSvc = null;
-      // this.dptSklSvc = null;
-  }
+  // cleanUp(): void {
+  //     this.useSvc = null;
+  //     this.curUserSvc = null;
+  //     this.useSvc = null;
+  //     this.locSvc = null;
+  //     this.depSvc = null;
+  //     this.sklSvc = null;
+  //     this.dptSklSvc = null;
+  // }
 
   //TEMPLATE: filter/sort data remove inactive
   async filterDataList() {
@@ -111,7 +112,7 @@ export class SkillSetComponent {
     this.dateToday = await new Date();
     await this.getDependencies();
     await this.getCurrentUserData();
-    await this.cleanUp();
+    // await this.cleanUp();
     await this.filterDataList();
     await this.prepareDBO();
     await this.assignLastWorkedOn();
@@ -223,6 +224,33 @@ export class SkillSetComponent {
         AssociateDepartmentSkillsetSkillset.AssociateID == this.associateForPosting.AssociateID);
   }
 
+  //this method verifies first if there's 
+  async verifySkillset(){
+    this.dsWOlastWork=[];
+    await this.refreshAssociateDepartmentSkillset();
+    var tempDepartmentSkillsetDBOs = await this.departmentSkillsetDBOs.filter(departmentSkillsetDBOs =>
+        departmentSkillsetDBOs.IsSelected == true);
+
+    for (let tempDptSklDBO of tempDepartmentSkillsetDBOs) {
+      let tempAssDeptSkl = await this.associateDepartmentSkillsets.find(associateDepartmentSkillset =>
+          associateDepartmentSkillset.DepartmentSkillsetID == tempDptSklDBO.DepartmentSkillsetID);
+      var tempLastWorkedOn='';
+      if(!tempAssDeptSkl){
+         tempLastWorkedOn = this.getSelectedLastUpdatedValue(tempDptSklDBO.DepartmentSkillsetID);
+      }
+      else{
+        tempLastWorkedOn = (tempDepartmentSkillsetDBOs.find(x=>x.DepartmentSkillsetID==tempAssDeptSkl.DepartmentSkillsetID)).LastWorkedOn;  
+      }
+      if(tempLastWorkedOn==null){
+        //add to list
+        console.log(tempDptSklDBO.DepartmentDescr+' '+tempDptSklDBO.SkillsetDescr);
+        this.dsWOlastWork=this.dsWOlastWork.concat(
+          new DepartmentSkillsetDTO(tempDptSklDBO.DepartmentDescr,tempDptSklDBO.SkillsetDescr)
+        )
+      }   
+    }
+  }
+
   //add record in AssociateDepartmentSkillset
   async addSkillset() {
     await this.refreshAssociateDepartmentSkillset();
@@ -237,16 +265,18 @@ export class SkillSetComponent {
         let assDptSkl = await new AssociateDepartmentSkillset();
         assDptSkl.AssociateID = await this.associateForPosting.AssociateID;
         assDptSkl.DepartmentSkillsetID = await tempDptSklDBO.DepartmentSkillsetID;
-        // assDptSkl.LastWorkedOn=await tempDptSklDBO.LastWorkedOn;
+        
         assDptSkl.LastWorkedOn=tempLastWorkedOn;
         assDptSkl.LastWorkedOn==null?null: await this.assDptSklSvc.postAssociateDeptSkillset(assDptSkl);
       }
       else
       {
         var tempLastWorkedOn = (tempDepartmentSkillsetDBOs.find(x=>x.DepartmentSkillsetID==tempAssDeptSkl.DepartmentSkillsetID)).LastWorkedOn;
-        
         tempAssDeptSkl.LastWorkedOn=await tempLastWorkedOn;
-        await this.assDptSklSvc.putAssociateDeptSkillset(tempAssDeptSkl);
+        //delete if existing has no last worked on
+        tempAssDeptSkl.LastWorkedOn==null?
+         await this.assDptSklSvc.DeleteAssociateDeptSkillset(tempAssDeptSkl.AssociateDepartmentSkillsetID) :
+         await this.assDptSklSvc.putAssociateDeptSkillset(tempAssDeptSkl);
       }
     }
   }
@@ -263,7 +293,7 @@ export class SkillSetComponent {
       
       if (assDptSkl) {
         //await this.assDptSklSvc.putAssociateDeptSkillset(assDptSkl);
-         await this.assDptSklSvc.DeleteAssociateDeptSkillset(assDptSkl.AssociateDepartmentSkillsetID);
+        await this.assDptSklSvc.DeleteAssociateDeptSkillset(assDptSkl.AssociateDepartmentSkillsetID);
         
       }
     }
@@ -274,19 +304,17 @@ export class SkillSetComponent {
     var ads = this.associateDepartmentSkillsets.find(
       x=>x.DepartmentSkillsetID==dsDBO.DepartmentSkillsetID
     )
-    console.log(ads)
+    var a1 = (<HTMLInputElement>document.getElementById('rdb1'+  dsDBO.DepartmentSkillsetID)).checked;
+    var a2 = (<HTMLInputElement>document.getElementById('rdb2'+  dsDBO.DepartmentSkillsetID)).checked;
+    var a3 = (<HTMLInputElement>document.getElementById('rdb3'+  dsDBO.DepartmentSkillsetID)).checked;
+    var a4 = (<HTMLInputElement>document.getElementById('rdb4'+  dsDBO.DepartmentSkillsetID)).checked;
+    var a0 = (<HTMLInputElement>document.getElementById('rdb0'+  dsDBO.DepartmentSkillsetID)).checked;
     if(ads){
-      var a1 = (<HTMLInputElement>document.getElementById('rdb1'+ads.DepartmentSkillsetID)).checked;
-      var a2 = (<HTMLInputElement>document.getElementById('rdb2'+ads.DepartmentSkillsetID)).checked;
-      var a3 = (<HTMLInputElement>document.getElementById('rdb3'+ads.DepartmentSkillsetID)).checked;
-      var a4 = (<HTMLInputElement>document.getElementById('rdb4'+ads.DepartmentSkillsetID)).checked;
-      var a0 = (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked;
       this.tempDBO=dsDBO;
-      if(!<boolean>s){
-        (<HTMLInputElement>document.getElementById('rdb0'+ads.DepartmentSkillsetID)).checked = true
-      }
       this.tempDBO.LastWorkedOn=this.lastWorked(a1,a2,a3,a4);
-      console.log(this.tempDBO);
+    }
+    if(!<boolean>s){
+      (<HTMLInputElement>document.getElementById('rdb0'+  dsDBO.DepartmentSkillsetID)).checked = true
     }
   }
 
@@ -300,7 +328,6 @@ export class SkillSetComponent {
       var a4 = (<HTMLInputElement>document.getElementById('rdb4'+dsDBOID)).checked;
       var a0 = (<HTMLInputElement>document.getElementById('rdb0'+dsDBOID)).checked;
       selectedLastUpdatedValue=this.lastWorked(a1,a2,a3,a4);
-    console.log(selectedLastUpdatedValue);
     return selectedLastUpdatedValue;
   }
 
@@ -331,6 +358,7 @@ export class SkillSetComponent {
     await this.assignValues(formData);
     await this.assSvc.putAssociate(this.associateForPosting);
     await this.mapSkillSet();
+    await this.verifySkillset();
     await this.addSkillset();
     await this.removeSkillset();
     await this.runFunctions();
