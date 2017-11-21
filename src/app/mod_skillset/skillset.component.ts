@@ -366,6 +366,7 @@ export class SkillSetComponent {
     }
     else{
       //do popup alert <list of errors>
+      document.getElementById('errorModalBtn').click();
     }
   }
 
