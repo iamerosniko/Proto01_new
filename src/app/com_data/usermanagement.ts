@@ -7,6 +7,6 @@ export class UserManagement{
   }
   async getUsers():Promise<string>{
     var user = await this.cuSvc.getCurrentUser();
-    return user.UserName;
+    return user.FirstName + " " + user.LastName ;
   }
 }

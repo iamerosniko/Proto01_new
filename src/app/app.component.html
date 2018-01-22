@@ -20,7 +20,7 @@
         <li *ngIf="isVisible('')" [ngClass]="{'active' : routeStr.includes('/maintenance')}"><a href="#p3" data-toggle="tab" (click)="routeOnly('maintenance')"  class="lnk-maintenance"><i class="fa fa-wrench"></i>&nbsp;Maintenance</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><i class="fa fa-user-circle"></i><span *ngIf="user!=null">&nbsp;Hello, {{fullName}}!</span></a></li>
+        <li><a href="#"><i class="fa fa-user-circle"></i><span *ngIf="user!=null">&nbsp;Hello, {{currentUser.FirstName}}!</span></a></li>
       </ul>
     </div>
   </div>

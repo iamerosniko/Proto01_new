@@ -114,8 +114,9 @@ export class Set_User_Access {
 
 export class User {
     constructor (
-        public id:number,//dummy id
-        public UserName:string
+        public firstName :string,
+        public lastName: string,
+        public role:string,
     ){}
 }
 /*AssociateViews*/

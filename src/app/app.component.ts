@@ -42,7 +42,7 @@ import { Set_GroupSvc } from './com_services/set_group.svc';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  currentUser: User;
+  currentUser: User= new User('','','');
   currentRole:number=0;
   user: Set_User;
   users:Set_User[];
@@ -64,8 +64,7 @@ export class AppComponent {
     private route:ActivatedRoute,
     private location: Location,
   ){
-  
-    this.router.events.debounceTime(1000).subscribe((val)=>{
+    this.router.events.debounceTime(100).subscribe((val)=>{
         if(this.location.path() != ''){
           this.routeStr = this.location.path();
         } 
@@ -78,13 +77,15 @@ export class AppComponent {
   }
   async getCurrentUserData() {
     this.currentUser = await this.curUserSvc.getCurrentUser();
-    this.users = await this.useSvc.getSet_Users();
-    if(this.currentUser!=null){
-      this.user = await this.users.find(user => user.user_name == this.currentUser.UserName);
-      this.fullName = this.user.user_first_name + ' ' + this.user.user_last_name;
-    }
-    this.curUserSvc = await null;
-    this.useSvc = await null;
+    
+    console.log(this.currentUser)
+    // this.users = await this.useSvc.getSet_Users();
+    // if(this.currentUser!=null){
+    //   this.user = await this.users.find(user => user.user_name == this.currentUser.UserName);
+    //   this.fullName = this.user.user_first_name + ' ' + this.user.user_last_name;
+    // }
+    // this.curUserSvc = await null;
+    // this.useSvc = await null;
   }
 
   async getGroupAccess():Promise<number>{
@@ -126,29 +127,55 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.getCurrentUserData();
+    //this.getCurrentUserData();
   }
+  
+  // async checkIfAuthenticated_Old(){
+  //   var isBelong=await this.getGroupAccess();
+  //   //await console.log('last route:'+this.routeStr);
+  //   var a = await this.adminRoutes.filter(x=>x.route.includes(this.routeStr)||this.routeStr.includes(x.route));
+  //   var c = await this.commonRoutes.filter(x=>x.route.includes(this.routeStr));
+
+  //     if(this.routeStr=='/maintenance'){
+  //       this.router.navigate(['/maintenance', {outlets: {'maintenance-route': ['Locations']}}]);
+  //     }
+
+
+
+  //     if(isBelong==1){  
+  //       if(a.length==0){
+  //         await this.routeOnly('search');
+  //       }
+  //     }
+  //     else if(isBelong==2){
+  //       if(c.length==0){
+  //         await this.routeOnly('skillset');
+  //       }
+  //     }
+  //     else{
+  //       await this.routeOnly('noaccess');
+  //     }
+    
+   
+  // }
+
   async checkIfAuthenticated(){
-    var isBelong=await this.getGroupAccess();
-    //await console.log('last route:'+this.routeStr);
-    var a = await this.adminRoutes.filter(x=>x.route.includes(this.routeStr)||this.routeStr.includes(x.route));
-    var c = await this.commonRoutes.filter(x=>x.route.includes(this.routeStr));
+   
 
-      if(this.routeStr=='/maintenance'){
-        this.router.navigate(['/maintenance', {outlets: {'maintenance-route': ['Locations']}}]);
+    if(this.currentUser.firstName==""){
+      await this.getCurrentUserData();
+      this.checkIfAuthenticated();
+    }
+
+    console.log(this.currentUser.role);
+      if(this.currentUser.role=="admin"){  
+        
+        await this.routeOnly('search');
       }
-
-
-
-      if(isBelong==1){  
-        if(a.length==0){
-          await this.routeOnly('search');
-        }
-      }
-      else if(isBelong==2){
-        if(c.length==0){
-          await this.routeOnly('skillset');
-        }
+      else if(this.currentUser.role=="Limited"){
+        console.log('here')
+        await this.routeOnly('skillset');
+        
       }
       else{
         await this.routeOnly('noaccess');
@@ -156,6 +183,8 @@ export class AppComponent {
     
    
   }
+
+
   routeOnly(path:string){
       this.router.navigate(['/'+path]);
   }
