@@ -44,13 +44,8 @@ import { Jsonp } from '@angular/http/src/http';
 })
 export class AppComponent {
   currentUser: User= new User('','','');
-  currentRole:number=0;
   routeStr:string='';
-  //adminside//
-  adminRoutes=[{route:'/search'},{route:'/maintenance'}];
-  //associateside//
-  commonRoutes=[{route:'/skillset'}];
-  public 
+
   constructor(
     private curUserSvc: CurrentUserSvc,
     private useAccSvc: Set_User_AccessSvc,
