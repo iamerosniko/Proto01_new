@@ -5,8 +5,8 @@ export class UserManagement{
   constructor(private cuSvc : CurrentUserSvc){
 
   }
-  async getUsers():Promise<string>{
-    var user = await this.cuSvc.getCurrentUser();
-    return user.FirstName + " " + user.LastName ;
-  }
+  //async getUsers():Promise<string>{
+    //var user = await this.cuSvc.getCurrentUser();
+    //return user.FirstName + " " + user.LastName ;
+  //}
 }
