@@ -219,3 +219,12 @@ export class DepartmentSkillsetDTO{
         public skillset:string
     ){}
 }
+
+export class MyToken{
+    constructor(
+        public Token:string,
+        public TokenName:string
+    ){
+
+    }
+}

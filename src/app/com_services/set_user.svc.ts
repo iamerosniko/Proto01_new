@@ -9,7 +9,7 @@ export class Set_UserSvc {
     // private apiUrl = 'api/Set_User';
     //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/Set_User';
     //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/Set_User';
-    private apiUrl = AppSettings.CURRENT_URL + 'Set_User';
+    private apiUrl = AppSettings.CURRENT_URL + 'SetUsers';
 
     constructor(private http: Http){}
 

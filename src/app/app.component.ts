@@ -8,8 +8,10 @@ import { Set_User,User,Set_User_Access,Set_Group } from './com_entities/entities
 import { CurrentUserSvc } from './com_services/currentuser.svc';
 import { Set_UserSvc } from './com_services/set_user.svc';
 import { Set_User_AccessSvc } from './com_services/set_user_access.svc';
+import { MyTokenSvc } from './com_services/mytoken.svc';
 import { Set_GroupSvc } from './com_services/set_group.svc';
 import { Jsonp } from '@angular/http/src/http';
+import { forEach } from '@angular/router/src/utils/collection';
 @Component({
   selector: 'app-root',
   // templateUrl: './app.component.html',
@@ -54,6 +56,7 @@ export class AppComponent {
     private router: Router,
     private route:ActivatedRoute,
     private location: Location,
+    private myTokenSvc : MyTokenSvc
   ){
     this.router.events.debounceTime(100).subscribe(
       (val)=>{
@@ -70,6 +73,10 @@ export class AppComponent {
   async getCurrentUserData() {
     var  temp:string = await this.curUserSvc.getCurrentUser();
     this.currentUser =  <User>JSON.parse(temp);
+    var tokens = await this.myTokenSvc.getTokens();
+    tokens.forEach(el => {
+      localStorage.setItem(el.TokenName,el.Token);
+    });
   }
 
   async checkIfAuthenticated(){
