@@ -83,7 +83,7 @@ export class DataSkillsetReport {
             let location:Location=await this.getLocation(associate.LocationID);
             associateDetails.Department=await department.DepartmentDescr;
             associateDetails.Location=await location.LocationDescr;
-            associateDetails.Name=await this.getFullName(associate.UserName);
+            associateDetails.Name=await this.getFullName(associate.UserID);
             associateDetails.VPN=associate.VPN?'Yes':'No';
             associateDetails.UpdatedOn= this.getDateString(new Date(associate.UpdatedOn));
             associateDetails.assocId=await associate.AssociateID;
@@ -122,7 +122,8 @@ export class DataSkillsetReport {
     }
 
     async getAssociateDetails(assocID:number):Promise<Associate>{
-        return new Promise<Associate[]>((resolve) =>
+        //01-24-18
+        return new Promise<Associate>((resolve) =>
             resolve(this.associateSvc.getAssociate(assocID))
         );
     }
@@ -131,8 +132,8 @@ export class DataSkillsetReport {
         this.setUsers=await this.setUserSvc.getSet_Users();
     }
 
-    getFullName(username:string):string{
-        let user:Set_User= this.setUsers.find(x=>x.user_name==username);
+    getFullName(userid:string):string{
+        let user:Set_User= this.setUsers.find(x=>x.user_id==userid);
         // //console.log(user);
         return user==null ? null : user.user_first_name + ' ' + user.user_last_name
     }

@@ -85,7 +85,7 @@ export class SkillSetComponent {
     this.departments = await this.depSvc.getDepartments();
     this.skillsets = await this.sklSvc.getSkillsets();
     this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
-    //this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
+    this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
   }
  
   //TEMPLATE: memory clean up
@@ -114,8 +114,8 @@ export class SkillSetComponent {
     await this.getDependencies();
     await this.getCurrentUserData();
     // await this.cleanUp();
-   // await this.filterDataList();
-    //await this.prepareDBO();
+    await this.filterDataList();
+    await this.prepareDBO();
     await this.assignLastWorkedOn();
   }
 
@@ -142,12 +142,12 @@ export class SkillSetComponent {
     this.associateForPosting = await JSON.parse(JSON.stringify(this.associate));
     
     //this will obtain current users skills
-    // this.associateDepartmentSkillsets = 
-    //     await this.associateDepartmentSkillsets.filter(AssociateDepartmentSkillsetSkillset => 
-    //     AssociateDepartmentSkillsetSkillset.AssociateID == this.associateForPosting.AssociateID);
-    // for (let assDptSkl of this.associateDepartmentSkillsets) {
-    //   this.skillsetCheck[assDptSkl.DepartmentSkillsetID] = (assDptSkl.LastWorkedOn==null||assDptSkl.LastWorkedOn=="") ? await false : await true;
-    // }
+    this.associateDepartmentSkillsets = 
+        await this.associateDepartmentSkillsets.filter(AssociateDepartmentSkillsetSkillset => 
+        AssociateDepartmentSkillsetSkillset.AssociateID == this.associateForPosting.AssociateID);
+    for (let assDptSkl of this.associateDepartmentSkillsets) {
+      this.skillsetCheck[assDptSkl.DepartmentSkillsetID] = (assDptSkl.LastWorkedOn==null||assDptSkl.LastWorkedOn=="") ? await false : await true;
+    }
   }
 
 
@@ -168,6 +168,7 @@ export class SkillSetComponent {
       //extract data from DepartmentSkillsets
       for (let item of this.departmentSkillsets) {
         let dptSklDBO = new DepartmentSkillsetDBO();
+        console.log(item);
         dptSklDBO.DepartmentSkillsetID = item.DepartmentSkillsetID;
         dptSklDBO.DepartmentID = item.DepartmentID;
         dptSklDBO.SkillsetID = item.SkillsetID

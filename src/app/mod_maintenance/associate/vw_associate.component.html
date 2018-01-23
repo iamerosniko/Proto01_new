@@ -76,23 +76,26 @@
                 </div>
             </div>
             <br />-->
-            <div class="row" *ngIf="mode==0">
+            <div class="row" >
                 <label class="col-md-2 control-label">Full Name</label>
-                <div class="col-md-4">
-                    <select class="form-control input-sm" [(ngModel)]="associate.UserName">
+                <div class="col-md-4" *ngIf="mode==0">
+                    <select class="form-control input-sm" [(ngModel)]="associate.UserID" (change)="associate.FullName = getFullName(associate.UserID)">
                         <option value=""  disabled selected> Select Name </option>
-                        <option *ngFor="let x of getUnusedUsers()" [value]="x.user_name"> {{x.user_first_name+" " +x.user_last_name}} </option>
+                        <option *ngFor="let x of getUnusedUsers()" [value]="x.user_id"> {{x.user_first_name+" " +x.user_last_name}} </option>
                     </select>
                 </div>
-            </div>
-            <br *ngIf="mode==0"/>
-            <div class="row">
-                <label class="col-md-2 control-label">Username</label>
-                <div class="col-md-4">
-                    <input value="{{associate.UserID + ' - ' +getFullName(associate.UserID) }}" readonly type="text" class="form-control input-sm" />
+                <div  *ngIf="mode!=0"  class="col-md-4">
+                    <input value="{{associate.FullName}}" readonly type="text" class="form-control input-sm" />
                 </div>
             </div>
             <br />
+            <!-- <div class="row">
+                <label class="col-md-2 control-label">Full Name</label>
+                <div class="col-md-4">
+                    <input value="{{associate.FullName}}" readonly type="text" class="form-control input-sm" />
+                </div>
+            </div>
+            <br /> -->
             <div class="row">
                 <label class="col-md-2 control-label">Phone Number</label>
                 <div class="col-md-4">
@@ -131,14 +134,14 @@
                 </div>
             </div>
             <br />
-            <div class="row">
+            <div class="row" *ngIf="mode==1">
                 <label class="col-md-2 control-label">Updated On</label>
                 <div class="col-md-4">
                     <input value="{{associate.UpdatedOn | date: 'dd/MM/yyyy'}}" readonly type="text" class="form-control input-sm" />
                 </div>
             </div>
             <br />
-            <div class="row">
+            <div class="row" *ngIf="mode==1">
                 <label class="col-md-2 control-label">Is Active</label>
                 <div class="col-md-4">
                     <label class="switch">
