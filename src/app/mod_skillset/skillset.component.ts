@@ -84,7 +84,7 @@ export class SkillSetComponent {
     this.locations = await this.locSvc.getLocations();
     this.departments = await this.depSvc.getDepartments();
     this.skillsets = await this.sklSvc.getSkillsets();
-    //this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
+    this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
     //this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
   }
  
