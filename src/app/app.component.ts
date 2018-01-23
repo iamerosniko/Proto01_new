@@ -45,7 +45,7 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  currentUser: User= new User('','','');
+  currentUser: User= new User('','','','');
   routeStr:string='';
 
   constructor(
@@ -84,9 +84,16 @@ export class AppComponent {
       await this.getCurrentUserData();
       this.checkIfAuthenticated();
     }
+    
 
-    if(this.currentUser.Role=="admin")  
-      await this.routeOnly('search');
+    if(this.currentUser.Role=="Admin"){
+      if(this.routeStr=="/search"||this.routeStr.indexOf('maintenance')==1){
+       
+      }
+      else{
+        await this.routeOnly('search');
+      }
+    }
     else if(this.currentUser.Role=="Limited")
       await this.routeOnly('skillset');
     else

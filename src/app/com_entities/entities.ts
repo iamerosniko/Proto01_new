@@ -28,21 +28,24 @@ export class DepartmentSkillsets {
 export class Associate {
     constructor (
             public AssociateID?: number,
-            public UserName? : string,
-            public PhoneNumber? : string,
-            public VPN? : Boolean,
             public DepartmentID? : number,
+            public IsActive? : Boolean,
             public LocationID? : number,
+            public PhoneNumber? : string,
             public UpdatedOn? : Date,
-            public IsActive? : Boolean){
+            public UserID ?:string,
+            public VPN? : Boolean,
+            public FullName ?: string){
         this.AssociateID = 0,
-        this.UserName = ' ',
         this.PhoneNumber = '',
         this.VPN = false,
         this.DepartmentID = 0,
         this.LocationID = 0,
         this.UpdatedOn = new Date(new Date().setHours(-3)),
-        this.IsActive = false
+        this.IsActive = false,
+        this.UserID='',
+        this.FullName=''
+
     }
 }
 
@@ -114,6 +117,7 @@ export class Set_User_Access {
 
 export class User {
     constructor (
+        public UserID : string,
         public FirstName :string,
         public LastName: string,
         public Role:string,

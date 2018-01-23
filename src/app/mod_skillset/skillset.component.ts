@@ -14,6 +14,7 @@ import {
   Location,
   Department,
   Skillset,
+  User,
   DepartmentSkillsets,
   AssociateDepartmentSkillset,
   DepartmentSkillsetDTO
@@ -36,12 +37,12 @@ import { ModalDirective } from 'ngx-bootstrap';
 
 export class SkillSetComponent {
   private dateToday: Date;
-  private currentUser: any;
+  private currentUser: User=new User('','','','');
   private associates: Associate[];
-  public associate: Associate=new Associate(0,'test','test',false,0,0,new Date(),false);
+  public associate: Associate=new Associate();
   private associateForPosting: Associate;
-  private users: Set_User[];
-  private user: Set_User;
+  // private users: Set_User[];
+  // private user: Set_User;
   public locations: Location[];
   public departments: Department[];
   private skillsets: Skillset[];
@@ -78,13 +79,13 @@ export class SkillSetComponent {
   //TEMPLATE: this will get all needed data
   async getDependencies() {
     this.associates = await this.assSvc.getAssociates();//
-    this.users = await this.useSvc.getSet_Users();
+    //this.users = await this.useSvc.getSet_Users();
     this.currentUser = await this.curUserSvc.getCurrentUser();
     this.locations = await this.locSvc.getLocations();
     this.departments = await this.depSvc.getDepartments();
     this.skillsets = await this.sklSvc.getSkillsets();
-    this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
-    this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
+    //this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
+    //this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
   }
  
   //TEMPLATE: memory clean up
@@ -113,8 +114,8 @@ export class SkillSetComponent {
     await this.getDependencies();
     await this.getCurrentUserData();
     // await this.cleanUp();
-    await this.filterDataList();
-    await this.prepareDBO();
+   // await this.filterDataList();
+    //await this.prepareDBO();
     await this.assignLastWorkedOn();
   }
 
@@ -137,18 +138,16 @@ export class SkillSetComponent {
 
   //this will get info of current user
   async getCurrentUserData() {
-    this.associate = await this.associates.find(associate => associate.UserName == this.currentUser.UserName);//
-    this.user = await this.users.find(user => user.user_name == this.currentUser.UserName);
+    this.associate = await this.associates.find(associate => associate.UserID == this.currentUser.UserID);
     this.associateForPosting = await JSON.parse(JSON.stringify(this.associate));
-    this.associate.UserName =  await this.user.user_first_name + ' ' + this.user.user_last_name;
     
     //this will obtain current users skills
-    this.associateDepartmentSkillsets = 
-        await this.associateDepartmentSkillsets.filter(AssociateDepartmentSkillsetSkillset => 
-        AssociateDepartmentSkillsetSkillset.AssociateID == this.associateForPosting.AssociateID);
-    for (let assDptSkl of this.associateDepartmentSkillsets) {
-      this.skillsetCheck[assDptSkl.DepartmentSkillsetID] = (assDptSkl.LastWorkedOn==null||assDptSkl.LastWorkedOn=="") ? await false : await true;
-    }
+    // this.associateDepartmentSkillsets = 
+    //     await this.associateDepartmentSkillsets.filter(AssociateDepartmentSkillsetSkillset => 
+    //     AssociateDepartmentSkillsetSkillset.AssociateID == this.associateForPosting.AssociateID);
+    // for (let assDptSkl of this.associateDepartmentSkillsets) {
+    //   this.skillsetCheck[assDptSkl.DepartmentSkillsetID] = (assDptSkl.LastWorkedOn==null||assDptSkl.LastWorkedOn=="") ? await false : await true;
+    // }
   }
 
 
