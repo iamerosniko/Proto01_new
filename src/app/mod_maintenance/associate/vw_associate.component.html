@@ -26,7 +26,7 @@
                         <tbody>
                             <tr *ngFor="let x of associates | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <!--<td>{{x.AssociateID}}</td>-->
-                                <td>{{getFullName(x.UserName)}}</td>
+                                <td>{{getFullName(x.UserID)}}</td>
                                 <td>{{x.PhoneNumber}}</td>
                                 <td>{{getStatus(x.VPN)}}</td>
                                 <td>{{getDepartmentName(x.DepartmentID)}}</td>
@@ -89,7 +89,7 @@
             <div class="row">
                 <label class="col-md-2 control-label">Username</label>
                 <div class="col-md-4">
-                    <input value="{{associate.UserName + ' - ' +getFullName(associate.UserName) }}" readonly type="text" class="form-control input-sm" />
+                    <input value="{{associate.UserID + ' - ' +getFullName(associate.UserID) }}" readonly type="text" class="form-control input-sm" />
                 </div>
             </div>
             <br />

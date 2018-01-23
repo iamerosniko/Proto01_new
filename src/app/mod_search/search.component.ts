@@ -158,8 +158,9 @@ export class SearchComponent implements OnInit {
     if(this.radioSelect==0){
       let associates=this.associates.filter(x=>x.LocationID==this.selectedLocation);
       for(var i = 0; i<associates.length;i++){
-        var fullName=this.getFullName(associates[i].UserName);
-        this.items.push( { 'id': associates[i].AssociateID.toString(), 'text': this.getFullName(associates[i].UserName)});
+        // var fullName=this.getFullName(associates[i].UserName);
+        var fullName=associates[i].FullName;
+        this.items.push( { 'id': associates[i].AssociateID.toString(), 'text': associates[i].FullName});
       }
     }
     else if (this.radioSelect==1){

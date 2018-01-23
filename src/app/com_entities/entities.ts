@@ -42,7 +42,7 @@ export class Associate {
         this.DepartmentID = 0,
         this.LocationID = 0,
         this.UpdatedOn = new Date(new Date().setHours(-3)),
-        this.IsActive = false,
+        this.IsActive = true,
         this.UserID='',
         this.FullName=''
 

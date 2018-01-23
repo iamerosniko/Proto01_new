@@ -70,7 +70,7 @@ export class DataAssociateReport {
         currentDepartment=await this.getDepartment(associate.DepartmentID);
         currentLocation=await this.getLocation(associate.LocationID);
         //fill details of the associateReport
-        this.associateReport.Associate.Name=this.getFullName(associate.UserName);
+        this.associateReport.Associate.Name=associate.FullName;
         this.associateReport.Associate.Department=await currentDepartment.DepartmentDescr;
         this.associateReport.Associate.Location=await currentLocation.LocationDescr;
         this.associateReport.Associate.Phone=await associate.PhoneNumber;
@@ -111,7 +111,7 @@ export class DataAssociateReport {
         currentDepartment=await this.getDepartment(associate.DepartmentID);
         currentLocation=await this.getLocation(associate.LocationID);
         //fill details of the associateReport
-        this.associateReport.Associate.Name=this.getFullName(associate.UserName);
+        this.associateReport.Associate.Name=associate.FullName;
         this.associateReport.Associate.Department=await currentDepartment.DepartmentDescr;
         this.associateReport.Associate.Location=await currentLocation.LocationDescr;
         this.associateReport.Associate.Phone=await associate.PhoneNumber;

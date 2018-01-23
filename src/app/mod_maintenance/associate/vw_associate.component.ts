@@ -52,7 +52,7 @@ export class VWAssociateComponent implements OnInit {
     let tempUsers:Set_User[]=this.set_Users;
     for(var i=0; i<this.associates.length; i++){
       var assoc=this.associates[i];
-      //tempUsers=tempUsers.filter(x=>x.user_name!=assoc.UserName);
+      tempUsers=tempUsers.filter(x=>x.user_id!=assoc.UserID);
     }
     return tempUsers;
   }
@@ -71,9 +71,14 @@ export class VWAssociateComponent implements OnInit {
     return status ? "Yes" : "No";
   }
 
-  getFullName(username:string):string{
-    let setUser:Set_User = this.set_Users.find(x=>x.user_name==username);
-    return setUser!=null ? setUser.user_first_name+ " " + setUser.user_last_name : username;
+  // getFullName(username:string):string{
+  //   let setUser:Set_User = this.set_Users.find(x=>x.user_name==username);
+  //   return setUser!=null ? setUser.user_first_name+ " " + setUser.user_last_name : username;
+  // }
+
+  getFullName(userID:string):string{
+    let setUser:Set_User = this.set_Users.find(x=>x.user_id==userID);
+    return setUser!=null ? setUser.user_first_name+ " " + setUser.user_last_name : userID;
   }
 
   editDetails(assoc : Associate){
@@ -95,7 +100,7 @@ export class VWAssociateComponent implements OnInit {
 
   cleanUp(){
     this.getDependencies();
-    //this.associate=new Associate(0,'','',false,-1,-1,new Date,true);
+    this.associate=new Associate();
   }
 
   async saveAssociate(){
@@ -124,7 +129,7 @@ export class VWAssociateComponent implements OnInit {
     tempLoc=tempLoc.filter(x=>x.LocationID==this.associate.LocationID);
     tempDept==null || tempDept.length==0 ? msg+='Department is Required.\n' : null ;
     tempLoc==null || tempLoc.length==0 ? msg+='Location is Required.\n' : null ;
-    //this.associate.UserName=='' ? msg+='Name is Required.':null;
+    this.associate.UserID=='' ? msg+='Name is Required.':null;
     return msg==''?(true):(alert(msg),false);
   }
 
