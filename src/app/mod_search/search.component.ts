@@ -121,17 +121,23 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.getDependencies()
-    .then(()=>{
-        if(this.set_Users!=null){
-          this.removeInactive().then(()=>{
-              this.getItems();
-          });
-        }
-        else{
-          this.router.navigate(['/noaccess']);
-        }
-    });
+    if(localStorage.getItem('AuthToken')!=null){
+      this.getDependencies()
+      .then(()=>{
+          if(this.set_Users!=null){
+            this.removeInactive().then(()=>{
+                this.getItems();
+            });
+          }
+          else{
+            this.router.navigate(['/noaccess']);
+          }
+      });
+    }
+    else{
+      window.location.assign("/")
+    }
+    
   }
 
   async getDependencies(){
