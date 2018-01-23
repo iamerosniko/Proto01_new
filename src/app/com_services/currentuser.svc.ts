@@ -13,7 +13,7 @@ export class CurrentUserSvc {
 
     constructor(private http: Http){}
 
-    getCurrentUser(): Promise<string> {
+    getCurrentUser(): Promise<User> {
         return this.http
         .get(this.apiUrl, {headers: this.headers})
         .toPromise()

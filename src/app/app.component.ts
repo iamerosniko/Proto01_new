@@ -58,7 +58,7 @@ export class AppComponent {
     private location: Location,
     private myTokenSvc : MyTokenSvc
   ){
-    this.router.events.debounceTime(100).subscribe(
+    this.router.events.debounceTime(1000).subscribe(
       (val)=>{
         if(this.location.path() != ''){
           this.routeStr = this.location.path();
@@ -71,8 +71,7 @@ export class AppComponent {
     );
   }
   async getCurrentUserData() {
-    var  temp:string = await this.curUserSvc.getCurrentUser();
-    this.currentUser =  <User>JSON.parse(temp);
+    this.currentUser = await this.curUserSvc.getCurrentUser();
     var tokens = await this.myTokenSvc.getTokens();
     tokens.forEach(el => {
       localStorage.setItem(el.TokenName,el.Token);

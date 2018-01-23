@@ -371,6 +371,11 @@ export class SkillSetComponent {
   }
 
   ngOnInit(): void {
-    this.runFunctions();
+    if(localStorage.getItem('AuthToken')!=null){
+      this.runFunctions();
+    }
+    else{
+      window.location.assign("/")
+    }
   } 
 }
