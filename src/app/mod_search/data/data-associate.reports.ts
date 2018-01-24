@@ -125,7 +125,7 @@ export class DataAssociateReport {
     }
 
     async getAssociateDetails(assocID:number):Promise<Associate>{
-        return new Promise<Associate[]>((resolve) =>
+        return new Promise<Associate>((resolve) =>
             resolve(this.associateSvc.getAssociate(assocID))
         );
     }
