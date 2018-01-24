@@ -56,10 +56,10 @@ export class DataDepartmentReport {
         //get their skills according to their current department
         for(let assoc of associates){
             var assocrpt=await this.assocRptSvc.getAssociateReport2(assoc.AssociateID,departmentID,dateFrom,dateTo);
-            console.log(assocrpt);
+            // console.log(assocrpt);
             if(assocrpt!=null)
                 departmentRpt.AssociateRpts=departmentRpt.AssociateRpts.concat(assocrpt);
-                console.log(departmentRpt);
+                // console.log(departmentRpt);
         }
 
         departmentRpt.Department=await department.DepartmentDescr;

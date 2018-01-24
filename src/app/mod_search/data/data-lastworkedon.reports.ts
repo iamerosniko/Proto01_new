@@ -64,7 +64,7 @@ export class DataLastworkedonReport {
         //this contains 
         var tempSkillsetReport:SkillsetRpt[]=[];
 
-        console.log(associateID);
+        // console.log(associateID);
         tempSkillsetReport=tempSkillsetReport.concat( 
             await this.skillsetRpt.getSkillsetReport(
                 tempDS.SkillsetID,

@@ -10,7 +10,7 @@ export class SearchLastworkedonComponent implements OnInit {
   constructor() { }
   @Input() lastTimeWorkedOnRpt:LastTimeWorkedOnRpt;
   ngOnInit() {
-    console.log(this.lastTimeWorkedOnRpt);
+    // console.log(this.lastTimeWorkedOnRpt);
   }
 
 }

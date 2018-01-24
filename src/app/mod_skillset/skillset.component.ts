@@ -168,7 +168,7 @@ export class SkillSetComponent {
       //extract data from DepartmentSkillsets
       for (let item of this.departmentSkillsets) {
         let dptSklDBO = new DepartmentSkillsetDBO();
-        console.log(item);
+        // console.log(item);
         dptSklDBO.DepartmentSkillsetID = item.DepartmentSkillsetID;
         dptSklDBO.DepartmentID = item.DepartmentID;
         dptSklDBO.SkillsetID = item.SkillsetID
@@ -243,7 +243,7 @@ export class SkillSetComponent {
       }
       if(tempLastWorkedOn==null){
         //add to list
-        console.log(tempDptSklDBO.DepartmentDescr+' '+tempDptSklDBO.SkillsetDescr);
+        // console.log(tempDptSklDBO.DepartmentDescr+' '+tempDptSklDBO.SkillsetDescr);
         this.dsWOlastWork=this.dsWOlastWork.concat(
           new DepartmentSkillsetDTO(tempDptSklDBO.DepartmentDescr,tempDptSklDBO.SkillsetDescr)
         )

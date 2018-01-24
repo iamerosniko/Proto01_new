@@ -55,7 +55,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
     this.newDepartmentSkillsets=[];
     this.departmentSkillsets=[];
     this.delDepartmentSkillsets=[];
-    console.log('getSkillsets')
+    // console.log('getSkillsets')
     //reset checkall
     this.checkallValue=false;
     //1. get skillsets
@@ -201,7 +201,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
   }
 
   async deleteAssociateDepartmentSkillset(ads:AssociateDepartmentSkillset[]){
-    console.log(ads);
+    // console.log(ads);
     for (var i = 0 ;i < ads.length; i++){
       await this.assocDeptSkillsetSvc.DeleteAssociateDeptSkillset(ads[i].AssociateDepartmentSkillsetID);
     }

@@ -55,14 +55,14 @@ export class VWSkillsetComponent {
   //delete departmentSkillset
   async deleteDepartmentSkillset(skillsetID:number){
     this.departmentSkillsets=this.departmentSkillsets.filter(x=>x.SkillsetID==skillsetID);
-    console.log(this.departmentSkillsets);
+    // console.log(this.departmentSkillsets);
     for(var i = 0 ; i<this.departmentSkillsets.length ;i++)
     {
       var deptSkillset=this.departmentSkillsets[i];
       await this.departmentSkillsetSvc.DeleteDepartmentSkillset(deptSkillset.DepartmentSkillsetID);
       this.deleteAssociateDepartmentSkillset(deptSkillset.DepartmentSkillsetID);
     }
-    console.log('done');
+    // console.log('done');
   }
   //delete assocdeptSkillset
   async deleteAssociateDepartmentSkillset(deptSkillsetID:number){
@@ -72,7 +72,7 @@ export class VWSkillsetComponent {
       var assocDeptSkillset=tempAssocDeptSkillset[i];
       await this.assocDeptSkillsetSvc.DeleteAssociateDeptSkillset(assocDeptSkillset.AssociateDepartmentSkillsetID);
     }
-    console.log('done deleting associateDepartmentSkillset');
+    // console.log('done deleting associateDepartmentSkillset');
   }
 
   goBack(){

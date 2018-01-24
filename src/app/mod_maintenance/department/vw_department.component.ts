@@ -58,7 +58,7 @@ export class VWDepartmentComponent {
       await this.departmentSkillsetSvc.DeleteDepartmentSkillset(deptSkillset.DepartmentSkillsetID);
       this.deleteAssociateDepartmentSkillset(deptSkillset.DepartmentSkillsetID);
     }
-    console.log('done deleting departmentSkillset');
+    // console.log('done deleting departmentSkillset');
   }
   //delete assocdeptSkillset
   async deleteAssociateDepartmentSkillset(deptSkillsetID:number){
@@ -68,7 +68,7 @@ export class VWDepartmentComponent {
       var assocDeptSkillset=tempAssocDeptSkillset[i];
       await this.assocDeptSkillsetSvc.DeleteAssociateDeptSkillset(assocDeptSkillset.AssociateDepartmentSkillsetID);
     }
-    console.log('done deleting associateDepartmentSkillset');
+    // console.log('done deleting associateDepartmentSkillset');
   }
 
   goBack(){
