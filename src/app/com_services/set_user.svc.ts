@@ -5,13 +5,14 @@ import { Set_User } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class Set_UserSvc {
-    private headers = new Headers({'Content-Type': 'application/json'});
-    // private apiUrl = 'api/Set_User';
-    //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/Set_User';
-    //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/Set_User';
-    private apiUrl = AppSettings.CURRENT_URL + 'SetUsers';
+    private headers=new Headers({});
+    private apiUrl = AppSettings.CURRENT_API + 'SetUsers';
 
-    constructor(private http: Http){}
+    constructor(private http: Http){
+        this.headers = new Headers();
+        this.headers.append('Authorization','Bearer '+localStorage.getItem('cache1'));
+        this.headers.append('Content-Type','application/json');
+    }
 
     getSet_Users(): Promise<Set_User[]> {
         return this.http

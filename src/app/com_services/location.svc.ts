@@ -5,14 +5,14 @@ import { Location } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class LocationSvc {
-    private headers = new Headers({'Content-Type': 'application/json'});
-    //private apiUrl ='api/Locations';
-    //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/Locations';
-    //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/Locations';
-    private apiUrl = AppSettings.CURRENT_URL + 'Locations';
+    
+    private headers=new Headers({});
+    private apiUrl = AppSettings.CURRENT_API + 'Locations';
 
-    constructor(private http: Http,
-        ){
+    constructor(private http: Http,){
+        this.headers = new Headers();
+        this.headers.append('Authorization','Bearer '+localStorage.getItem('cache1'));
+        this.headers.append('Content-Type','application/json');
         //this.apiUrl=this.config.getUrl(true);
     }
 

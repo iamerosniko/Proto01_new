@@ -5,13 +5,15 @@ import { Set_Group } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class Set_GroupSvc {
-    private headers = new Headers({'Content-Type': 'application/json'});
-    // private apiUrl = 'api/Set_Groups';
-    //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/Set_Groups';
-    //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/Set_Groups';
-    private apiUrl = AppSettings.CURRENT_URL + 'Set_Group';
+    
+    private headers=new Headers({});
+    private apiUrl = AppSettings.CURRENT_API + 'Set_Group';
 
-    constructor(private http: Http){}
+    constructor(private http: Http){
+        this.headers = new Headers();
+        this.headers.append('Authorization','Bearer '+localStorage.getItem('cache1'));
+        this.headers.append('Content-Type','application/json');
+    }
 
     getSet_Groups(): Promise<Set_Group[]> {
         return this.http

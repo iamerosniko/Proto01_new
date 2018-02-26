@@ -77,11 +77,8 @@ export class AppComponent {
   }
   async getCurrentUserData() {
     this.currentUser = await this.curUserSvc.getCurrentUser();
-    var tokens = await this.myTokenSvc.getTokens();
-    
-    tokens.forEach(el => {
-      localStorage.setItem(el.TokenName,el.Token);
-    });
+     var tokens = await this.myTokenSvc.getTokens();
+    localStorage.setItem("cache1",tokens.Token);
   }
 
   async checkIfAuthenticated(){

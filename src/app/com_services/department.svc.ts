@@ -5,13 +5,15 @@ import { Department } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class DepartmentSvc {
-    private headers = new Headers({'Content-Type': 'application/json'});
-    // private apiUrl = 'api/Departments';
-    //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/Departments';
-    //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/Departments';
-    private apiUrl = AppSettings.CURRENT_URL + 'Departments';
+    
+    private headers=new Headers({});
+    private apiUrl = AppSettings.CURRENT_API + 'Departments';
 
-    constructor(private http: Http){}
+    constructor(private http: Http){
+        this.headers = new Headers();
+        this.headers.append('Authorization','Bearer '+localStorage.getItem('cache1'));
+        this.headers.append('Content-Type','application/json');
+    }
 
     getDepartments(): Promise<Department[]> {
         return this.http

@@ -5,13 +5,15 @@ import { DepartmentSkillsets } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class DepartmentSkillsetsSvc {
-    private headers = new Headers({'Content-Type': 'application/json'});
-    // private apiUrl = 'api/DepartmentSkillsets';
-    //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/DepartmentSkillsets';
-    //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/DepartmentSkillsets';
-    private apiUrl = AppSettings.CURRENT_URL + 'DepartmentSkillsets';
+    
+    private headers=new Headers({});
+    private apiUrl = AppSettings.CURRENT_API + 'DepartmentSkillsets';
 
-    constructor(private http: Http){}
+    constructor(private http: Http){
+        this.headers = new Headers();
+        this.headers.append('Authorization','Bearer '+localStorage.getItem('cache1'));
+        this.headers.append('Content-Type','application/json');
+    }
 
     getDepartmentSkillsets(): Promise<DepartmentSkillsets[]> {
         return this.http

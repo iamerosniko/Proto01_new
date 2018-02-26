@@ -371,7 +371,7 @@ export class SkillSetComponent {
   }
 
   ngOnInit(): void {
-    if(localStorage.getItem('AuthToken')!=null){
+    if(localStorage.getItem('cache1')!=null){
       this.runFunctions();
     }
     else{

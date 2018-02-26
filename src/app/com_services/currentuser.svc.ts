@@ -9,13 +9,13 @@ export class CurrentUserSvc {
     // private apiUrl = 'api/CurrentUser';
     //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/CurrentUser';
     //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/CurrentUser';
-    private apiUrl = AppSettings.CURRENT_URL + 'CurrentUsers';
+    private apiUrl = AppSettings.CURRENT_MVC + 'Users/GetCurrentUser';
 
     constructor(private http: Http){}
 
     getCurrentUser(): Promise<User> {
         return this.http
-        .get(this.apiUrl, {headers: this.headers})
+        .post(this.apiUrl, {headers: this.headers})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);

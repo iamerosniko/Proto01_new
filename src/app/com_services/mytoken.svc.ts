@@ -6,15 +6,15 @@ import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class MyTokenSvc {
     private headers = new Headers({'Content-Type': 'application/json'});
-    private apiUrl = AppSettings.CURRENT_URL + 'myToken';
+    private apiUrl = AppSettings.CURRENT_MVC + 'Users/GetToken';
 
     constructor(private http: Http){}
 
-    getTokens(): Promise<MyToken[]> {
+    getTokens(): Promise<MyToken> {
         return this.http
-                .get(this.apiUrl, {headers: this.headers})
+                .post(this.apiUrl, {headers: this.headers})
                 .toPromise()
-                .then(response => <MyToken[]> JSON.parse( response.json()))
+                .then(response => response.json())
                 .catch(this.handleError);
     }
 

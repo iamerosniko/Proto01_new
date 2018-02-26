@@ -5,13 +5,14 @@ import { Set_User_Access } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class Set_User_AccessSvc {
-    private headers = new Headers({'Content-Type': 'application/json'});
-    // private apiUrl = 'api/Set_User';
-    //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/Set_User';
-    //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/Set_User';
-    private apiUrl = AppSettings.CURRENT_URL + 'Set_User_access';
+    private headers=new Headers({});
+    private apiUrl = AppSettings.CURRENT_API + 'Set_User_access';
 
-    constructor(private http: Http){}
+    constructor(private http: Http){
+        this.headers = new Headers();
+        this.headers.append('Authorization','Bearer '+localStorage.getItem('cache1'));
+        this.headers.append('Content-Type','application/json');
+    }
 
     getSet_Users_Accesses(): Promise<Set_User_Access[]> {
         return this.http
