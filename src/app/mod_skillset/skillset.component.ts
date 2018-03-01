@@ -371,7 +371,7 @@ export class SkillSetComponent {
   }
 
   ngOnInit(): void {
-    if(localStorage.getItem('cache1')!=null){
+    if(sessionStorage.getItem('Cache0')!=null){
       this.runFunctions();
     }
     else{

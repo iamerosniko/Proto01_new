@@ -121,7 +121,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(){
-    if(localStorage.getItem('cache1')!=null){
+    if(sessionStorage.getItem('cache2')!=null){
       this.getDependencies()
       .then(()=>{
           if(this.set_Users!=null){

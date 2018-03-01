@@ -14,11 +14,7 @@ export class CurrentUserSvc {
     constructor(private http: Http){}
 
     getCurrentUser(): Promise<User> {
-        return this.http
-        .post(this.apiUrl, {headers: this.headers})
-        .toPromise()
-        .then(response => response.json())
-        .catch(this.handleError);
+        return new Promise<User>((resolve)=>resolve(JSON.parse(window.atob(sessionStorage.getItem("Cache2")))))
     }
 
     private handleError(error: any): Promise<any> {

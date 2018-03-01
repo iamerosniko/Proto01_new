@@ -12,7 +12,7 @@ export class MaintenanceComponent implements OnInit {
     this.router.navigate(['/maintenance', {outlets: {'maintenance-route': [path]}}]);
   }
   ngOnInit(){
-    if(localStorage.getItem('cache1')!=null){
+    if(sessionStorage.getItem('Cache0')!=null){
       
       this.goView("Locations");
     }

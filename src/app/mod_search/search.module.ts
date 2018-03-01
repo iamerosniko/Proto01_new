@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { SearchRouting } from './search.routing';
 import { SelectModule } from 'ng2-select';
 //components
 import { SearchComponent } from './search.component';
@@ -48,7 +47,6 @@ import { MaterialModule,MdDatepickerModule,MdNativeDateModule
     BrowserModule,BrowserAnimationsModule,HttpModule,CommonModule,FormsModule,
     SelectModule,MaterialModule,
     MdNativeDateModule,
-    SearchRouting
   ],
   //services area
   providers: [

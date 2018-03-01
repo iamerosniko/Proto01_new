@@ -2,8 +2,8 @@ import { NgModule }      from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { MaintenanceRouting } from './maintenance.routing';
 //components
 import { MaintenanceComponent } from './maintenance.component';
 import { VWAssociateComponent } from './associate/vw_associate.component';
@@ -31,8 +31,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
   ],
   //module area
   imports: [
-    BrowserModule,HttpModule,CommonModule,FormsModule,CommonCompModule,
-    MaintenanceRouting,NgxPaginationModule
+    BrowserModule,HttpModule,CommonModule,FormsModule,CommonCompModule,RouterModule,
+    NgxPaginationModule
   ],
   //services area
   providers: [

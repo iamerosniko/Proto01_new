@@ -11,7 +11,7 @@ export class AssociateDepartmentSkillsetsSvc {
 
     constructor(private http: Http){
         this.headers = new Headers();
-        this.headers.append('Authorization','Bearer '+localStorage.getItem('cache1'));
+        this.headers.append('Authorization','Bearer '+sessionStorage.getItem('Cache0'));
         this.headers.append('Content-Type','application/json');
     }
 

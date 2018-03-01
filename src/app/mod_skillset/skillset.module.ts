@@ -6,7 +6,6 @@ import { Ng2Datetime } from 'ng2-datetime-picker';
 import { HttpModule } from '@angular/http';
 //skillset
 import { SkillSetComponent } from './skillset.component';
-import { SkillSetRouting } from './skillset.routing';
 import { CommonCompModule } from '../mod_common/common_comp.module';
 import { CurrentUserSvc } from '../com_services/currentuser.svc';
 import { Set_UserSvc } from '../com_services/set_user.svc';
@@ -27,7 +26,6 @@ import { AssociateDepartmentSkillsetsSvc } from '../com_services/assoc_dept_skil
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    SkillSetRouting,
     CommonCompModule,
   ],
   providers: [
