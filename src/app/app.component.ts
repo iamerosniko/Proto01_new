@@ -88,7 +88,7 @@ export class AppComponent {
   
     if(this.currentUser.FirstName==""){
       await this.getCurrentUserData();
-      this.checkIfAuthenticated();
+      await this.checkIfAuthenticated();
     }
     
 
