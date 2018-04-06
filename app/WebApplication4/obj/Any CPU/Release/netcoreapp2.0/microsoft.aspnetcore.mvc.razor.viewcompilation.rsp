@@ -1,0 +1,12 @@
+C:\Users\alverer\Desktop\JSSK\app\WebApplication4
+--output-path=obj\Any CPU\Release\netcoreapp2.0\
+--application-name=WebApplication4
+--content-root=C:\Users\alverer\Desktop\JSSK\app\WebApplication4
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\Home\About.cshtml
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\Home\Contact.cshtml
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\Home\Index.cshtml
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\Shared\Error.cshtml
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\Shared\_Layout.cshtml
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\Shared\_ValidationScriptsPartial.cshtml
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\_ViewImports.cshtml
+--file=C:\Users\alverer\Desktop\JSSK\app\WebApplication4\Views\_ViewStart.cshtml

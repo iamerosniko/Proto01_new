@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASu+Jjd1A7kajXVZfpLLrnwAAAAACAAAAAAADZgAAwAAAABAAAABCyFn0ax44P2Y2b1PONhdcAAAAAASAAACgAAAAEAAAACV38x4HEt/OW0qN5l+c2/CAAAAA4U0HSNqt+rUkTEAyEkgVevGb/bg0h/GqPSMLUZTqhZ27LJHFriVNXymTT5sn97r+8aMnfNYJ76kzTB0pQoc0jIjYAw6yMSP1IH8ZXMGcpNAiYf867x36j/IG4Db9CfXP15Gu39iPmjC4SFWSbKr4IbWbvyI2Ql7TlXkoOXjInY4UAAAAefgV3fk1Lh4sH/Y5LisbS2ITHMU=</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="dbbtSSetp1ConnectionString">
+      <Value>Data Source=skillset-tracker.database.windows.net;Initial Catalog=skillsetdb;User Id=admin123;Password=Enca0907!;</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>
