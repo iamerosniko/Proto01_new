@@ -13172,11 +13172,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\alverer\\Desktop\\JSSK\\app\\SkillsetAPI\\SkillsetAPI.csproj",
+      "projectUniqueName": "C:\\Users\\alverer\\Documents\\GitHub\\Proto01_new\\app\\SkillsetAPI\\SkillsetAPI.csproj",
       "projectName": "SkillsetAPI",
-      "projectPath": "C:\\Users\\alverer\\Desktop\\JSSK\\app\\SkillsetAPI\\SkillsetAPI.csproj",
+      "projectPath": "C:\\Users\\alverer\\Documents\\GitHub\\Proto01_new\\app\\SkillsetAPI\\SkillsetAPI.csproj",
       "packagesPath": "C:\\Users\\alverer\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alverer\\Desktop\\JSSK\\app\\SkillsetAPI\\obj\\",
+      "outputPath": "C:\\Users\\alverer\\Documents\\GitHub\\Proto01_new\\app\\SkillsetAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

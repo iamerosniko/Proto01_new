@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { User } from '../com_entities/entities';
+import { User,SignedInUser } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class CurrentUserSvc {
@@ -9,13 +9,23 @@ export class CurrentUserSvc {
     // private apiUrl = 'api/CurrentUser';
     //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/CurrentUser';
     //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/CurrentUser';
-    private apiUrl = AppSettings.CURRENT_URL + 'CurrentUsers';
+    private apiUrl ="";
 
     constructor(private http: Http){}
 
     async getCurrentUser(): Promise<User> {
+        this.apiUrl = AppSettings.CURRENT_URL + 'CurrentUsers';
         return this.http
         .get(this.apiUrl, {headers: this.headers})
+        .toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+    async getSignedInUser(): Promise<SignedInUser> {
+        this.apiUrl = AppSettings.CURRENT_URL + "Claims/SignedInUserName";
+        return this.http
+        .get(this.apiUrl,{headers:this.headers})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);

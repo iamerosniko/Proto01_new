@@ -63,18 +63,25 @@ export class AppComponent {
     private myTokenSvc : MyTokenSvc,
   ){
     
-    this.router.events.debounceTime(1000).subscribe(
-      (val)=>{
-        if(this.location.path() != ''){
-          this.routeStr = this.location.path();
-        } 
-        else{
-          this.routeStr='';
-        }
-        this.checkIfAuthenticated();
-      }
-    );
+    // this.router.events.debounceTime(1000).subscribe(
+    //   (val)=>{
+    //     if(this.location.path() != ''){
+    //       this.routeStr = this.location.path();
+    //     } 
+    //     else{
+    //       this.routeStr='';
+    //     }
+    //     this.checkIfAuthenticated();
+    //   }
+    // );
+    this.getSignedInUser();
   }
+
+  //test
+  async getSignedInUser(){
+    console.log(await this.curUserSvc.getSignedInUser());
+  }
+
   async getCurrentUserData() {
     this.currentUser = await this.curUserSvc.getCurrentUser();
     var tokens = await this.myTokenSvc.getTokens();

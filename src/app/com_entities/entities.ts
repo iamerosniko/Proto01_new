@@ -230,5 +230,11 @@ export class MyToken{
         public TokenName:string
     ){
 
-    }
+    }    
+}
+
+export class SignedInUser{
+    constructor(
+        public UserName : string
+    ){}
 }
