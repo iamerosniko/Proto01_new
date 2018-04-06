@@ -79,6 +79,7 @@ export class AppComponent {
 
   //test
   async getSignedInUser(){
+    console.log("a")
     console.log(await this.curUserSvc.getSignedInUser());
   }
 

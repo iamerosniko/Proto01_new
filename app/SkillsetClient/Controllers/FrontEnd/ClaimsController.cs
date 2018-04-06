@@ -1,48 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using SkillsetClient.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers.FrontEnd
 {
-    [Produces("application/json")]
-    [Route("api/Claims")]
-    public class ClaimsController : Controller
+  [Produces("application/json")]
+  [Route("api/Claims")]
+  public class ClaimsController : Controller
+  {
+    // GET: api/Claims
+    [Route("SignedInUsername")]
+    [HttpGet]
+    public MySignedInUser GetSignInUsername()
     {
-        // GET: api/Claims
-        [Route("SignedInUsername")]
-        [HttpGet]
-        public string Get()
-        {
-            var username = this.User.Identity.Name;
-            return username == null ? "" : username;
-        }
-
-        // GET: api/Claims/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-        
-        // POST: api/Claims
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-        
-        // PUT: api/Claims/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-        
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      var username = this.User.Identity.Name;
+      return new MySignedInUser
+      {
+        UserName = username
+      };
     }
+
+    [Route("Authenticate")]
+    [HttpPost("{username}")]
+    public async Task<AppToken> GetAuthenticationToken([FromRoute] string username)
+    {
+      var currentUserController = new CurrentUsersController();
+      var currentUser = await currentUserController.Get(username);
+
+      //create a token and save to session ('authToken');
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.Configuration["IDPServer:IssuerSigningKey"]));
+      var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+      var token = new JwtSecurityToken(
+         claims: currentUserController.getCurrentClaims(currentUser),
+         signingCredentials: creds
+      );
+
+      var myToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+      return new AppToken
+      {
+        Token = myToken,
+        TokenName = "Authorization"
+      };
+    }
+  }
+
+  public class MySignedInUser
+  {
+    public string UserName { get; set; }
+  }
 }

@@ -1,11 +1,11 @@
-C:\Users\alverer\Desktop\JSSK\app\SkillsetClient
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient
 --output-path=obj\Any CPU\Release\netcoreapp2.0\
 --application-name=SkillsetClient
---content-root=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient
---file=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient\Views\Home\Index.cshtml
---file=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient\Views\Home\SignIn.cshtml
---file=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient\Views\Shared\Error.cshtml
---file=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient\Views\Shared\_Layout.cshtml
---file=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient\Views\Shared\_ValidationScriptsPartial.cshtml
---file=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient\Views\_ViewImports.cshtml
---file=C:\Users\alverer\Desktop\JSSK\app\SkillsetClient\Views\_ViewStart.cshtml
+--content-root=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient
+--file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Home\Index.cshtml
+--file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Home\SignIn.cshtml
+--file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Shared\Error.cshtml
+--file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Shared\_Layout.cshtml
+--file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Shared\_ValidationScriptsPartial.cshtml
+--file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\_ViewImports.cshtml
+--file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\_ViewStart.cshtml
