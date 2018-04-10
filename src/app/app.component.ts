@@ -46,8 +46,8 @@ import { setTimeout } from 'timers';
     <div class="main-body">
       <router-outlet></router-outlet>
     </div>
-    <a [hidden]="true" id="errorModalBtn" data-toggle="modal" href='#modal-id'>Trigger modal</a>
-    <div class="modal fade" id="modal-id" data-backdrop="static" data-keyboard="false">
+    <a [hidden]="true" id="sessiontimeout" data-toggle="modal" href='#modal-sessiontimeout'>Trigger modal</a>
+    <div class="modal fade" id="modal-sessiontimeout" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" style="overflow-y: initial;">
           <div class="modal-content">
             <br /><br />
@@ -117,7 +117,7 @@ export class AppComponent  implements OnDestroy{
       this.idleTimeoutCount++;
       this.idleState = 'Your Session has timed out.';
       this.timedOut = true;
-      document.getElementById('errorModalBtn').click();
+      document.getElementById('sessiontimeout').click();
     });
     
     idle.onIdleStart.subscribe(() => {
