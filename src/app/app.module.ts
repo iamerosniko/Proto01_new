@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { Ng2Datetime } from 'ng2-datetime-picker';
 import { HttpModule } from '@angular/http';
-
+import { NgIdleModule } from '@ng-idle/core';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 // import { AppService } from './app.svc';EROS: i comment out this line because this is for simulation purposes only
@@ -34,6 +34,7 @@ import { LoadItemsComponent } from './mod_common/load-items/load-items.component
     MaintenanceModule,
     SearchModule,
     AppRouting,
+    NgIdleModule.forRoot()
     // TestExportModule,
   ],
   //services area

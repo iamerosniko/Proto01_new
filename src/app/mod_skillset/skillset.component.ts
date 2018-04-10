@@ -29,13 +29,14 @@ import { SkillsetSvc } from '../com_services/skillset.svc';
 import { DepartmentSkillsetsSvc } from '../com_services/dept_skillset.svc'
 import { AssociateDepartmentSkillsetsSvc } from '../com_services/assoc_dept_skillset.svc';
 import { ModalDirective } from 'ngx-bootstrap';
+
 @Component({
   moduleId: module.id,
   selector: 'skillset',
   templateUrl: 'skillset.component.html',
 })
 
-export class SkillSetComponent {
+export class SkillSetComponent{
   private dateToday: Date;
   private currentUser: User=new User('','','','');
   private associates: Associate[];
@@ -54,6 +55,7 @@ export class SkillSetComponent {
   @ViewChild('staticModal') public childModal:ModalDirective;
   private tempDBO:DepartmentSkillsetDBO;
   public dsWOlastWork:DepartmentSkillsetDTO[]=[];
+
   constructor(
       private curUserSvc: CurrentUserSvc,
       private useSvc: Set_UserSvc,
@@ -76,6 +78,7 @@ export class SkillSetComponent {
     });
   }
   
+
   //TEMPLATE: this will get all needed data
   async getDependencies() {
     this.associates = await this.assSvc.getAssociates();//
