@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 
 namespace SkillsetClient.Models
 {
-    public class AppToken
+  public class AppToken
+  {
+    public String TokenName { get; set; }
+    public String Token { get; set; }
+    public AppToken()
     {
-        public String TokenName { get; set; }
-        public String Token { get; set; }
+      Token = "";
+      TokenName = "";
     }
+  }
 }

@@ -19,6 +19,8 @@ namespace SkillsetClient.Controllers
     {
       CurrentUser currentUser = new CurrentUser();
 
+      username = username.ToLower();
+
       var setUsersController = new SetUsersController();
       var setUserAccessController = new SetUserAccessesController();
       var setGroupsController = new SetGroupsController();
@@ -36,17 +38,21 @@ namespace SkillsetClient.Controllers
 
         if (user != null)
         {
-          currentUser.UserID = user.user_id;
-          currentUser.FirstName = user.user_first_name;
-          currentUser.LastName = user.user_last_name;
-
           var userAccess = userAccesses.Where(x => x.user_id == user.user_id).FirstOrDefault();
 
           if (userAccess != null)
           {
             var group = groups.Where(x => x.grp_id == userAccess.grp_id).FirstOrDefault();
+            currentUser.UserID = user.user_id;
+            currentUser.FirstName = user.user_first_name;
+            currentUser.LastName = user.user_last_name;
             currentUser.Role = group.grp_name;
+            currentUser.UserName = username;
           }
+        }
+        else
+        {
+          return null;
         }
       }
       catch (Exception ex)

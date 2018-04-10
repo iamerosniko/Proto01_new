@@ -80,7 +80,7 @@ export class SkillSetComponent {
   async getDependencies() {
     this.associates = await this.assSvc.getAssociates();//
     //this.users = await this.useSvc.getSet_Users();
-    this.currentUser = await this.curUserSvc.getCurrentUser();
+    this.currentUser = await this.curUserSvc.getSignedInUser();
     this.locations = await this.locSvc.getLocations();
     this.departments = await this.depSvc.getDepartments();
     this.skillsets = await this.sklSvc.getSkillsets();

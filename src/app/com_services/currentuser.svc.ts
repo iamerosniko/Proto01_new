@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { User,SignedInUser } from '../com_entities/entities';
+import { User,SignedInUser,MyToken } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class CurrentUserSvc {
@@ -13,19 +13,37 @@ export class CurrentUserSvc {
 
     constructor(private http: Http){}
 
-    async getCurrentUser(): Promise<User> {
-        this.apiUrl = AppSettings.CURRENT_URL + 'CurrentUsers';
+    // async getCurrentUser(): Promise<User> {
+    //     this.apiUrl = AppSettings.CURRENT_URL + 'CurrentUsers';
+    //     return this.http
+    //     .get(this.apiUrl, {headers: this.headers})
+    //     .toPromise()
+    //     .then(response => response.json())
+    //     .catch(this.handleError);
+    // }
+
+    async getSignedInUser(): Promise<User> {
+        this.apiUrl = AppSettings.CURRENT_URL + "Claims/SignedInUserName";
         return this.http
-        .get(this.apiUrl, {headers: this.headers})
+        .get(this.apiUrl,{headers:this.headers})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);
     }
 
-    async getSignedInUser(): Promise<SignedInUser> {
-        this.apiUrl = AppSettings.CURRENT_URL + "Claims/SignedInUserName";
+    async GetAuthenticationToken(user : User):Promise<MyToken>{
+        this.apiUrl = AppSettings.CURRENT_URL + "Claims/Authenticate";
         return this.http
-        .get(this.apiUrl,{headers:this.headers})
+        .post(this.apiUrl,JSON.stringify(user),{headers:this.headers})
+        .toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+    async GetAuthorizationToken(token : MyToken):Promise<MyToken>{
+        this.apiUrl = AppSettings.CURRENT_URL + "Claims/AuthorizeUser";
+        return this.http
+        .post(this.apiUrl,JSON.stringify(token),{headers:this.headers})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);

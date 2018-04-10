@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router,ActivatedRoute }  from '@angular/router';
-import { Set_User,User,Set_User_Access,Set_Group } from './com_entities/entities';
+import { Set_User,User,Set_User_Access,Set_Group,SignedInUser } from './com_entities/entities';
 import { CurrentUserSvc } from './com_services/currentuser.svc';
 import { Set_UserSvc } from './com_services/set_user.svc';
 import { Set_User_AccessSvc } from './com_services/set_user_access.svc';
@@ -36,7 +36,7 @@ import { setTimeout } from 'timers';
             <li *ngIf="isVisible('Admin')" [ngClass]="{'active' : routeStr.includes('/maintenance')}"><a href="#p3" data-toggle="tab" (click)="routeOnly('maintenance')"  class="lnk-maintenance"><i class="fa fa-wrench"></i>&nbsp;Maintenance</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="fa fa-user-circle"></i><span>&nbsp;Hello, {{currentUser.FirstName + ' ' + currentUser.LastName }}!</span></a></li>
+            <li><i class="fa fa-user-circle"></i><span>&nbsp;Hello, {{currentUser.FirstName + ' ' + currentUser.LastName }}!</span></li>
           </ul>
         </div>
       </div>
@@ -48,6 +48,7 @@ import { setTimeout } from 'timers';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  // currentUser: User= new User('','','','');
   currentUser: User= new User('','','','');
   routeStr:string='';
   private data: any;
@@ -63,39 +64,48 @@ export class AppComponent {
     private myTokenSvc : MyTokenSvc,
   ){
     
-    // this.router.events.debounceTime(1000).subscribe(
-    //   (val)=>{
-    //     if(this.location.path() != ''){
-    //       this.routeStr = this.location.path();
-    //     } 
-    //     else{
-    //       this.routeStr='';
-    //     }
-    //     this.checkIfAuthenticated();
-    //   }
-    // );
-    this.getSignedInUser();
+    this.router.events.debounceTime(1000).subscribe(
+      (val)=>{
+        if(this.location.path() != ''){
+          this.routeStr = this.location.path();
+        } 
+        else{
+          this.routeStr='';
+        }
+        this.checkIfAuthenticated();
+      }
+    );
   }
 
   //test
   async getSignedInUser(){
-    console.log("a")
-    console.log(await this.curUserSvc.getSignedInUser());
+    var username = await this.curUserSvc.getSignedInUser();
+    this.currentUser = await this.curUserSvc.getSignedInUser();
+    var authenticationToken = await this.curUserSvc.GetAuthenticationToken(username);
+    var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
+
+    console.log(username);
+    console.log(authenticationToken);
+    console.log(authorizationToken);
+    console.log(this.currentUser);
+
+    localStorage.setItem("AuthToken",authenticationToken.Token);
+    localStorage.setItem("ApiToken", authorizationToken.Token);
   }
 
-  async getCurrentUserData() {
-    this.currentUser = await this.curUserSvc.getCurrentUser();
-    var tokens = await this.myTokenSvc.getTokens();
+  // async getCurrentUserData() {
+  //   this.currentUser = await this.curUserSvc.getCurrentUser();
+  //   var tokens = await this.myTokenSvc.getTokens();
     
-    tokens.forEach(el => {
-      localStorage.setItem(el.TokenName,el.Token);
-    });
-  }
+  //   tokens.forEach(el => {
+  //     localStorage.setItem(el.TokenName,el.Token);
+  //   });
+  // }
 
   async checkIfAuthenticated(){
   
     if(this.currentUser.FirstName==""){
-      await this.getCurrentUserData();
+      await this.getSignedInUser();
       await this.checkIfAuthenticated();
     }
     

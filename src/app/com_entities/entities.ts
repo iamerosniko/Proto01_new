@@ -235,6 +235,9 @@ export class MyToken{
 
 export class SignedInUser{
     constructor(
-        public UserName : string
+        public UserName : string, 
+        public FirstName :string,
+        public LastName: string,
+        public Role:string,
     ){}
 }
