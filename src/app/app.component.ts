@@ -104,7 +104,7 @@ export class AppComponent  implements OnDestroy{
     );
     this.isIdle = false;
 
-    this.idle.setIdle(2);
+    this.idle.setIdle(900);
     this.idle.setTimeout(5);
     this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
     
