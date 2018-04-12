@@ -40,6 +40,19 @@ export class CurrentUserSvc {
         .catch(this.handleError);
     }
 
+    async GetAuthenticationTokenFromBtam(user : User):Promise<MyToken>{
+        this.apiUrl = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/AppSignIn";
+        var appSignIn = { "AppURL":window.location.hostname,"UserName":user.UserName }
+
+        return this.http
+        .post(this.apiUrl,JSON.stringify(appSignIn),{headers:this.headers})
+        .toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+
+    //window.location.hostname
     async GetAuthorizationToken(token : MyToken):Promise<MyToken>{
         this.apiUrl = AppSettings.CURRENT_URL + "Claims/AuthorizeUser";
         return this.http

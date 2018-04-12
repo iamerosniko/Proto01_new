@@ -70,7 +70,7 @@ namespace SkillsetClient.Controllers
     {
       _tokenFactory = new TokenFactory();
 
-      if (authenticationToken != null)
+      if (authenticationToken.Token != "")
       {
         //1)Extracttoken is used to extract all details required before generating an authorization token
         //2)GenerateAuthorizationToken is used to generate Authorization token

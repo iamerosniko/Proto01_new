@@ -63,7 +63,7 @@ import { setTimeout } from 'timers';
 })
 export class AppComponent  implements OnDestroy{
   // currentUser: User= new User('','','','');
-  currentUser: User= new User('','','','');
+  currentUser: User= new User('','','','','');
   routeStr:string='';
   private data: any;
 
@@ -154,7 +154,8 @@ export class AppComponent  implements OnDestroy{
   async getSignedInUser(){
     var username = await this.curUserSvc.getSignedInUser();
     this.currentUser = await this.curUserSvc.getSignedInUser();
-    var authenticationToken = await this.curUserSvc.GetAuthenticationToken(username);
+    // var authenticationToken = await this.curUserSvc.GetAuthenticationToken(username);
+    var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(username);
     var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
 
     console.log(username);
@@ -182,19 +183,22 @@ export class AppComponent  implements OnDestroy{
       await this.checkIfAuthenticated();
     }
     
-
-    if(this.currentUser.Role=="Admin"){
-      if(this.routeStr=="/search"||this.routeStr.indexOf('maintenance')==1){
-       
-      }
-      else{
-        await this.routeOnly('search');
-      }
-    }
-    else if(this.currentUser.Role=="Limited")
-      await this.routeOnly('skillset');
-    else
+    if(localStorage.getItem('AuthToken')==''){
       await this.routeOnly('noaccess');
+    }
+    else{
+      if(this.currentUser.Role=="Admin"){
+        if(this.routeStr=="/search"||this.routeStr.indexOf('maintenance')==1){
+         
+        }
+        else{
+          await this.routeOnly('search');
+        }
+      }
+      else if(this.currentUser.Role=="Limited")
+        await this.routeOnly('skillset');
+    }
+    
   }
 
 

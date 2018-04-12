@@ -118,6 +118,7 @@ export class Set_User_Access {
 export class User {
     constructor (
         public UserID : string,
+        public UserName: string,
         public FirstName :string,
         public LastName: string,
         public Role:string,

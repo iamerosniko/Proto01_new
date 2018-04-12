@@ -38,7 +38,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 
 export class SkillSetComponent{
   private dateToday: Date;
-  private currentUser: User=new User('','','','');
+  private currentUser: User=new User('','','','','');
   private associates: Associate[];
   public associate: Associate=new Associate();
   private associateForPosting: Associate;
