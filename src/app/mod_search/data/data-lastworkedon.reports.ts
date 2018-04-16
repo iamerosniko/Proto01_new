@@ -4,15 +4,16 @@ import { SkillsetSvc } from '../../com_services/skillset.svc';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { LocationSvc } from '../../com_services/location.svc';
-import { Set_UserSvc } from '../../com_services/set_user.svc';
+import { CurrentUserSvc } from '../../com_services/currentuser.svc';
+// import { Set_UserSvc } from '../../com_services/set_user.svc';
 import { DepartmentSkillsetsSvc } from '../../com_services/dept_skillset.svc';
 import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_skillset.svc';
 import { DataSkillsetReport } from './data-skillset.reports';
 //entities
 import { Location,Department,Skillset,
-  Associate,Set_User,
+  Associate,
   AssociateDepartmentSkillset,DepartmentSkillsets1,
-  AssociateRpt,DepartmentSkills, 
+  AssociateRpt,DepartmentSkills, User,
   //skillsetReport
   SkillsetRpt,AssociateDetails,
   LastTimeWorkedOnRpt
@@ -25,7 +26,8 @@ export class DataLastworkedonReport {
         private departmentSvc:DepartmentSvc,
         private locationSvc:LocationSvc,
         private skillsetSvc:SkillsetSvc,
-        private setUserSvc:Set_UserSvc,
+        // private setUserSvc:Set_UserSvc,
+        private currentUserSvc:CurrentUserSvc,        
         private departmentSkillsetSvc:DepartmentSkillsetsSvc,
         private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc,
         private skillsetRpt:DataSkillsetReport
@@ -37,7 +39,8 @@ export class DataLastworkedonReport {
     skillsets:Skillset[]=[];
     Departments:Department[]=[];
     associates:Associate[]=[];
-    setUser:Set_User[]=[];
+    // setUser:Set_User[]=[];
+    users:User[]=[];
     locations:Location[]=[];
     lastTimeWorkedOnRpt:LastTimeWorkedOnRpt=new LastTimeWorkedOnRpt('',[]);
 
@@ -89,7 +92,8 @@ export class DataLastworkedonReport {
         this.skillsets=await this.skillsetSvc.getSkillsets();
         this.Departments=await this.departmentSvc.getDepartments();
         this.departmentSkillsets=await this.departmentSkillsetSvc.getDepartmentSkillsets();
-        this.setUser=await this.setUserSvc.getSet_Users();
+        // this.setUser=await this.setUserSvc.getSet_Users();
+        this.users=await this.currentUserSvc.GetUserInAppFromBtam();
     }
 
 

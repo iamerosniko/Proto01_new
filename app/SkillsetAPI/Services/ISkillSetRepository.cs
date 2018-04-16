@@ -1,73 +1,70 @@
-﻿using SkillsetAPI.Entities;
-using System;
+using SkillsetAPI.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SkillsetAPI.Services
 {
-    public interface ISkillSetRepository
-    {
-        bool Save();
+  public interface ISkillSetRepository
+  {
+    bool Save();
 
-        IEnumerable<SetUser> ReadSetUsers();
+    //IEnumerable<SetUser> ReadSetUsers();
 
-        SetUser ReadSetUser(string userId);
+    //SetUser ReadSetUser(string userId);
 
-        IEnumerable<SetGroup> ReadSetGroups();
+    //IEnumerable<SetGroup> ReadSetGroups();
 
-        SetGroup ReadSetGroup(string groupId);
+    //SetGroup ReadSetGroup(string groupId);
 
-        IEnumerable<SetUserAccess> ReadSetUserAccesses();
+    //IEnumerable<SetUserAccess> ReadSetUserAccesses();
 
-        SetUserAccess ReadSetUserAccess(int accessId);
+    //SetUserAccess ReadSetUserAccess(int accessId);
 
-        IEnumerable<Associate> ReadAssociates();
+    IEnumerable<Associate> ReadAssociates();
 
-        Associate ReadAssociate(int ascId);
+    Associate ReadAssociate(int ascId);
 
-        void CreateAssociate(Associate associate);
+    void CreateAssociate(Associate associate);
 
-        void DeleteAssociate(Associate associate);
+    void DeleteAssociate(Associate associate);
 
-        IEnumerable<Department> ReadDepartments();
+    IEnumerable<Department> ReadDepartments();
 
-        Department ReadDepartment(int depId);
+    Department ReadDepartment(int depId);
 
-        void CreateDepartment(Department department);
+    void CreateDepartment(Department department);
 
-        void DeleteDepartment(Department department);
+    void DeleteDepartment(Department department);
 
-        IEnumerable<Location> ReadLocations();
+    IEnumerable<Location> ReadLocations();
 
-        Location ReadLocation(int locId);
+    Location ReadLocation(int locId);
 
-        void CreateLocation(Location location);
+    void CreateLocation(Location location);
 
-        void DeleteLocation(Location location);
+    void DeleteLocation(Location location);
 
-        IEnumerable<Skillset> ReadSkillsets();
+    IEnumerable<Skillset> ReadSkillsets();
 
-        Skillset ReadSkillset(int sklId);
+    Skillset ReadSkillset(int sklId);
 
-        void CreateSkillset(Skillset skillset);
+    void CreateSkillset(Skillset skillset);
 
-        void DeleteSkillset(Skillset skillset);
+    void DeleteSkillset(Skillset skillset);
 
-        IEnumerable<DepartmentSkillset> ReadDepartmentSkillsets();
+    IEnumerable<DepartmentSkillset> ReadDepartmentSkillsets();
 
-        DepartmentSkillset ReadDepartmentSkillset(int dptSklId);
+    DepartmentSkillset ReadDepartmentSkillset(int dptSklId);
 
-        void CreateDepartmentSkillset(DepartmentSkillset departmentSkillset);
+    void CreateDepartmentSkillset(DepartmentSkillset departmentSkillset);
 
-        void DeleteDepartmentSkillset(DepartmentSkillset departmentSkillset);
+    void DeleteDepartmentSkillset(DepartmentSkillset departmentSkillset);
 
-        IEnumerable<AssociateDepartmentSkillset> ReadAssociateDepartmentSkillsets();
+    IEnumerable<AssociateDepartmentSkillset> ReadAssociateDepartmentSkillsets();
 
-        AssociateDepartmentSkillset ReadAssociateDepartmentSkillset(int assDptSklId);
+    AssociateDepartmentSkillset ReadAssociateDepartmentSkillset(int assDptSklId);
 
-        void CreateAssociateDepartmentSkillset(AssociateDepartmentSkillset associateDepartmentSkillset);
+    void CreateAssociateDepartmentSkillset(AssociateDepartmentSkillset associateDepartmentSkillset);
 
-        void DeleteAssociateDepartmentSkillset(AssociateDepartmentSkillset associateDepartmentSkillset);
-    }
+    void DeleteAssociateDepartmentSkillset(AssociateDepartmentSkillset associateDepartmentSkillset);
+  }
 }

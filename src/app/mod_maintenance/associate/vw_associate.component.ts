@@ -1,9 +1,10 @@
 import { Component,OnInit } from '@angular/core';
-import { Set_User, Associate, Department, Location } from '../../com_entities/entities';
+import { Set_User, Associate, Department, Location, User } from '../../com_entities/entities';
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { LocationSvc } from '../../com_services/location.svc';
-import { Set_UserSvc } from '../../com_services/set_user.svc';
+// import { Set_UserSvc } from '../../com_services/set_user.svc';
+import { CurrentUserSvc } from '../../com_services/currentuser.svc';
 @Component({
   moduleId: module.id,
   selector: 'vw-asssoc',
@@ -14,12 +15,14 @@ export class VWAssociateComponent implements OnInit {
     private associateSvc:AssociateSvc,
     private departmentSvc:DepartmentSvc,
     private locationSvc:LocationSvc,
-    private setUserSvc:Set_UserSvc
+    private currentUserSvc : CurrentUserSvc
+    // private setUserSvc:Set_UserSvc
   ){
 
   }
   p: number = 1;
-  set_Users:Set_User[]=[];
+  // set_Users:Set_User[]=[];
+  users:User[]=[];
   associates:Associate[]=[];
   associate:Associate=new Associate();
   locations:Location[]=[];
@@ -32,10 +35,12 @@ export class VWAssociateComponent implements OnInit {
   }
   
   async getDependencies(){
+    this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.locations = await this.locationSvc.getLocations();
     this.departments = await this.departmentSvc.getDepartments();
     this.associates = await this.associateSvc.getAssociates();
-    this.set_Users = await this.setUserSvc.getSet_Users();
+    // this.set_Users = await this.setUserSvc.getSet_Users();
+    
   }
 
   getActiveDepartments():Department[]{
@@ -48,14 +53,26 @@ export class VWAssociateComponent implements OnInit {
     return tempLocation;
   }
 
-  getUnusedUsers():Set_User[]{
-    let tempUsers:Set_User[]=this.set_Users;
+  // Using BTSS
+  // getUnusedUsers():Set_User[]{
+  //   let tempUsers:Set_User[]=this.set_Users;
+  //   for(var i=0; i<this.associates.length; i++){
+  //     var assoc=this.associates[i];
+  //     tempUsers=tempUsers.filter(x=>x.user_id!=assoc.UserID);
+  //   }
+  //   return tempUsers;
+  // }
+
+  
+  getUnusedUsers():User[]{
+    let tempUsers:User[]=this.users;
     for(var i=0; i<this.associates.length; i++){
       var assoc=this.associates[i];
-      tempUsers=tempUsers.filter(x=>x.user_id!=assoc.UserID);
+      tempUsers=tempUsers.filter(x=>x.UserID!=assoc.UserID);
     }
     return tempUsers;
   }
+
 
   getDepartmentName(id:number):string{
     let department:Department = this.departments.find(x=>x.DepartmentID==id);
@@ -77,8 +94,8 @@ export class VWAssociateComponent implements OnInit {
   // }
 
   getFullName(userID:string):string{
-    let setUser:Set_User = this.set_Users.find(x=>x.user_id==userID);
-    return setUser!=null ? setUser.user_first_name+ " " + setUser.user_last_name : userID;
+    let user:User = this.users.find(x=>x.UserID==userID);
+    return user!=null ? user.FirstName+ " " + user.LastName : userID;
   }
 
   editDetails(assoc : Associate){

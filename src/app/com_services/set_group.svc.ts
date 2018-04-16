@@ -18,7 +18,7 @@ export class Set_GroupSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getSet_Group(id: number): Promise<Set_Group> {
@@ -27,7 +27,7 @@ export class Set_GroupSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postSet_Group(entity: Set_Group):Promise<any>{
@@ -35,7 +35,7 @@ export class Set_GroupSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putSet_Group(entity: Set_Group): Promise<any> {
@@ -44,7 +44,7 @@ export class Set_GroupSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteSet_Group(id: number): Promise<boolean> {
@@ -53,7 +53,7 @@ export class Set_GroupSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

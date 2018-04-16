@@ -21,7 +21,7 @@ export class LocationSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getLocation(id: number): Promise<Location> {
@@ -30,7 +30,7 @@ export class LocationSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postLocation(entity: Location):Promise<any>{
@@ -38,7 +38,7 @@ export class LocationSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putLocation(entity: Location): Promise<any> {
@@ -47,7 +47,7 @@ export class LocationSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteLocation(id: number): Promise<boolean> {
@@ -56,7 +56,7 @@ export class LocationSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

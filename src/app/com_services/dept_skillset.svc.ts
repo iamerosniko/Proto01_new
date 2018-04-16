@@ -18,7 +18,7 @@ export class DepartmentSkillsetsSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getDepartmentSkillset(id: string): Promise<DepartmentSkillsets> {
@@ -27,7 +27,7 @@ export class DepartmentSkillsetsSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postDepartmentSkillset(entity: DepartmentSkillsets):Promise<any>{
@@ -35,7 +35,7 @@ export class DepartmentSkillsetsSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putDepartmentSkillset(entity: DepartmentSkillsets): Promise<any> {
@@ -44,7 +44,7 @@ export class DepartmentSkillsetsSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteDepartmentSkillset(id: number): Promise<boolean> {
@@ -53,7 +53,7 @@ export class DepartmentSkillsetsSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

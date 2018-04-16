@@ -15,7 +15,7 @@ export class MyTokenSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => <MyToken[]> JSON.parse( response.json()))
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

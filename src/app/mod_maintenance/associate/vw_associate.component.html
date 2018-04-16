@@ -81,7 +81,8 @@
                 <div class="col-md-4" *ngIf="mode==0">
                     <select class="form-control input-sm" [(ngModel)]="associate.UserID" (change)="associate.FullName = getFullName(associate.UserID)">
                         <option value=""  disabled selected> Select Name </option>
-                        <option *ngFor="let x of getUnusedUsers()" [value]="x.user_id"> {{x.user_first_name+" " +x.user_last_name}} </option>
+                        <!-- <option *ngFor="let x of getUnusedUsers()" [value]="x.user_id"> {{x.user_first_name+" " +x.user_last_name}} </option> -->
+                        <option *ngFor="let x of getUnusedUsers()" [value]="x.UserID"> {{getFullName(x.UserID)}} </option>
                     </select>
                 </div>
                 <div  *ngIf="mode!=0"  class="col-md-4">

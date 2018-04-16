@@ -5,7 +5,8 @@ import { SkillsetSvc } from '../com_services/skillset.svc';
 import { DepartmentSvc } from '../com_services/department.svc';
 import { AssociateSvc } from '../com_services/associate.svc';
 import { LocationSvc } from '../com_services/location.svc';
-import { Set_UserSvc } from '../com_services/set_user.svc';
+import { CurrentUserSvc } from '../com_services/currentuser.svc';
+// import { Set_UserSvc } from '../com_services/set_user.svc';
 import { DataAssociateReport } from './data/data-associate.reports';
 import { DataSkillsetReport } from './data/data-skillset.reports';
 import { DataDepartmentReport } from './data/data-department.reports';
@@ -14,7 +15,7 @@ let jsPDF = require('jspdf');
 import 'hammerjs';
 //entities
 import { Location,Department,Skillset,
-  Associate,Set_User,ng2Items,
+  Associate,User,ng2Items,
   AssociateRpt,SelectItem,
   SkillsetRpt,DepartmentRpt,LastTimeWorkedOnRpt
 } from '../com_entities/entities';
@@ -30,7 +31,8 @@ export class SearchComponent implements OnInit {
     private departmentSvc:DepartmentSvc,
     private locationSvc:LocationSvc,
     private skillsetSvc:SkillsetSvc,
-    private setUserSvc:Set_UserSvc,
+    // private setUserSvc:Set_UserSvc,
+    private currentUserSvc:CurrentUserSvc,            
     private associateReportSvc:DataAssociateReport,
     private skillsetReportSvc:DataSkillsetReport,
     private departmentReportSvc:DataDepartmentReport,
@@ -48,7 +50,8 @@ export class SearchComponent implements OnInit {
   locations:Location[]=[];
   departments:Department[]=[];
   associates:Associate[]=[];
-  set_Users:Set_User[]=[];
+  users:User[]=[];
+  // set_Users:Set_User[]=[];
   associateRpt:AssociateRpt[]=[];
   skillsetRpt:SkillsetRpt[]=[];
   departmentRpt:DepartmentRpt[]=[];
@@ -124,7 +127,7 @@ export class SearchComponent implements OnInit {
     if(localStorage.getItem('AuthToken')!=null){
       this.getDependencies()
       .then(()=>{
-          if(this.set_Users!=null){
+          if(this.users!=null){
             this.removeInactive().then(()=>{
                 this.getItems();
             });
@@ -144,7 +147,8 @@ export class SearchComponent implements OnInit {
     this.associates = await this.associateSvc.getAssociates();
     this.locations = await this.locationSvc.getLocations();
     this.departments = await this.departmentSvc.getDepartments();
-    this.set_Users = await this.setUserSvc.getSet_Users();
+    // this.set_Users = await this.setUserSvc.getSet_Users();
+    this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.skillsets=await this.skillsetSvc.getSkillsets();
   }
   
@@ -243,8 +247,8 @@ export class SearchComponent implements OnInit {
   }
 
   getFullName(username:string):string{
-    let user:Set_User= this.set_Users.find(x=>x.user_name==username);
-    return user==null ? null : user.user_first_name + ' ' + user.user_last_name
+    let user:User= this.users.find(x=>x.UserName==username);
+    return user==null ? null : user.FirstName + ' ' + user.LastName
   }
   //ng2-select on select
   public refreshValue(value:any):void {

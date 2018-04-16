@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkillsetClient.Models;
-using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers
 {
@@ -14,54 +13,15 @@ namespace SkillsetClient.Controllers
     // GET: api/Claims
     [Route("SignedInUsername")]
     [HttpGet]
-    public async Task<CurrentUser> GetSignInUsername()
+    public CurrentUser GetSignInUsername()
     {
-      var currentUserController = new CurrentUsersController();
-
       var username = this.User.Identity.Name;
-      //var currentUser = await currentUserController.Get(username);
 
       return new CurrentUser
       {
         UserName = username
       };
     }
-
-    //[Route("Authenticate")]
-    //[HttpPost]
-    //public async Task<AppToken> GetAuthenticationToken([FromBody] CurrentUser user)
-    //{
-
-    //  var currentUserController = new CurrentUsersController();
-    //  var currentUser = await currentUserController.Get(user.UserName);
-
-    //  if (currentUser != null)
-    //  {
-    //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.Configuration["IDPServer:IssuerSigningKey"]));
-    //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-    //    var token = new JwtSecurityToken(
-    //       claims: currentUserController.getCurrentClaims(currentUser),
-    //       signingCredentials: creds
-    //    );
-
-    //    var myToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-    //    return new AppToken
-    //    {
-    //      Token = myToken,
-    //      TokenName = "Authentication"
-    //    };
-    //  }
-    //  else
-    //  {
-    //    return new AppToken
-    //    {
-    //      TokenName = "Authentication"
-    //    };
-    //  }
-    //  //create a token and save to session ('authToken');
-
-    //}
 
     [Route("AuthorizeUser")]
     [HttpPost]
@@ -88,12 +48,4 @@ namespace SkillsetClient.Controllers
       };
     }
   }
-
-  //public class MySignedInUser
-  //{
-  //  public string UserName { get; set; }
-  //  public string FirstName { get; set; }
-  //  public string LastName { get; set; }
-  //  public string Role { get; set; }
-  //}
 }

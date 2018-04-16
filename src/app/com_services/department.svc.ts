@@ -18,7 +18,7 @@ export class DepartmentSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getDepartment(id: number): Promise<Department> {
@@ -27,7 +27,7 @@ export class DepartmentSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postDepartment(entity: Department):Promise<any>{
@@ -35,7 +35,7 @@ export class DepartmentSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putDepartment(entity: Department): Promise<any> {
@@ -44,7 +44,7 @@ export class DepartmentSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteDepartment(id: number): Promise<boolean> {
@@ -53,7 +53,7 @@ export class DepartmentSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

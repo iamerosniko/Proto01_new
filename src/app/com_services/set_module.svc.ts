@@ -18,7 +18,7 @@ export class Set_ModuleSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getSet_Module(id: number): Promise<Set_Module> {
@@ -27,7 +27,7 @@ export class Set_ModuleSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postSet_Module(entity: Set_Module):Promise<any>{
@@ -35,7 +35,7 @@ export class Set_ModuleSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putSet_Module(entity: Set_Module): Promise<any> {
@@ -44,7 +44,7 @@ export class Set_ModuleSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteSet_Module(id: number): Promise<boolean> {
@@ -53,7 +53,7 @@ export class Set_ModuleSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

@@ -152,16 +152,17 @@ export class AppComponent  implements OnDestroy{
 
   //test
   async getSignedInUser(){
+    //original
+    //var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     var user = await this.curUserSvc.getSignedInUser();
-    this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName);
-    // var authenticationToken = await this.curUserSvc.GetAuthenticationToken(username);
+    this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName);    
     var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);
     var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
 
-    console.log(user);
+    // console.log(user);    
+    await console.log(this.currentUser);
     console.log(authenticationToken);
     console.log(authorizationToken);
-    console.log(this.currentUser);
 
     localStorage.setItem("AuthToken",authenticationToken.Token);
     localStorage.setItem("ApiToken", authorizationToken.Token);

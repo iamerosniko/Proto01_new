@@ -3,7 +3,6 @@ C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient
 --application-name=SkillsetClient
 --content-root=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient
 --file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Home\Index.cshtml
---file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Home\SignIn.cshtml
 --file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Shared\Error.cshtml
 --file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Shared\_Layout.cshtml
 --file=C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetClient\Views\Shared\_ValidationScriptsPartial.cshtml

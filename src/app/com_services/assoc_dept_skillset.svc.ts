@@ -18,7 +18,7 @@ export class AssociateDepartmentSkillsetsSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getAssociateDeptSkillset(id: string): Promise<AssociateDepartmentSkillset> {
@@ -27,7 +27,7 @@ export class AssociateDepartmentSkillsetsSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postAssociateDeptSkillset(entity: AssociateDepartmentSkillset):Promise<any>{
@@ -35,7 +35,7 @@ export class AssociateDepartmentSkillsetsSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putAssociateDeptSkillset(entity: AssociateDepartmentSkillset): Promise<any> {
@@ -44,7 +44,7 @@ export class AssociateDepartmentSkillsetsSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteAssociateDeptSkillset(id: number): Promise<boolean> {
@@ -53,11 +53,8 @@ export class AssociateDepartmentSkillsetsSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
-    }
+    
 }

@@ -84,23 +84,13 @@ export class SkillSetComponent{
     this.associates = await this.assSvc.getAssociates();//
     //this.users = await this.useSvc.getSet_Users();
     this.currentUser = await this.curUserSvc.getSignedInUser();
+    // this.currentUser = {"UserID": "1","UserName": "bermoyj@mfcgd.com","FirstName": "Bermoy","LastName": "Joyce","Role": "Limited"}
     this.locations = await this.locSvc.getLocations();
     this.departments = await this.depSvc.getDepartments();
     this.skillsets = await this.sklSvc.getSkillsets();
     this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
     this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
   }
- 
-  //TEMPLATE: memory clean up
-  // cleanUp(): void {
-  //     this.useSvc = null;
-  //     this.curUserSvc = null;
-  //     this.useSvc = null;
-  //     this.locSvc = null;
-  //     this.depSvc = null;
-  //     this.sklSvc = null;
-  //     this.dptSklSvc = null;
-  // }
 
   //TEMPLATE: filter/sort data remove inactive
   async filterDataList() {
@@ -116,7 +106,6 @@ export class SkillSetComponent{
     this.dateToday = await new Date();
     await this.getDependencies();
     await this.getCurrentUserData();
-    // await this.cleanUp();
     await this.filterDataList();
     await this.prepareDBO();
     await this.assignLastWorkedOn();
@@ -142,6 +131,7 @@ export class SkillSetComponent{
   //this will get info of current user
   async getCurrentUserData() {
     this.associate = await this.associates.find(associate => associate.UserID == this.currentUser.UserID);
+
     this.associateForPosting = await JSON.parse(JSON.stringify(this.associate));
     
     //this will obtain current users skills

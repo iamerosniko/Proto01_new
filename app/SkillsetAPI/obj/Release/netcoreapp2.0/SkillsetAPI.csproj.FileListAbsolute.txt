@@ -19,3 +19,4 @@ C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Release\netcor
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Release\netcoreapp2.0\SkillsetAPI.AssemblyInfo.cs
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Release\netcoreapp2.0\SkillsetAPI.dll
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Release\netcoreapp2.0\SkillsetAPI.pdb
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Release\netcoreapp2.0\SkillsetAPI.csprojResolveAssemblyReference.cache

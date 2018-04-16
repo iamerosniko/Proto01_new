@@ -18,7 +18,7 @@ export class Set_UserSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getSet_User(id: number): Promise<Set_User> {
@@ -27,7 +27,7 @@ export class Set_UserSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postSet_User(entity: Set_User):Promise<any>{
@@ -35,7 +35,7 @@ export class Set_UserSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putSet_User(entity: Set_User): Promise<any> {
@@ -44,7 +44,7 @@ export class Set_UserSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteSet_User(id: number): Promise<boolean> {
@@ -53,7 +53,7 @@ export class Set_UserSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

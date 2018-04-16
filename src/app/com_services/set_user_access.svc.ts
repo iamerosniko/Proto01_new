@@ -18,7 +18,7 @@ export class Set_User_AccessSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getSet_Users_Access(id: number): Promise<Set_User_Access> {
@@ -27,7 +27,7 @@ export class Set_User_AccessSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postSet_User_Access(entity: Set_User_Access):Promise<any>{
@@ -35,7 +35,7 @@ export class Set_User_AccessSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putSet_User_Access(entity: Set_User_Access): Promise<any> {
@@ -44,7 +44,7 @@ export class Set_User_AccessSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteSet_User_Access(id: number): Promise<boolean> {
@@ -53,7 +53,7 @@ export class Set_User_AccessSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

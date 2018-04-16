@@ -5,12 +5,13 @@ import { SkillsetSvc } from '../../com_services/skillset.svc';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { LocationSvc } from '../../com_services/location.svc';
-import { Set_UserSvc } from '../../com_services/set_user.svc';
+import { CurrentUserSvc } from '../../com_services/currentuser.svc';
+// import { Set_UserSvc } from '../../com_services/set_user.svc';
 import { DepartmentSkillsetsSvc } from '../../com_services/dept_skillset.svc';
 import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_skillset.svc';
 //entities
 import { Location,Department,Skillset,
-  Associate,Set_User,
+  Associate,User,
   AssociateDepartmentSkillset,DepartmentSkillsets1,
   AssociateRpt,DepartmentSkills, 
   //skillsetReport
@@ -24,14 +25,16 @@ export class DataSkillsetReport {
         private departmentSvc:DepartmentSvc,
         private locationSvc:LocationSvc,
         private skillsetSvc:SkillsetSvc,
-        private setUserSvc:Set_UserSvc,
+        private currentUserSvc:CurrentUserSvc,        
+        // private setUserSvc:Set_UserSvc,
         private departmentSkillsetSvc:DepartmentSkillsetsSvc,
         private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc
     ){
 
     }
     associates:AssociateDetails[]=[];
-    setUsers:Set_User[]=[];
+    // setUsers:Set_User[]=[];
+    users:User[]=[];
     skillsetRpt:SkillsetRpt;
 
     getDateString(myDate:Date):string{
@@ -129,13 +132,16 @@ export class DataSkillsetReport {
     }
 
     async getSetUser(){
-        this.setUsers=await this.setUserSvc.getSet_Users();
+        // this.setUsers=await this.setUserSvc.getSet_Users();
+        this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     }
 
     getFullName(userid:string):string{
-        let user:Set_User= this.setUsers.find(x=>x.user_id==userid);
+        // let user:Set_User= this.setUsers.find(x=>x.user_id==userid);
+        let user:User= this.users.find(x=>x.UserID==userid);
         // //console.log(user);
-        return user==null ? null : user.user_first_name + ' ' + user.user_last_name
+        return user==null ? null : user.FirstName + ' ' + user.LastName
+        // return user==null ? null : user.user_first_name + ' ' + user.user_last_name
     }
 
     async getDepartment(departmentID:number):Promise<Department>{

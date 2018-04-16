@@ -169,3 +169,93 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416204407_m001')
+BEGIN
+    DROP TABLE [set_group];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416204407_m001')
+BEGIN
+    DROP TABLE [set_group_access];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416204407_m001')
+BEGIN
+    DROP TABLE [set_module];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416204407_m001')
+BEGIN
+    DROP TABLE [set_user];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416204407_m001')
+BEGIN
+    DROP TABLE [set_user_access];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416204407_m001')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20180416204407_m001', N'2.0.1-rtm-125');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416205059_m002')
+BEGIN
+    DECLARE @var3 sysname;
+    SELECT @var3 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'SS_Skillsets') AND [c].[name] = N'SkillsetDescr');
+    IF @var3 IS NOT NULL EXEC(N'ALTER TABLE [SS_Skillsets] DROP CONSTRAINT [' + @var3 + '];');
+    ALTER TABLE [SS_Skillsets] ALTER COLUMN [SkillsetDescr] nvarchar(100) NOT NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416205059_m002')
+BEGIN
+    DECLARE @var4 sysname;
+    SELECT @var4 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'SS_Locations') AND [c].[name] = N'LocationDescr');
+    IF @var4 IS NOT NULL EXEC(N'ALTER TABLE [SS_Locations] DROP CONSTRAINT [' + @var4 + '];');
+    ALTER TABLE [SS_Locations] ALTER COLUMN [LocationDescr] nvarchar(100) NOT NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416205059_m002')
+BEGIN
+    DECLARE @var5 sysname;
+    SELECT @var5 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'SS_Departments') AND [c].[name] = N'DepartmentDescr');
+    IF @var5 IS NOT NULL EXEC(N'ALTER TABLE [SS_Departments] DROP CONSTRAINT [' + @var5 + '];');
+    ALTER TABLE [SS_Departments] ALTER COLUMN [DepartmentDescr] nvarchar(100) NOT NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416205059_m002')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20180416205059_m002', N'2.0.1-rtm-125');
+END;
+
+GO
+

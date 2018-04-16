@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { AppSettings } from './com_entities/app_settings';
 
 @Injectable()
 export class AppService{
@@ -14,7 +15,7 @@ export class AppService{
               .get(this.apiUrl, {headers: this.headers})
               .toPromise()
               .then(response => response.json())
-              .catch(this.handleError);
+              .catch(AppSettings.HANDLEERROR);
   }
   private handleError(error: any): Promise<any> {
       console.error('An error occurred', error); // for demo purposes only

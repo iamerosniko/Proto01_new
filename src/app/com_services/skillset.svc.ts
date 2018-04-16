@@ -18,7 +18,7 @@ export class SkillsetSvc {
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     getSkillset(id: number): Promise<Skillset> {
@@ -27,7 +27,7 @@ export class SkillsetSvc {
                 .get(url)
                 .toPromise()
                 .then(response => response.json())
-                .catch(this.handleError);
+                .catch(AppSettings.HANDLEERROR);
     }
 
     postSkillset(entity: Skillset):Promise<any>{
@@ -35,7 +35,7 @@ export class SkillsetSvc {
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     putSkillset(entity: Skillset): Promise<any> {
@@ -44,7 +44,7 @@ export class SkillsetSvc {
             .put(url, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
             .then(() => entity)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     DeleteSkillset(id: number): Promise<boolean> {
@@ -53,7 +53,7 @@ export class SkillsetSvc {
             .delete(url, {headers: this.headers})
             .toPromise()
             .then(() => true)
-            .catch(this.handleError);
+            .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {

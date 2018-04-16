@@ -19,7 +19,7 @@ export class CurrentUserSvc {
     //     .get(this.apiUrl, {headers: this.headers})
     //     .toPromise()
     //     .then(response => response.json())
-    //     .catch(this.handleError);
+    //     .catch(AppSettings.HANDLEERROR);
     // }
 
     async getSignedInUser(): Promise<User> {
@@ -28,7 +28,16 @@ export class CurrentUserSvc {
         .get(this.apiUrl,{headers:this.headers})
         .toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch(AppSettings.HANDLEERROR);
+    }
+
+    async getValues(): Promise<any> {
+        this.apiUrl = AppSettings.CURRENT_URL + "values";
+        return this.http
+        .get(this.apiUrl,{headers:this.headers})
+        .toPromise()
+        .then(response => response.json())
+        .catch(AppSettings.HANDLEERROR);
     }
 
     async GetAuthenticationToken(user : User):Promise<MyToken>{
@@ -37,31 +46,43 @@ export class CurrentUserSvc {
         .post(this.apiUrl,JSON.stringify(user),{headers:this.headers})
         .toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch(AppSettings.HANDLEERROR);
     }
 
     async GetUserRolesFromBtam(username : string):Promise<User>{
-        this.apiUrl = "http://localhost:49475/api/SingleSignIn/AppSignIn";
-        // this.apiUrl = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/AppSignIn";
-        var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
+        this.apiUrl=AppSettings.BTAM_URL+"AppSignIn";
+        // var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
+        var appSignIn = { "AppURL":"skillsetclient.azurewebsites.net","UserName":username }
 
         return this.http
         .post(this.apiUrl,JSON.stringify(appSignIn),{headers:this.headers})
         .toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch(AppSettings.HANDLEERROR);
     }
 
+    async GetUserInAppFromBtam():Promise<User[]>{
+        this.apiUrl=AppSettings.BTAM_URL+"GetUsersInApp";
+        // var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
+        var appSignIn = { "AppURL":"skillsetclient.azurewebsites.net" }
+
+        return this.http
+        .post(this.apiUrl,JSON.stringify(appSignIn),{headers:this.headers})
+        .toPromise()
+        .then(response => response.json())
+        .catch(AppSettings.HANDLEERROR);
+    }
 
     async GetAuthenticationTokenFromBtam(user : User):Promise<MyToken>{
-        this.apiUrl = "http://localhost:49475/api/SingleSignIn/Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
+        this.apiUrl=AppSettings.BTAM_URL+"Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
+        //this.apiUrl = "http://localhost:49475/api/SingleSignIn/Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
         // this.apiUrl = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
     
         return this.http
         .post(this.apiUrl,JSON.stringify(user),{headers:this.headers})
         .toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch(AppSettings.HANDLEERROR);
     }
 
 
@@ -72,7 +93,7 @@ export class CurrentUserSvc {
         .post(this.apiUrl,JSON.stringify(token),{headers:this.headers})
         .toPromise()
         .then(response => response.json())
-        .catch(this.handleError);
+        .catch(AppSettings.HANDLEERROR);
     }
 
     private handleError(error: any): Promise<any> {
