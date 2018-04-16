@@ -40,12 +40,25 @@ export class CurrentUserSvc {
         .catch(this.handleError);
     }
 
-    async GetAuthenticationTokenFromBtam(user : User):Promise<MyToken>{
-        this.apiUrl = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/AppSignIn";
-        var appSignIn = { "AppURL":window.location.hostname,"UserName":user.UserName }
+    async GetUserRolesFromBtam(username : string):Promise<User>{
+        this.apiUrl = "http://localhost:49475/api/SingleSignIn/AppSignIn";
+        // this.apiUrl = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/AppSignIn";
+        var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
 
         return this.http
         .post(this.apiUrl,JSON.stringify(appSignIn),{headers:this.headers})
+        .toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
+
+    async GetAuthenticationTokenFromBtam(user : User):Promise<MyToken>{
+        this.apiUrl = "http://localhost:49475/api/SingleSignIn/Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
+        // this.apiUrl = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
+    
+        return this.http
+        .post(this.apiUrl,JSON.stringify(user),{headers:this.headers})
         .toPromise()
         .then(response => response.json())
         .catch(this.handleError);

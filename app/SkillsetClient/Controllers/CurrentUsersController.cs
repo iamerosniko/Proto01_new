@@ -1,10 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using SkillsetClient.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers
 {
@@ -12,6 +6,7 @@ namespace SkillsetClient.Controllers
   [Route("api/CurrentUsers")]
   public class CurrentUsersController : Controller
   {
+    /*
     private string _user;
     // GET: api/CurrentUsers
     [HttpGet("{username}")]
@@ -80,6 +75,6 @@ namespace SkillsetClient.Controllers
 
       return claims;
     }
-
+    */
   }
 }

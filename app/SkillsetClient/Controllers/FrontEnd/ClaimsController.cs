@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using SkillsetClient.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers
@@ -22,46 +19,49 @@ namespace SkillsetClient.Controllers
       var currentUserController = new CurrentUsersController();
 
       var username = this.User.Identity.Name;
-      var currentUser = await currentUserController.Get(username);
+      //var currentUser = await currentUserController.Get(username);
 
-      return currentUser;
+      return new CurrentUser
+      {
+        UserName = username
+      };
     }
 
-    [Route("Authenticate")]
-    [HttpPost]
-    public async Task<AppToken> GetAuthenticationToken([FromBody] CurrentUser user)
-    {
+    //[Route("Authenticate")]
+    //[HttpPost]
+    //public async Task<AppToken> GetAuthenticationToken([FromBody] CurrentUser user)
+    //{
 
-      var currentUserController = new CurrentUsersController();
-      var currentUser = await currentUserController.Get(user.UserName);
+    //  var currentUserController = new CurrentUsersController();
+    //  var currentUser = await currentUserController.Get(user.UserName);
 
-      if (currentUser != null)
-      {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.Configuration["IDPServer:IssuerSigningKey"]));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var token = new JwtSecurityToken(
-           claims: currentUserController.getCurrentClaims(currentUser),
-           signingCredentials: creds
-        );
+    //  if (currentUser != null)
+    //  {
+    //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.Configuration["IDPServer:IssuerSigningKey"]));
+    //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+    //    var token = new JwtSecurityToken(
+    //       claims: currentUserController.getCurrentClaims(currentUser),
+    //       signingCredentials: creds
+    //    );
 
-        var myToken = new JwtSecurityTokenHandler().WriteToken(token);
+    //    var myToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-        return new AppToken
-        {
-          Token = myToken,
-          TokenName = "Authentication"
-        };
-      }
-      else
-      {
-        return new AppToken
-        {
-          TokenName = "Authentication"
-        };
-      }
-      //create a token and save to session ('authToken');
+    //    return new AppToken
+    //    {
+    //      Token = myToken,
+    //      TokenName = "Authentication"
+    //    };
+    //  }
+    //  else
+    //  {
+    //    return new AppToken
+    //    {
+    //      TokenName = "Authentication"
+    //    };
+    //  }
+    //  //create a token and save to session ('authToken');
 
-    }
+    //}
 
     [Route("AuthorizeUser")]
     [HttpPost]
