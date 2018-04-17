@@ -160,9 +160,9 @@ export class AppComponent  implements OnDestroy{
     var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
 
     // console.log(user);    
-    await console.log(this.currentUser);
-    console.log(authenticationToken);
-    console.log(authorizationToken);
+    // await console.log(this.currentUser);
+    // console.log(authenticationToken);
+    // console.log(authorizationToken);
 
     localStorage.setItem("AuthToken",authenticationToken.Token);
     localStorage.setItem("ApiToken", authorizationToken.Token);

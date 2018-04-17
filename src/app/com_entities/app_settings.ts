@@ -6,6 +6,7 @@ export class AppSettings {
     public static BTAM_URL = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/"
     public static HANDLEERROR(error: any): Promise<any> {
         console.error('An error occurred', error); // for demo purposes only
+        window.location.reload(true);
         return Promise.reject(error.message || error);
     }
 }

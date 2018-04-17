@@ -214,12 +214,12 @@ GO
 
 IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416205059_m002')
 BEGIN
-    DECLARE @var3 sysname;
-    SELECT @var3 = [d].[name]
+    DECLARE @var0 sysname;
+    SELECT @var0 = [d].[name]
     FROM [sys].[default_constraints] [d]
     INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
     WHERE ([d].[parent_object_id] = OBJECT_ID(N'SS_Skillsets') AND [c].[name] = N'SkillsetDescr');
-    IF @var3 IS NOT NULL EXEC(N'ALTER TABLE [SS_Skillsets] DROP CONSTRAINT [' + @var3 + '];');
+    IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [SS_Skillsets] DROP CONSTRAINT [' + @var0 + '];');
     ALTER TABLE [SS_Skillsets] ALTER COLUMN [SkillsetDescr] nvarchar(100) NOT NULL;
 END;
 
@@ -227,12 +227,12 @@ GO
 
 IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416205059_m002')
 BEGIN
-    DECLARE @var4 sysname;
-    SELECT @var4 = [d].[name]
+    DECLARE @var1 sysname;
+    SELECT @var1 = [d].[name]
     FROM [sys].[default_constraints] [d]
     INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
     WHERE ([d].[parent_object_id] = OBJECT_ID(N'SS_Locations') AND [c].[name] = N'LocationDescr');
-    IF @var4 IS NOT NULL EXEC(N'ALTER TABLE [SS_Locations] DROP CONSTRAINT [' + @var4 + '];');
+    IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [SS_Locations] DROP CONSTRAINT [' + @var1 + '];');
     ALTER TABLE [SS_Locations] ALTER COLUMN [LocationDescr] nvarchar(100) NOT NULL;
 END;
 
@@ -240,12 +240,12 @@ GO
 
 IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20180416205059_m002')
 BEGIN
-    DECLARE @var5 sysname;
-    SELECT @var5 = [d].[name]
+    DECLARE @var2 sysname;
+    SELECT @var2 = [d].[name]
     FROM [sys].[default_constraints] [d]
     INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
     WHERE ([d].[parent_object_id] = OBJECT_ID(N'SS_Departments') AND [c].[name] = N'DepartmentDescr');
-    IF @var5 IS NOT NULL EXEC(N'ALTER TABLE [SS_Departments] DROP CONSTRAINT [' + @var5 + '];');
+    IF @var2 IS NOT NULL EXEC(N'ALTER TABLE [SS_Departments] DROP CONSTRAINT [' + @var2 + '];');
     ALTER TABLE [SS_Departments] ALTER COLUMN [DepartmentDescr] nvarchar(100) NOT NULL;
 END;
 
