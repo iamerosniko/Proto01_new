@@ -63,6 +63,9 @@ export class SearchComponent implements OnInit {
   dateFrom:Date=null;
   dateTo:Date=null;
 
+  isPrintReady:boolean=false;
+  isRunReportReady:boolean=true;
+
   async print(){
     //determine if ie or chrome
     var ua = window.navigator.userAgent;
@@ -192,37 +195,43 @@ export class SearchComponent implements OnInit {
   }
 
   async getResult(){
-    this.associateRpt=[];
-    this.skillsetRpt=[];
-    this.departmentRpt=[];
-    this.lastTimeWorkedOnRpt=[];
+    this.associateRpt=await [];
+    this.skillsetRpt=await [];
+    this.departmentRpt=await [];
+    this.lastTimeWorkedOnRpt=await [];
     if(this.compareRequiredFields()&&this.compareDate()) 
     {
+      this.isPrintReady=false;
+      this.isRunReportReady=false;
+
       for(let selectedItem of this.selectedItems){
         if(this.radioSelect==0){
-          await this.associateReportSvc.getAssociateReport(selectedItem.id,this.dateFrom,this.dateTo)
-          .then(a=>{
-            //console.log(a);
-            if(a!=null){
-              this.associateRpt.push(a);
-            }
-          });
+          var assoc = await this.associateReportSvc.getAssociateReport(selectedItem.id,this.dateFrom,this.dateTo)
+          if(assoc!=null){
+            this.associateRpt.push(assoc);
+          }
         }
         else if (this.radioSelect==1){
-          await this.skillsetReportSvc.getSkillsetReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
-          .then(a=>this.skillsetRpt.push(a));
+          var skills = await  this.skillsetReportSvc.getSkillsetReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
+          // .then( a=>  this.skillsetRpt.push(a));
+          this.skillsetRpt.push(skills)
         }
         else if (this.radioSelect==2){
-          await this.departmentReportSvc.getDepartmentReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo).
-          then(a=>this.departmentRpt.push(a));
+          var depts=await   this.departmentReportSvc.getDepartmentReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
+          //.
+          // then( a=>  this.departmentRpt.push(a));
+          this.departmentRpt.push(depts)
           //console.log(this.departmentRpt);
         }
         else if(this.radioSelect==3){
-          await this.lastWorkedOnReportSvc.getLastWorkedOnReport(selectedItem.text,this.selectedLocation,this.dateFrom,this.dateTo)
-          .then(a=>this.lastTimeWorkedOnRpt.push(a));
+          var lastwork =await   this.lastWorkedOnReportSvc.getLastWorkedOnReport(selectedItem.text,this.selectedLocation,this.dateFrom,this.dateTo)
+          // .then( a=>  this.lastTimeWorkedOnRpt.push(a));
+          this.lastTimeWorkedOnRpt.push(lastwork)
         }
       }
     }
+    this.isPrintReady=await true; 
+    this.isRunReportReady=await true;
   }
 
   compareDate():boolean{
