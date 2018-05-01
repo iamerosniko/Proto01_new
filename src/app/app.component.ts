@@ -153,8 +153,9 @@ export class AppComponent  implements OnDestroy{
   //test
   async getSignedInUser(){
     //original
-    //var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     var user = await this.curUserSvc.getSignedInUser();
+    // var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    
     this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName);    
     var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);
     var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
@@ -167,15 +168,6 @@ export class AppComponent  implements OnDestroy{
     localStorage.setItem("AuthToken",authenticationToken.Token);
     localStorage.setItem("ApiToken", authorizationToken.Token);
   }
-
-  // async getCurrentUserData() {
-  //   this.currentUser = await this.curUserSvc.getCurrentUser();
-  //   var tokens = await this.myTokenSvc.getTokens();
-    
-  //   tokens.forEach(el => {
-  //     localStorage.setItem(el.TokenName,el.Token);
-  //   });
-  // }
 
   async checkIfAuthenticated(){
   

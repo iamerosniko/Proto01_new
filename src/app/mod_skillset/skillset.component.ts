@@ -84,6 +84,7 @@ export class SkillSetComponent{
     this.associates = await this.assSvc.getAssociates();//
     //this.users = await this.useSvc.getSet_Users();
     this.currentUser = await this.curUserSvc.getSignedInUser();
+    this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(this.currentUser.UserName);
     // this.currentUser = {"UserID": "1","UserName": "bermoyj@mfcgd.com","FirstName": "Bermoy","LastName": "Joyce","Role": "Limited"}
     this.locations = await this.locSvc.getLocations();
     this.departments = await this.depSvc.getDepartments();

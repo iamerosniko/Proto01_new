@@ -49,12 +49,12 @@ export class DataAssociateReport {
     }
 
     async getAssociateReport(associateID:number,dateFrom:Date,dateTo:Date):Promise<AssociateRpt>{
-        this.associateReport=new AssociateRpt(new AssociateDetails('','','','','',''),[]);
-        let associatesDepartmentSkillsets:AssociateDepartmentSkillset[]= await this.getAssociateDepartmentSkillsets(associateID);
-        let departmentSkillsets:DepartmentSkillsets1[]=[];
-        let associate:Associate=await this.getAssociateDetails(associateID);
-        let currentDepartment:Department;
-        let currentLocation:Location;
+        this.associateReport=await new AssociateRpt(new AssociateDetails('','','','','',''),[]);
+        var associatesDepartmentSkillsets:AssociateDepartmentSkillset[]= await this.getAssociateDepartmentSkillsets(associateID);
+        var departmentSkillsets:DepartmentSkillsets1[]=await [];
+        var associate:Associate=await this.getAssociateDetails(associateID);
+        var currentDepartment:Department;
+        var currentLocation:Location;
         this.getSetUser();
         //loop ads to get departmentskillsets
         for(var i=0;i<associatesDepartmentSkillsets.length;i++){
@@ -63,7 +63,7 @@ export class DataAssociateReport {
             );
         }
         while(departmentSkillsets.length>0){
-            let tempdsTobeRemoved:DepartmentSkillsets1=departmentSkillsets[0];
+            var tempdsTobeRemoved:DepartmentSkillsets1=departmentSkillsets[0];
             var a=await this.mergeSkillstoDepartment(departmentSkillsets,tempdsTobeRemoved.DepartmentID)
             departmentSkillsets= await departmentSkillsets.filter(x=>x.DepartmentID!=tempdsTobeRemoved.DepartmentID);
             this.associateReport.DepartmentSkills.push(a);
@@ -88,11 +88,11 @@ export class DataAssociateReport {
 
     async getAssociateReport2(associateID:number,departmentID:number,dateFrom:Date,dateTo:Date):Promise<AssociateRpt>{
         this.associateReport=new AssociateRpt(new AssociateDetails('','','','','',''),[]);
-        let associatesDepartmentSkillsets:AssociateDepartmentSkillset[]= await this.getAssociateDepartmentSkillsets(associateID);
-        let departmentSkillsets:DepartmentSkillsets1[]=[];
-        let associate:Associate=await this.getAssociateDetails(associateID);
-        let currentDepartment:Department;
-        let currentLocation:Location;
+        var associatesDepartmentSkillsets:AssociateDepartmentSkillset[]= await this.getAssociateDepartmentSkillsets(associateID);
+        var departmentSkillsets:DepartmentSkillsets1[]=[];
+        var associate:Associate=await this.getAssociateDetails(associateID);
+        var currentDepartment:Department;
+        var currentLocation:Location;
         this.getSetUser();
         //loop ads to get departmentskillsets
         for(var i=0;i<associatesDepartmentSkillsets.length;i++){
@@ -104,7 +104,7 @@ export class DataAssociateReport {
         departmentSkillsets=departmentSkillsets.filter(x=>x.DepartmentID==departmentID);
         //getting the associates' skills per departments
         while(departmentSkillsets.length>0){
-            let tempdsTobeRemoved:DepartmentSkillsets1=departmentSkillsets[0];
+            var tempdsTobeRemoved:DepartmentSkillsets1=departmentSkillsets[0];
             var a=await this.mergeSkillstoDepartment(departmentSkillsets,tempdsTobeRemoved.DepartmentID)
             departmentSkillsets= await departmentSkillsets.filter(x=>x.DepartmentID!=tempdsTobeRemoved.DepartmentID);
             this.associateReport.DepartmentSkills.push(a);
@@ -177,9 +177,9 @@ export class DataAssociateReport {
     
     async mergeSkillstoDepartment(departmentskillset:DepartmentSkillsets1[],departmentID:number):Promise<DepartmentSkills>{
         //get the departments from tempDS
-        let tempDS:DepartmentSkillsets1[]=departmentskillset.filter(x=>x.DepartmentID==departmentID);
-        let tempDepartment:Department=await this.departmentSvc.getDepartment(departmentID);
-        let departmentSKills:DepartmentSkills=new DepartmentSkills([],'');
+        var tempDS:DepartmentSkillsets1[]=departmentskillset.filter(x=>x.DepartmentID==departmentID);
+        var tempDepartment:Department=await this.departmentSvc.getDepartment(departmentID);
+        var departmentSKills:DepartmentSkills=new DepartmentSkills([],'');
         departmentSKills.DepartmentName=tempDepartment.DepartmentDescr;
 
         for (var i = 0;i<tempDS.length ;i++){
@@ -195,7 +195,7 @@ export class DataAssociateReport {
 
     getFullName(username:string):string{
         // let user:Set_User= this.setUsers.find(x=>x.user_name==username);
-        let user:User= this.users.find(x=>x.UserName==username);
+        var user:User= this.users.find(x=>x.UserName==username);
         // //console.log(user);
         return user==null ? null : user.FirstName + ' ' + user.LastName
     }

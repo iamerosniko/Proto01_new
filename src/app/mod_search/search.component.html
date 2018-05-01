@@ -114,7 +114,7 @@
             <br />
             <div class="row">
                 <div class="col-md-12">
-                    <a (click)="getResult()" class="btn btn-primary btn-sm pull-right"><i class="fa fa-send"></i>&nbsp;View Report</a>
+                    <button (click)="getResult()" [disabled]="!isRunReportReady" class="btn btn-primary btn-sm pull-right"><i class="fa fa-send"></i>&nbsp;View Report</button>
                 </div>
             </div>
         </div>
@@ -124,24 +124,24 @@
             <div class="col-md-12">
                 <div class="pull-right">
                     <div class="btn-group">
-                        <a class="btn btn-primary btn-sm" (click)="print()" title="Export to Excel"><i class="fa fa-file-excel-o"></i></a>
+                        <button class="btn btn-primary btn-sm" [disabled]="!isPrintReady" (click)="print()" title="Export to Excel"><i class="fa fa-file-excel-o"></i></button>
                         <!--<a class="btn btn-primary btn-sm"></a>-->
                     </div>
                 </div>
             </div>
             <div *ngIf="radioSelect==0 ">
-                <search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>
+                <search-associate [associate]="asoc" *ngFor="let asoc of associateRpt"></search-associate>
             </div>
             <div *ngIf="radioSelect==1" >
                 <!--<search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>-->
-                <search-skillset [skillsetRpt]="x" *ngFor="let x of skillsetRpt"></search-skillset>
+                <search-skillset [skillsetRpt]="skills" *ngFor="let skills of skillsetRpt"></search-skillset>
             </div>
             <div *ngIf="radioSelect==2" >
-                <search-department [departmentRpt]="x" *ngFor="let x of departmentRpt"></search-department>
+                <search-department [departmentRpt]="deps" *ngFor="let deps of departmentRpt"></search-department>
                 <!--<search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>-->
             </div>
             <div *ngIf="radioSelect==3">
-                <search-lastworkedon [lastTimeWorkedOnRpt]="x" *ngFor="let x of lastTimeWorkedOnRpt"> </search-lastworkedon>
+                <search-lastworkedon [lastTimeWorkedOnRpt]="ltw" *ngFor="let ltw of lastTimeWorkedOnRpt"> </search-lastworkedon>
             </div>
             <iframe id="txtArea1" style="display:none"></iframe>
         </div>

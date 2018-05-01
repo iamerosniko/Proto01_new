@@ -27,21 +27,21 @@ export class DataDepartmentReport {
     tempAssociates:Associate[]=[];
 
     async getDepartmentReport(departmentID:number,locationID:number,dateFrom:Date,dateTo:Date):Promise<DepartmentRpt>{
-        let department:Department=await this.skillsetRptSvc.getDepartment(departmentID);
-        let departmentRpt:DepartmentRpt=new DepartmentRpt('',[]);
-        let departmentSkillsets:DepartmentSkillsets1[]=[];
-        let associateDepartmentSkillsets:AssociateDepartmentSkillset[]=[];        
-        let associates:Associate[]=[];
+        var department:Department=await this.skillsetRptSvc.getDepartment(departmentID);
+        var departmentRpt:DepartmentRpt=new DepartmentRpt('',[]);
+        var departmentSkillsets:DepartmentSkillsets1[]=[];
+        var associateDepartmentSkillsets:AssociateDepartmentSkillset[]=[];        
+        var associates:Associate[]=[];
         
         this.tempAssociates=[];
         //get departmentskillset according to departmentID
         departmentSkillsets=await this.getDepartmentSkillsets(departmentID);
         //get associates from associatedepartmentSkillset according to departmentskillsets
-        for(let departmentSkillset of departmentSkillsets){
+        for(var departmentSkillset of departmentSkillsets){
             associateDepartmentSkillsets=associateDepartmentSkillsets.concat(await this.getAssociateDepartmentSkillset(departmentSkillset.DepartmentSkillsetID));
         }
         //console.log(associateDepartmentSkillsets);
-        for(let associateDepartmentSkillset of associateDepartmentSkillsets){
+        for(var associateDepartmentSkillset of associateDepartmentSkillsets){
             this.tempAssociates=this.tempAssociates.concat(await this.skillsetRptSvc.getAssociateDetails(associateDepartmentSkillset.AssociateID));
         }
         //getting associates for the current department
@@ -49,12 +49,12 @@ export class DataDepartmentReport {
         this.tempAssociates=this.tempAssociates.filter(x=>x.DepartmentID==departmentID && x.LocationID==locationID);
         
         while(this.tempAssociates.length>0){
-            let tempAssoc = this.tempAssociates.pop();
+            var tempAssoc = this.tempAssociates.pop();
             associates=associates.concat(tempAssoc);
             this.tempAssociates=this.tempAssociates.filter(x=>x.AssociateID!=tempAssoc.AssociateID);
         }
         //get their skills according to their current department
-        for(let assoc of associates){
+        for(var assoc of associates){
             var assocrpt=await this.assocRptSvc.getAssociateReport2(assoc.AssociateID,departmentID,dateFrom,dateTo);
             // console.log(assocrpt);
             if(assocrpt!=null)
@@ -70,7 +70,7 @@ export class DataDepartmentReport {
 
     //getDepartmentSkillsets according to departmentID
     async getDepartmentSkillsets(departmentID:number):Promise<DepartmentSkillsets1[]>{
-        let departmentSkillsets:DepartmentSkillsets1[]=await this.departmentSkillsetSvc.getDepartmentSkillsets();
+        var departmentSkillsets:DepartmentSkillsets1[]=await this.departmentSkillsetSvc.getDepartmentSkillsets();
         return new Promise<DepartmentSkillsets1[]>((resolve) =>             
             resolve(
                 departmentSkillsets.filter(x=>x.DepartmentID==departmentID)
@@ -79,7 +79,7 @@ export class DataDepartmentReport {
     }
 
     async getAssociateDepartmentSkillset(departmentSkillsetID:number):Promise<AssociateDepartmentSkillset[]>{
-        let associateDepartmentSkillset:AssociateDepartmentSkillset[]=await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
+        var associateDepartmentSkillset:AssociateDepartmentSkillset[]=await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
 
         associateDepartmentSkillset=associateDepartmentSkillset.filter(x=>x.DepartmentSkillsetID==departmentSkillsetID);
         return new Promise<AssociateDepartmentSkillset[]>((resolve) =>
