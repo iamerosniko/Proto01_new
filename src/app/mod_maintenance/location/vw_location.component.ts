@@ -11,16 +11,15 @@ export class VWLocationComponent {
     this.goBack();
   }
   p: number = 1;
-  viewMode : number = 0;
   location : Location = new Location(0,'',true);
   locations: Location[] = [];
   mode:number=0;
   newDetails(){
+    this.goBack();
     this.location=new Location(0,'',true);
   }
 
   editDetails(loc: Location){
-    this.viewMode=1;
     this.mode=1;
     //get detail
     this.getDetails(loc);
@@ -35,10 +34,13 @@ export class VWLocationComponent {
   }
 
   changeStatus(loc:Location){
-    this.getDetails(loc);
-    this.viewMode=1;
-    this.location.IsActive=false;
-    this.saveLocation();
+    if(confirm("Do you want to delete "+loc.LocationDescr+"?")){
+
+      this.getDetails(loc);
+      this.mode=1;
+      this.location.IsActive=false;
+      this.saveLocation();
+    }
   }
 
   goBack(){
@@ -49,7 +51,7 @@ export class VWLocationComponent {
 
   async saveLocation(){
     if(this.entryValidation()){
-      this.viewMode==0 ?
+      this.mode==0 ?
         ( 
           await this.locSvc.postLocation(this.location),
           alert("New Record has been successfully added.") 
@@ -70,6 +72,6 @@ export class VWLocationComponent {
   }
   
   async getLocations(){
-    this.locations=await this.locSvc.getLocations();
+    this.locations=(await this.locSvc.getLocations()).filter(x=>x.IsActive==true);
   }
 }

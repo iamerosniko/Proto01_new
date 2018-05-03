@@ -14,15 +14,15 @@
                             <tr>
                                 <!--<th>Location Id</th>-->
                                 <th>Location Description</th>
-                                <th>Is Active</th>
-                                <th>&nbsp;</th>
+                                <!-- <th>Is Active</th> -->
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let loc of locations | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <!--<td>{{loc.LocationID}}</td>-->
                                 <td>{{loc.LocationDescr}}</td>
-                                <td>{{getStatus(loc.IsActive)}}</td>
+                                <!-- <td>{{getStatus(loc.IsActive)}}</td> -->
                                 <td>
                                     <div class="btn-group">
                                         <a (click)="editDetails(loc)"  class="btn btn-default btn-xs" data-toggle="tab" data-target="#loc_editor" title="Edit"><i class="fa fa-edit"></i></a>
@@ -47,14 +47,15 @@
             <!--return button-->
             <div class="row">
                 <a href="#" id="btnGoBack" (click)="goBack()" class="btn btn-default btn-sm" data-toggle="tab" data-target="#loc_default"><i class="fa fa-chevron-left"></i>&nbsp;Go Back</a>
+                <a (click)="saveLocation()" class="btn btn-primary btn-sm" ><i class="fa fa-save"></i>&nbsp;Save</a>
             </div>
             <br />
             <!--header-->
             <div class="row">
                 <!--for example you are in adding mode, span.add should be displayed while span.edit will be hidden-->
                 <h4>
-                    <span class="add" *ngIf="viewMode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
-                    <span class="edit" *ngIf="viewMode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
+                    <span class="add" *ngIf="mode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
+                    <span class="edit" *ngIf="mode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
                 </h4>
             </div>
             <br />
@@ -69,11 +70,11 @@
             <div class="row">
                 <label class="col-md-2 control-label">Location Description</label>
                 <div class="col-md-4">
-                    <input type="text" maxlength="15" [(ngModel)]="location.LocationDescr" class="form-control input-sm" />
+                    <input type="text" maxlength="100" [(ngModel)]="location.LocationDescr" class="form-control input-sm" />
                 </div>
             </div>
             <br />
-            <div class="row" *ngIf="mode==1">
+            <!-- <div class="row" *ngIf="mode==1">
                 <label class="col-md-2 control-label">Is Active</label>
                 <div class="col-md-4">
                     <label class="switch">
@@ -82,11 +83,10 @@
                     </label>
                     <br />
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="save-bar">
+        <!-- <div class="save-bar">
           <save-bar [buttonMode]="mode" (triggerParentFunc)="saveLocation()"> </save-bar>
-            <!--save bar component here-->
-        </div>
+        </div> -->
     </div>
 </div>

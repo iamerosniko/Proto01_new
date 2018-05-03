@@ -39,8 +39,6 @@ export class VWAssociateComponent implements OnInit {
     this.locations = await this.locationSvc.getLocations();
     this.departments = await this.departmentSvc.getDepartments();
     this.associates = await this.associateSvc.getAssociates();
-    // this.set_Users = await this.setUserSvc.getSet_Users();
-    
   }
 
   getActiveDepartments():Department[]{
@@ -52,17 +50,6 @@ export class VWAssociateComponent implements OnInit {
     let tempLocation:Location[]=this.locations.filter(x=>x.IsActive==true);
     return tempLocation;
   }
-
-  // Using BTSS
-  // getUnusedUsers():Set_User[]{
-  //   let tempUsers:Set_User[]=this.set_Users;
-  //   for(var i=0; i<this.associates.length; i++){
-  //     var assoc=this.associates[i];
-  //     tempUsers=tempUsers.filter(x=>x.user_id!=assoc.UserID);
-  //   }
-  //   return tempUsers;
-  // }
-
   
   getUnusedUsers():User[]{
     let tempUsers:User[]=this.users;
@@ -76,22 +63,23 @@ export class VWAssociateComponent implements OnInit {
 
   getDepartmentName(id:number):string{
     let department:Department = this.departments.find(x=>x.DepartmentID==id);
+    if(department.IsActive==false){
+      return "Department no longer active. Please Update Immediately"
+    }
     return department.DepartmentDescr;
   }
 
   getLocationName(id:number):string{
     let location:Location = this.locations.find(x=>x.LocationID==id);
+    if(location.IsActive==false){
+      return "Location no longer active. Please Update Immediately"
+    }
     return location.LocationDescr;
   }
 
   getStatus(status:boolean):string{
     return status ? "Yes" : "No";
   }
-
-  // getFullName(username:string):string{
-  //   let setUser:Set_User = this.set_Users.find(x=>x.user_name==username);
-  //   return setUser!=null ? setUser.user_first_name+ " " + setUser.user_last_name : username;
-  // }
 
   getFullName(userID:string):string{
     let user:User = this.users.find(x=>x.UserID==userID);
@@ -115,6 +103,17 @@ export class VWAssociateComponent implements OnInit {
     this.saveAssociate();
   }
 
+  async deleteAssociate(assoc:Associate){
+    if(confirm("Are you sure you want to delete "+assoc.FullName+"?")){
+      var associate = await this.associateSvc.DeleteAssociate(assoc.AssociateID);
+      console.log(associate);
+      if(associate!=null){
+        alert("Associate has been successfully deleted.")
+      }
+      this.goBack();
+    }
+  }
+
   cleanUp(){
     this.getDependencies();
     this.associate=new Associate();
@@ -134,7 +133,6 @@ export class VWAssociateComponent implements OnInit {
       );
       document.getElementById("btnGoBack").click();
       this.goBack();
-      
     }
   }
 

@@ -27,14 +27,17 @@
                         <div class="col-md-8">
                             <select 
                                     class="form-control"
+                                    [(ngModel)]="associate.DepartmentID"
                                     [formControl]="skillsetFrm.get('Department')"
-                                    [(ngModel)]="associate.DepartmentID">
-                                <option 
+                                    >
+                                <option value="0"  disabled selected> Select Department </option>
+                                <option *ngFor="let x of activeDepartments" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                                <!-- <option 
                                         *ngFor="let dept of departments" 
                                         [ngValue]="dept.DepartmentID"
-                                        [selected]="dept === selectedOption" >
+                                        [selected]="dept == selectedOption" >
                                     {{dept.DepartmentDescr}}
-                                </option>
+                                </option> -->
                             </select>
                             <br />
                         </div>
@@ -47,13 +50,16 @@
                             <select 
                                     class="form-control"
                                     [formControl]="skillsetFrm.get('Location')"
-                                    [(ngModel)]="associate.LocationID">
-                                <option 
+                                    [(ngModel)]="associate.LocationID"
+                                    >
+                                <option value="0"  disabled selected> Select Location </option>
+                                <!-- <option 
                                         *ngFor="let loc of locations" 
                                         [ngValue]="loc.LocationID"
-                                        [selected]="loc === selectedOption" >
+                                        [selected]="loc == selectedOption" >
                                     {{loc.LocationDescr}}
-                                </option>
+                                </option> -->
+                                <option *ngFor="let x of activeLocations" [value]="x.LocationID"> {{x.LocationDescr}} </option>
                             </select>
                             <br />
                         </div>
@@ -113,7 +119,7 @@
                                             
                             <div 
                                 class="panel panel-primary"
-                                *ngFor="let dpt of departments">
+                                *ngFor="let dpt of activeDepartments">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{dpt.DepartmentID}}">

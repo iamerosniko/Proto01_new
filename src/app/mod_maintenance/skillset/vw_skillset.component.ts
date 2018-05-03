@@ -16,7 +16,6 @@ export class VWSkillsetComponent {
     this.goBack();
   }
   p: number = 1;
-  viewMode : number = 0;
   skillset : Skillset = new Skillset(0,'',true);
   skillsets: Skillset[] = [];
   departmentSkillsets:DepartmentSkillsets[]=[];
@@ -29,7 +28,6 @@ export class VWSkillsetComponent {
   }
 
   editDetails(skillset: Skillset){
-    this.viewMode=1;
     //get detail
     this.mode=1;
     this.getDetails(skillset);
@@ -45,11 +43,13 @@ export class VWSkillsetComponent {
   }
 
   changeStatus(skillset:Skillset){
-    this.getDetails(skillset);
-    this.viewMode=1;
-    this.skillset.IsActive=false;
-    this.deleteDepartmentSkillset(skillset.SkillsetID);
-    this.saveSkillset();
+    if(confirm("Do you want to delete "+skillset.SkillsetDescr+"?")){
+      this.getDetails(skillset);
+      this.mode=1;
+      this.skillset.IsActive=false;
+      this.deleteDepartmentSkillset(skillset.SkillsetID);
+      this.saveSkillset();
+    }
   }
 
   //delete departmentSkillset
@@ -80,13 +80,12 @@ export class VWSkillsetComponent {
     this.getDepartmentSkillsets();
     this.getAssociateDepartmentSkillsets();
     this.mode=0;
-    this.viewMode=0;
     this.skillset=new Skillset(0,'',true);
   }
 
   async saveSkillset(){
     if(this.entryValidation()){
-      this.viewMode==0 ?
+      this.mode==0 ?
         ( 
           await this.skillsetSvc.postSkillset(this.skillset),
           alert("New Record has been successfully added.") 
@@ -107,7 +106,7 @@ export class VWSkillsetComponent {
   }
 
   async getskillsets(){
-    this.skillsets=await this.skillsetSvc.getSkillsets();
+    this.skillsets=(await this.skillsetSvc.getSkillsets()).filter(x=>x.IsActive==true);
   }
   async getDepartmentSkillsets(){
     this.departmentSkillsets = await this.departmentSkillsetSvc.getDepartmentSkillsets();

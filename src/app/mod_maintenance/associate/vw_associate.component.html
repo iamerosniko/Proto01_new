@@ -19,8 +19,8 @@
                                 <th>Department</th>
                                 <th>Location</th>
                                 <th>Updated On</th>
-                                <th>Is Active</th>
-                                <th>&nbsp;</th>
+                                <!-- <th>Is Active</th> -->
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,11 +32,11 @@
                                 <td>{{getDepartmentName(x.DepartmentID)}}</td>
                                 <td>{{getLocationName(x.LocationID)}}</td>
                                 <td>{{x.UpdatedOn | date: 'dd/MM/yyyy'}}</td>
-                                <td>{{getStatus(x.IsActive)}}</td>
+                                <!-- <td>{{getStatus(x.IsActive)}}</td> -->
                                 <td>
                                     <div class="btn-group">
                                         <a (click)="editDetails(x)" class="btn btn-default btn-xs" data-toggle="tab" data-target="#asc_editor" title="Edit"><i class="fa fa-edit"></i></a>
-                                        <a (click)="changeStatus(x)" class="btn btn-default btn-xs" title="Delete"><i class="fa fa-trash"></i></a>
+                                        <a (click)="deleteAssociate(x)" class="btn btn-default btn-xs" title="Delete"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -57,31 +57,23 @@
             <!--return button-->
             <div class="row">
                 <a id="btnGoBack" (click)="goBack()" class="btn btn-default btn-sm" data-toggle="tab" data-target="#asc_default"><i class="fa fa-chevron-left"></i>&nbsp;Go Back</a>
+                <a (click)="saveAssociate()" class="btn btn-primary btn-sm" ><i class="fa fa-save"></i>&nbsp;Save</a>
             </div>
             <br />
             <!--header-->
             <div class="row">
-                <!--for example you are in adding mode, span.add should be displayed while span.edit will be hidden-->
                 <h4>
                   <span class="add" *ngIf="mode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
                   <span class="edit" *ngIf="mode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
                 </h4>
             </div>
             <br />
-            <!--fields-->
-            <!--<div class="row">
-                <label class="col-md-2 control-label">Associate Id</label>
-                <div class="col-md-4">
-                    <input [(ngModel)]="associate.AssociateID" readonly type="text" class="form-control input-sm" />
-                </div>
-            </div>
-            <br />-->
+            
             <div class="row" >
                 <label class="col-md-2 control-label">Full Name</label>
                 <div class="col-md-4" *ngIf="mode==0">
                     <select class="form-control input-sm" [(ngModel)]="associate.UserID" (change)="associate.FullName = getFullName(associate.UserID)">
                         <option value=""  disabled selected> Select Name </option>
-                        <!-- <option *ngFor="let x of getUnusedUsers()" [value]="x.user_id"> {{x.user_first_name+" " +x.user_last_name}} </option> -->
                         <option *ngFor="let x of getUnusedUsers()" [value]="x.UserID"> {{getFullName(x.UserID)}} </option>
                     </select>
                 </div>
@@ -90,13 +82,6 @@
                 </div>
             </div>
             <br />
-            <!-- <div class="row">
-                <label class="col-md-2 control-label">Full Name</label>
-                <div class="col-md-4">
-                    <input value="{{associate.FullName}}" readonly type="text" class="form-control input-sm" />
-                </div>
-            </div>
-            <br /> -->
             <div class="row">
                 <label class="col-md-2 control-label">Phone Number</label>
                 <div class="col-md-4">
@@ -142,7 +127,7 @@
                 </div>
             </div>
             <br />
-            <div class="row" *ngIf="mode==1">
+            <!-- <div class="row" *ngIf="mode==1" >
                 <label class="col-md-2 control-label">Is Active</label>
                 <div class="col-md-4">
                     <label class="switch">
@@ -151,11 +136,10 @@
                     </label>
                     <br />
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="save-bar">
+        <!-- <div class="save-bar">
            <save-bar [buttonMode]="mode" (triggerParentFunc)="saveAssociate()"></save-bar>
-            <!--save bar component here-->
-        </div>
+        </div> -->
     </div>
 </div>

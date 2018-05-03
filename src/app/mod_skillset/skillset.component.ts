@@ -42,10 +42,14 @@ export class SkillSetComponent{
   private associates: Associate[];
   public associate: Associate=new Associate();
   private associateForPosting: Associate;
+  public isDepartmentAndLocationSafe:boolean=true;
   // private users: Set_User[];
   // private user: Set_User;
   public locations: Location[];
+  public activeLocations: Location[];
   public departments: Department[];
+  public activeDepartments: Department[];
+  public activeSkills: Skillset[];
   private skillsets: Skillset[];
   private departmentSkillsets: DepartmentSkillsets[];
   private associateDepartmentSkillsets: AssociateDepartmentSkillset[];
@@ -70,8 +74,8 @@ export class SkillSetComponent{
 
     this.skillsetFrm = this.fb.group({
       'UserName': [' '],
-      'Department': [1, Validators.required],
-      'Location': [1, Validators.required],
+      'Department': [0, Validators.required],
+      'Location': [0, Validators.required],
       'VPN': [false],
       'PhoneNumber': [' ',Validators.maxLength(20)],
       'UpdatedOn': [' ']
@@ -85,10 +89,13 @@ export class SkillSetComponent{
     //this.users = await this.useSvc.getSet_Users();
     this.currentUser = await this.curUserSvc.getSignedInUser();
     this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(this.currentUser.UserName);
-    // this.currentUser = {"UserID": "1","UserName": "bermoyj@mfcgd.com","FirstName": "Bermoy","LastName": "Joyce","Role": "Limited"}
+    // this.currentUser = await this.curUserSvc.GetUserRolesFromBtam("alverer@mfcgd.com");
     this.locations = await this.locSvc.getLocations();
+    this.activeLocations = await this.locations.filter(x=>x.IsActive==true);
     this.departments = await this.depSvc.getDepartments();
+    this.activeDepartments= await this.departments.filter(x=>x.IsActive==true);
     this.skillsets = await this.sklSvc.getSkillsets();
+    this.activeSkills = await this.skillsets.filter(x=>x.IsActive==true);
     this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
     this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
   }
@@ -158,7 +165,8 @@ export class SkillSetComponent{
 
   //this will prepare DBO
   async prepareDBO()  {
-    if(this.departmentSkillsets && this.departments && this.skillsets) {
+    // if(this.departmentSkillsets && this.departments && this.skillsets) {
+    if(this.departmentSkillsets && this.activeDepartments && this.activeSkills) {
       //extract data from DepartmentSkillsets
       for (let item of this.departmentSkillsets) {
         let dptSklDBO = new DepartmentSkillsetDBO();
@@ -175,16 +183,21 @@ export class SkillSetComponent{
 
       //get description of DepartmentID
       for (let item of this.departmentSkillsetDBOs) {
-        let dpt = this.departments.find(dept => dept.DepartmentID === item.DepartmentID);
-        item.DepartmentDescr = dpt.DepartmentDescr;
-        item.DepartmentIsActive = dpt.IsActive;
+        // let dpt = this.departments.find(dept => dept.DepartmentID === item.DepartmentID);
+        let dpt = this.activeDepartments.find(dept => dept.DepartmentID === item.DepartmentID);
+        if(dpt!=null){
+          item.DepartmentDescr = dpt.DepartmentDescr;
+          item.DepartmentIsActive = dpt.IsActive;
+        }
       }
 
       //get description of Skillsets
       for (let item of this.departmentSkillsetDBOs) {
-        let skl = this.skillsets.find(skill => skill.SkillsetID === item.SkillsetID);
-        item.SkillsetDescr = skl.SkillsetDescr;
-        item.SkillsetIsActive = skl.IsActive;
+        let skl = this.activeSkills.find(skill => skill.SkillsetID === item.SkillsetID);
+        if(skl!=null){
+          item.SkillsetDescr = skl.SkillsetDescr;
+          item.SkillsetIsActive = skl.IsActive;
+        }
       }
 
       //this remove entries that are InActive
@@ -347,21 +360,39 @@ export class SkillSetComponent{
 
   //form submission
   async onSubmit(formData: any) {
-    //console.log('you submitted value:', formData);
+  
     await this.assignValues(formData);
-    await this.assSvc.putAssociate(this.associateForPosting);
-    await this.mapSkillSet();
-    await this.verifySkillset();
-    if(this.dsWOlastWork.length==0){ 
-      alert('Your record has been updated.');
-      await this.addSkillset();
-      await this.removeSkillset();
-      await this.runFunctions();
+
+    var curLoc = await this.activeLocations.find(x=>x.LocationID == this.associateForPosting.LocationID);
+    var curDep = await this.activeDepartments.find(x=>x.DepartmentID==this.associateForPosting.DepartmentID)
+
+    if(curLoc ==null && curDep ==null){
+      this.isDepartmentAndLocationSafe = false;
     }
     else{
-      //do popup alert <list of errors>
-      document.getElementById('errorModalBtn').click();
+      this.isDepartmentAndLocationSafe=true;
     }
+    if(this.isDepartmentAndLocationSafe){
+      await this.assSvc.putAssociate(this.associateForPosting);
+      await this.mapSkillSet();
+      await this.verifySkillset();
+      if(this.dsWOlastWork.length==0){ 
+        alert('Your record has been updated.');
+        await this.addSkillset();
+        await this.removeSkillset();
+        await this.runFunctions();
+      }
+      else{
+        //do popup alert <list of errors>
+        document.getElementById('errorModalBtn').click();
+      }
+    
+    }
+    
+    else{
+      alert('Please Update your Current Location or Department first.')
+    }
+    
   }
 
   ngOnInit(): void {

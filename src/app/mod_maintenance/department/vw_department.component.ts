@@ -17,7 +17,6 @@ export class VWDepartmentComponent {
   }
   
   p: number = 1;
-  viewMode : number = 0;
   department : Department = new Department(0,'',true);
   departments: Department[] = [];
   departmentSkillsets:DepartmentSkillsets[]=[];
@@ -28,7 +27,6 @@ export class VWDepartmentComponent {
   }
 
   editDetails(dept: Department){
-    this.viewMode=1;
     //get detail
     this.mode=1;
     this.getDetails(dept);
@@ -43,11 +41,13 @@ export class VWDepartmentComponent {
   }
 
   changeStatus(dept:Department){
-    this.getDetails(dept);
-    this.viewMode=1;
-    this.department.IsActive=false;
-    this.deleteDepartmentSkillset(dept.DepartmentID);
-    this.saveDepartment();
+    if(confirm("Do you want to delete "+dept.DepartmentDescr+"?")){
+      this.mode=1;
+      this.getDetails(dept);
+      this.department.IsActive=false;
+      this.deleteDepartmentSkillset(dept.DepartmentID);
+      this.saveDepartment();
+    }
   }
   //delete departmentSkillset
   async deleteDepartmentSkillset(deptID:number){
@@ -81,7 +81,7 @@ export class VWDepartmentComponent {
 
   async saveDepartment(){
     if(this.entryValidation()){
-      this.viewMode==0 ?
+      this.mode==0 ?
         ( 
           await this.deptSvc.postDepartment(this.department),
           alert("New Record has been successfully added.") 
@@ -90,9 +90,8 @@ export class VWDepartmentComponent {
           await this.deptSvc.putDepartment(this.department),
           alert("Record has been successfully updated.")
         );
-      
       document.getElementById("btnGoBack").click();
-      this.goBack();
+      this.goBack();      
     }
   }
   entryValidation():boolean{
@@ -102,7 +101,7 @@ export class VWDepartmentComponent {
   }
 
   async getDepartments(){
-    this.departments=await this.deptSvc.getDepartments();
+    this.departments=(await this.deptSvc.getDepartments()).filter(x=>x.IsActive==true);
   }
 
   async getDepartmentSkillsets(){

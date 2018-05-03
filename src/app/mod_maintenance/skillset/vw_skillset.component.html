@@ -12,17 +12,15 @@
                     <table class="table table-bordered table-striped table-hover input-sm">
                         <thead>
                             <tr>
-                                <!--<th>Skill Id</th>-->
                                 <th>Skill Description</th>
-                                <th>Is Active</th>
-                                <th>&nbsp;</th>
+                                <!-- <th>Is Active</th> -->
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let ss of skillsets | paginate: { itemsPerPage: 10, currentPage: p }">
-                                <!--<td>{{ss.SkillsetID}}</td>-->
                                 <td>{{ss.SkillsetDescr}}</td>
-                                <td>{{getStatus(ss.IsActive)}}</td>
+                                <!-- <td>{{getStatus(ss.IsActive)}}</td> -->
                                 <td>
                                     <div class="btn-group">
                                         <a (click)="editDetails(ss)" class="btn btn-default btn-xs" data-toggle="tab" data-target="#ski_editor" title="Edit"><i class="fa fa-edit"></i></a>
@@ -47,33 +45,27 @@
             <!--return button-->
             <div class="row">
                 <a href="#" id="btnGoBack" (click)="goBack()" class="btn btn-default btn-sm" data-toggle="tab" data-target="#ski_default"><i class="fa fa-chevron-left"></i>&nbsp;Go Back</a>
+                <a (click)="saveSkillset()" class="btn btn-primary btn-sm" ><i class="fa fa-save"></i>&nbsp;Save</a>            
             </div>
             <br />
             <!--header-->
             <div class="row">
                 <!--for example you are in adding mode, span.add should be displayed while span.edit will be hidden-->
                 <h4>
-                  <span class="add" *ngIf="viewMode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
-                  <span class="edit" *ngIf="viewMode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
+                  <span class="add" *ngIf="mode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
+                  <span class="edit" *ngIf="mode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
                 </h4>
             </div>
             <br />
             <!--fields-->
-            <!--<div class="row">
-                <label class="col-md-2 control-label">Skill Id</label>
-                <div class="col-md-4">
-                    <input type="text" [(ngModel)]="skillset.SkillsetID" readonly class="form-control input-sm" />
-                </div>
-            </div>
-            <br />-->
             <div class="row">
                 <label class="col-md-2 control-label">Skill Description</label>
                 <div class="col-md-4">
-                    <input id="txt" type="text" maxlength="15" (keyup.enter)="saveSkillset()" [(ngModel)]="skillset.SkillsetDescr" class="form-control input-sm" />
+                    <input id="txt" type="text" maxlength="100" (keyup.enter)="saveSkillset()" [(ngModel)]="skillset.SkillsetDescr" class="form-control input-sm" />
                 </div>
             </div>
             <br />
-            <div class="row">
+            <!-- <div class="row">
                 <label class="col-md-2 control-label">Is Active</label>
                 <div class="col-md-4">
                     <label class="switch">
@@ -82,11 +74,10 @@
                     </label>
                     <br />
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="save-bar">
+        <!-- <div class="save-bar">
           <save-bar [buttonMode]="mode" (triggerParentFunc)="saveSkillset()"></save-bar>
-            <!--save bar component here-->
-        </div>
+        </div> -->
     </div>
 </div>

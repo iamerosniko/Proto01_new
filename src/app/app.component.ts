@@ -117,6 +117,7 @@ export class AppComponent  implements OnDestroy{
       this.idleTimeoutCount++;
       this.idleState = 'Your Session has timed out.';
       this.timedOut = true;
+      localStorage.clear();
       document.getElementById('sessiontimeout').click();
     });
     
