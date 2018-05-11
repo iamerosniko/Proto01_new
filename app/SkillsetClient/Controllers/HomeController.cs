@@ -8,8 +8,6 @@ namespace SkillsetClient.Controllers
 {
   public class HomeController : Controller
   {
-    private string _authToken;
-    private string _apiToken;
     private HttpClient _client;
     private TokenFactory _tokenFactory;
 

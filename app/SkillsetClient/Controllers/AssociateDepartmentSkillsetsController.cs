@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers
 {
+  [EnableCors("CORS")]
   [Produces("application/json")]
   [Route("api/AssociateDepartmentSkillsets")]
   public class AssociateDepartmentSkillsetsController : Controller

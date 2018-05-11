@@ -8,6 +8,25 @@ import { Department,DepartmentSkillsets,
   moduleId: module.id,
   selector: 'vw-dept',
   templateUrl: 'vw_department.component.html',
+  styles:[`
+  .modal {
+    text-align: center;
+    padding: 0!important;
+  }
+  
+  .modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  
+  .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }`]
 })
 export class VWDepartmentComponent {
   constructor(private deptSvc:DepartmentSvc,
@@ -22,6 +41,7 @@ export class VWDepartmentComponent {
   departmentSkillsets:DepartmentSkillsets[]=[];
   associateDepartmentSkillset:AssociateDepartmentSkillset[]=[];
   mode:number=0;
+  message:string="";
   newDetails(){
     this.department=new Department(0,'',true);
   }
@@ -82,18 +102,24 @@ export class VWDepartmentComponent {
   async saveDepartment(){
     if(this.entryValidation()){
       this.mode==0 ?
-        ( 
-          await this.deptSvc.postDepartment(this.department),
-          alert("New Record has been successfully added.") 
-        ) :
-        ( 
-          await this.deptSvc.putDepartment(this.department),
-          alert("Record has been successfully updated.")
-        );
-      document.getElementById("btnGoBack").click();
-      this.goBack();      
+      ( 
+        await this.deptSvc.postDepartment(this.department),
+        this.message="New Record has been successfully added.",
+        document.getElementById('departmentModalbtn').click()
+      ) :
+      ( 
+        await this.deptSvc.putDepartment(this.department),
+        this.message="Record has been successfully updated.",
+        document.getElementById('departmentModalbtn').click()
+      );  
     }
   }
+
+  btnClose(){
+    document.getElementById("btnGoBack").click();
+    this.goBack();
+  }
+
   entryValidation():boolean{
     var msg='';
     this.department.DepartmentDescr.trim()=='' ? msg+='Department Description is Required.\n' : null ;

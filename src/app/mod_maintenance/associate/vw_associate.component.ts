@@ -5,12 +5,34 @@ import { DepartmentSvc } from '../../com_services/department.svc';
 import { LocationSvc } from '../../com_services/location.svc';
 // import { Set_UserSvc } from '../../com_services/set_user.svc';
 import { CurrentUserSvc } from '../../com_services/currentuser.svc';
+
+ 
 @Component({
   moduleId: module.id,
   selector: 'vw-asssoc',
   templateUrl: 'vw_associate.component.html',
+  styles:[`
+  .modal {
+    text-align: center;
+    padding: 0!important;
+  }
+  
+  .modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  
+  .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }`]
 })
 export class VWAssociateComponent implements OnInit {
+
   constructor(
     private associateSvc:AssociateSvc,
     private departmentSvc:DepartmentSvc,
@@ -27,7 +49,7 @@ export class VWAssociateComponent implements OnInit {
   associate:Associate=new Associate();
   locations:Location[]=[];
   departments:Department[]=[];
-
+  message:string="";
   mode:number=0;//1 if update 0 if new entry
   
   ngOnInit(){
@@ -108,7 +130,8 @@ export class VWAssociateComponent implements OnInit {
       var associate = await this.associateSvc.DeleteAssociate(assoc.AssociateID);
       console.log(associate);
       if(associate!=null){
-        alert("Associate has been successfully deleted.")
+        this.message="Associate has been successfully deleted.";
+        document.getElementById('assocModalbtn').click();
       }
       this.goBack();
     }
@@ -125,15 +148,20 @@ export class VWAssociateComponent implements OnInit {
       this.mode==0 ?
       ( 
         await this.associateSvc.postAssociate(this.associate),
-        alert("New Record has been successfully added.") 
+        this.message="New Record has been successfully added.",
+        document.getElementById('assocModalbtn').click()
       ) :
       ( 
         await this.associateSvc.putAssociate(this.associate),
-        alert("Record has been successfully updated.")
+        this.message="Record has been successfully updated.",
+        document.getElementById('assocModalbtn').click()
       );
-      document.getElementById("btnGoBack").click();
-      this.goBack();
     }
+  }
+
+  btnClose(){
+    document.getElementById("btnGoBack").click();
+    this.goBack();
   }
 
   entryValidation():boolean{

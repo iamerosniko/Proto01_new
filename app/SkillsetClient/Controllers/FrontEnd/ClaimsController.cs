@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkillsetClient.Models;
 
 namespace SkillsetClient.Controllers
 {
+  [EnableCors("CORS")]
   [Produces("application/json")]
   [Route("api/Claims")]
   public class ClaimsController : Controller

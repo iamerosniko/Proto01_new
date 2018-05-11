@@ -5,6 +5,25 @@ import { Location } from '../../com_entities/entities';
   moduleId: module.id,
   selector: 'vw-location',
   templateUrl: 'vw_location.component.html',
+  styles:[`
+  .modal {
+    text-align: center;
+    padding: 0!important;
+  }
+  
+  .modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  
+  .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }`]
 })
 export class VWLocationComponent {
   constructor(private locSvc:LocationSvc){
@@ -14,6 +33,8 @@ export class VWLocationComponent {
   location : Location = new Location(0,'',true);
   locations: Location[] = [];
   mode:number=0;
+  message:string="";
+  
   newDetails(){
     this.goBack();
     this.location=new Location(0,'',true);
@@ -21,16 +42,11 @@ export class VWLocationComponent {
 
   editDetails(loc: Location){
     this.mode=1;
-    //get detail
     this.getDetails(loc);
   }
 
   getDetails(loc : Location){
     this.location = loc;
-  }
-
-  getStatus(status:boolean):string{
-    return status ? "Yes" : "No";
   }
 
   changeStatus(loc:Location){
@@ -54,15 +70,22 @@ export class VWLocationComponent {
       this.mode==0 ?
         ( 
           await this.locSvc.postLocation(this.location),
-          alert("New Record has been successfully added.") 
+          this.message="New Record has been successfully added.",
+          document.getElementById('locationModalbtn').click()
         ) :
         ( 
-          this.locSvc.putLocation(this.location),
-          alert("Record has been successfully updated.")
+          await this.locSvc.putLocation(this.location),
+          this.message="Record has been successfully updated.",
+          document.getElementById('locationModalbtn').click()
         );
       document.getElementById("btnGoBack").click();
-      this.goBack();
+      
     }
+  }
+  
+  btnClose(){
+    document.getElementById("btnGoBack").click();
+    this.goBack();
   }
 
   entryValidation():boolean{

@@ -9,7 +9,6 @@ import { SkillSetComponent } from './skillset.component';
 import { SkillSetRouting } from './skillset.routing';
 import { CommonCompModule } from '../mod_common/common_comp.module';
 import { CurrentUserSvc } from '../com_services/currentuser.svc';
-import { Set_UserSvc } from '../com_services/set_user.svc';
 import { AssociateSvc } from '../com_services/associate.svc';
 import { LocationSvc } from '../com_services/location.svc';
 import { DepartmentSvc } from '../com_services/department.svc';
@@ -33,7 +32,6 @@ import { AssociateDepartmentSkillsetsSvc } from '../com_services/assoc_dept_skil
   providers: [
     CurrentUserSvc,
     AssociateSvc,
-    Set_UserSvc,
     LocationSvc,
     DepartmentSvc,
     SkillsetSvc,

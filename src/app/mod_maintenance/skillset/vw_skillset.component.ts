@@ -8,6 +8,25 @@ import { Skillset,DepartmentSkillsets,
   moduleId: module.id,
   selector: 'vw-skillset',
   templateUrl: 'vw_skillset.component.html',
+  styles:[`
+  .modal {
+    text-align: center;
+    padding: 0!important;
+  }
+  
+  .modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  
+  .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }`]
 })
 export class VWSkillsetComponent {
   constructor(private skillsetSvc:SkillsetSvc,
@@ -21,14 +40,14 @@ export class VWSkillsetComponent {
   departmentSkillsets:DepartmentSkillsets[]=[];
   associateDepartmentSkillset:AssociateDepartmentSkillset[]=[];
   mode:number=0;
+  message:string="";
+
   newDetails(){
-    
     document.getElementById("txt").focus();
     this.skillset=new Skillset(0,'',true);
   }
 
   editDetails(skillset: Skillset){
-    //get detail
     this.mode=1;
     this.getDetails(skillset);
     document.getElementById("txt").focus();
@@ -88,15 +107,20 @@ export class VWSkillsetComponent {
       this.mode==0 ?
         ( 
           await this.skillsetSvc.postSkillset(this.skillset),
-          alert("New Record has been successfully added.") 
+          this.message="New Record has been successfully added.",
+          document.getElementById('skillsetModalbtn').click()
         ) :
         ( 
           await this.skillsetSvc.putSkillset(this.skillset),
-          alert("Record has been successfully updated.")
+          this.message="Record has been successfully updated.",
+          document.getElementById('skillsetModalbtn').click()
         );
-      document.getElementById("btnGoBack").click();
-      this.goBack();
     }
+  }
+
+  btnClose(){
+    document.getElementById("btnGoBack").click();
+    this.goBack();
   }
 
   entryValidation():boolean{

@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SkillsetClient.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers
 {
+  [EnableCors("CORS")]
   [Produces("application/json")]
   [Route("api/Associates")]
   public class AssociatesController : Controller
@@ -22,7 +26,7 @@ namespace SkillsetClient.Controllers
     {
       _webApiAccess.AssignAuthorization(HttpContext.Session.GetString("apiToken"));
       var result = await _webApiAccess.GetRequest();
-      return JsonConvert.DeserializeObject<SS_Associates[]>(result.ToString());
+      return JsonConvert.DeserializeObject<SS_Associates[]>(result.ToString()).OrderBy(x => x.FullName).ToArray();
     }
 
     // GET: api/Associates/5
@@ -44,6 +48,25 @@ namespace SkillsetClient.Controllers
       return JsonConvert.DeserializeObject<SS_Associates>(result.ToString());
     }
 
+    [HttpPost("Bulk")]
+    public async Task<List<SS_Associates>> BulkPost([FromBody]SS_Associates[] bodies)
+    {
+      _webApiAccess.AssignAuthorization(HttpContext.Session.GetString("apiToken"));
+      List<SS_Associates> assocs = new List<SS_Associates>();
+
+      foreach (var body in bodies)
+      {
+        var content = JsonConvert.SerializeObject(body);
+        var result = await _webApiAccess.PostRequest(content);
+        if (result != null)
+        {
+          assocs.Add(JsonConvert.DeserializeObject<SS_Associates>(result.ToString()));
+        }
+      }
+
+      return assocs;
+    }
+
     // PUT: api/Associates/5
     [HttpPut("{id}")]
     public async Task<SS_Associates> Put(int id, [FromBody]SS_Associates body)
@@ -63,6 +86,19 @@ namespace SkillsetClient.Controllers
 
       var result = await _webApiAccess.DeleteRequest(id.ToString());
       return result;
+    }
+
+    [HttpDelete("bulkdelete")]
+    public async Task<bool> BulkDelete()
+    {
+      _webApiAccess.AssignAuthorization(HttpContext.Session.GetString("apiToken"));
+      var assocs = await Get();
+
+      foreach (var assoc in assocs)
+      {
+        var result = await _webApiAccess.DeleteRequest(assoc.AssociateID.ToString());
+      }
+      return true;
     }
   }
 }

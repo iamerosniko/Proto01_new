@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Text;
 
 namespace SkillsetClient.Controllers
 {
+  [EnableCors("CORS")]
   public class TokenFactory
   {
     private List<Claim> _claims;

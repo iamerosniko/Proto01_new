@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SkillsetClient.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers
 {
+  [EnableCors("CORS")]
   [Produces("application/json")]
   [Route("api/Departments")]
   public class DepartmentsController : Controller
@@ -22,7 +25,7 @@ namespace SkillsetClient.Controllers
     {
       _webApiAccess.AssignAuthorization(HttpContext.Session.GetString("apiToken"));
       var result = await _webApiAccess.GetRequest();
-      return JsonConvert.DeserializeObject<SS_Departments[]>(result.ToString());
+      return JsonConvert.DeserializeObject<SS_Departments[]>(result.ToString()).OrderBy(x => x.DepartmentDescr).ToArray();
     }
 
     // GET: api/Departments/5

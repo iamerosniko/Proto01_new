@@ -1,5 +1,5 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SkillsetAPI.Models;
@@ -7,7 +7,7 @@ using SkillsetAPI.Services;
 
 namespace SkillsetAPI.Controllers
 {
-  [Authorize]
+  //[Authorize]
   [EnableCors("AllowWebClient")]
   [Produces("application/json")]
   [Route("api/Locations")]

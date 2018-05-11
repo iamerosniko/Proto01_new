@@ -8,10 +8,7 @@ import { Location } from '@angular/common';
 import { Router,ActivatedRoute }  from '@angular/router';
 import { Set_User,User,Set_User_Access,Set_Group,SignedInUser } from './com_entities/entities';
 import { CurrentUserSvc } from './com_services/currentuser.svc';
-import { Set_UserSvc } from './com_services/set_user.svc';
-import { Set_User_AccessSvc } from './com_services/set_user_access.svc';
 import { MyTokenSvc } from './com_services/mytoken.svc';
-import { Set_GroupSvc } from './com_services/set_group.svc';
 import { Jsonp } from '@angular/http/src/http';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Observable } from 'rxjs/Observable'
@@ -81,9 +78,6 @@ export class AppComponent  implements OnDestroy{
 
   constructor(
     private curUserSvc: CurrentUserSvc,
-    private useAccSvc: Set_User_AccessSvc,
-    private groupSvc:Set_GroupSvc,
-    private useSvc: Set_UserSvc,
     private router: Router,
     private route:ActivatedRoute,
     private location: Location,

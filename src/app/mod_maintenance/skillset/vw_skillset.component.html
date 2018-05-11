@@ -81,3 +81,18 @@
         </div> -->
     </div>
 </div>
+
+<a [hidden]="true" id="skillsetModalbtn" data-toggle="modal" data-backdrop="static"  href='#skillsetmodal-id'>Trigger modal</a>
+<div class="modal fade" id="skillsetmodal-id">
+    <div class="modal-dialog" style="overflow-y: initial;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{message}}</h4>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" (click)="btnClose()" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

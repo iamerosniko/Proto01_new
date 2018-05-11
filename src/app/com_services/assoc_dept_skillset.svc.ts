@@ -5,7 +5,12 @@ import { AssociateDepartmentSkillset } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class AssociateDepartmentSkillsetsSvc {
-    private headers = new Headers({'Content-Type': 'application/json'});
+    private headers = new Headers({
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
+    });
     // private apiUrl = 'api/AssociateDepartmentSkillsets';
     //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/AssociateDepartmentSkillsets';
     //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/AssociateDepartmentSkillsets';

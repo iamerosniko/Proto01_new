@@ -20,8 +20,8 @@ import { SkillsetSvc } from '../com_services/skillset.svc';
 import { AssociateSvc } from '../com_services/associate.svc';
 import { DepartmentSkillsetsSvc } from '../com_services/dept_skillset.svc';
 import { AssociateDepartmentSkillsetsSvc } from '../com_services/assoc_dept_skillset.svc';
-import { Set_UserSvc } from '../com_services/set_user.svc';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ModalModule } from 'ngx-bootstrap'
 @NgModule({
   //components area
   declarations: [
@@ -31,13 +31,14 @@ import {NgxPaginationModule} from 'ngx-pagination';
   ],
   //module area
   imports: [
+    ModalModule.forRoot(),
     BrowserModule,HttpModule,CommonModule,FormsModule,CommonCompModule,
     MaintenanceRouting,NgxPaginationModule
   ],
   //services area
   providers: [
     LocationSvc,DepartmentSvc,SkillsetSvc,AssociateSvc,
-    Set_UserSvc,DepartmentSkillsetsSvc,AssociateDepartmentSkillsetsSvc
+    DepartmentSkillsetsSvc,AssociateDepartmentSkillsetsSvc
   ],
   //components to be shared and used using selector
   exports: [

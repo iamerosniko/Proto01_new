@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -5,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkillsetClient.Controllers
 {
+  [EnableCors("CORS")]
   public class ApiAccess
   {
     private string _apiURL;

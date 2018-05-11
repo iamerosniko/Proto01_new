@@ -21,7 +21,6 @@ import {
 } from '../com_entities/entities';
 import { DepartmentSkillsetDBO } from  '../com_entities/dbo_skillset';
 import { CurrentUserSvc } from '../com_services/currentuser.svc';
-import { Set_UserSvc } from '../com_services/set_user.svc';
 import { AssociateSvc } from '../com_services/associate.svc';
 import { LocationSvc } from '../com_services/location.svc';
 import { DepartmentSvc } from '../com_services/department.svc';
@@ -62,7 +61,6 @@ export class SkillSetComponent{
 
   constructor(
       private curUserSvc: CurrentUserSvc,
-      private useSvc: Set_UserSvc,
       private assSvc: AssociateSvc,
       private locSvc: LocationSvc,
       private depSvc: DepartmentSvc,
