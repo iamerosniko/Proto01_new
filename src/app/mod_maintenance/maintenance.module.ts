@@ -22,6 +22,8 @@ import { DepartmentSkillsetsSvc } from '../com_services/dept_skillset.svc';
 import { AssociateDepartmentSkillsetsSvc } from '../com_services/assoc_dept_skillset.svc';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalModule } from 'ngx-bootstrap'
+
+import {SkillsetModule} from '../mod_skillset/skillset.module'
 @NgModule({
   //components area
   declarations: [
@@ -31,6 +33,7 @@ import { ModalModule } from 'ngx-bootstrap'
   ],
   //module area
   imports: [
+    SkillsetModule,
     ModalModule.forRoot(),
     BrowserModule,HttpModule,CommonModule,FormsModule,CommonCompModule,
     MaintenanceRouting,NgxPaginationModule

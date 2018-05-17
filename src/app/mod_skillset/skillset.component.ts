@@ -1,6 +1,6 @@
 import { 
   Component, 
-  OnInit,ViewChild
+  OnInit,ViewChild,Input
 } from '@angular/core';
 import { 
   FormBuilder, 
@@ -36,6 +36,8 @@ import { ModalDirective } from 'ngx-bootstrap';
 })
 
 export class SkillSetComponent{
+  @Input() currentUserName:string;
+
   private dateToday: Date;
   private currentUser: User=new User('','','','','');
   private associates: Associate[];
@@ -85,8 +87,14 @@ export class SkillSetComponent{
   async getDependencies() {
     this.associates = await this.assSvc.getAssociates();//
     //this.users = await this.useSvc.getSet_Users();
-    this.currentUser = await this.curUserSvc.getSignedInUser();
-    this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(this.currentUser.UserName);
+    if(this.currentUserName==null){
+
+      this.currentUser = await this.curUserSvc.getSignedInUser();
+      this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(this.currentUser.UserName);
+    }
+    else{
+      this.currentUser= await this.curUserSvc.GetUserRolesFromBtam(this.currentUserName);
+    }
     // this.currentUser = await this.curUserSvc.GetUserRolesFromBtam("alverer@mfcgd.com");
     this.locations = await this.locSvc.getLocations();
     this.activeLocations = await this.locations.filter(x=>x.IsActive==true);
@@ -106,11 +114,10 @@ export class SkillSetComponent{
 
   //TEMPLATE: this will run functions in order
   async runFunctions() {
-    
+    await this.getDependencies();    
     this.departmentSkillsetDBOs = await [];
     this.skillsetCheck = await {};
     this.dateToday = await new Date();
-    await this.getDependencies();
     await this.getCurrentUserData();
     await this.filterDataList();
     await this.prepareDBO();
@@ -394,6 +401,7 @@ export class SkillSetComponent{
   }
 
   ngOnInit(): void {
+    console.log(this.currentUserName)
     if(localStorage.getItem('AuthToken')!=null){
       this.runFunctions();
     }

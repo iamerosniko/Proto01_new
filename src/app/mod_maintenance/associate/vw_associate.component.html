@@ -3,11 +3,18 @@
         <div class="col-md-12">
             <!--tool bar-->
             <div class="row">
-                <a href="#" class="btn btn-primary btn-sm" data-toggle="tab" data-target="#asc_editor"><i class="fa fa-plus"></i>&nbsp;New Record</a>
+                <button [disabled]="loading" href="#" class="btn btn-primary btn-sm" data-toggle="tab" data-target="#asc_editor"><i class="fa fa-plus"></i>&nbsp;New Record</button>
             </div>
             <br />
             <!--table-->
-            <div class="row">
+            <div *ngIf="associates.length==0 && loading==false">
+                no associates found
+            </div>
+            <div *ngIf="associates.length==0 && loading==true">
+                getting associate items
+                <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>
+            </div>
+            <div *ngIf="associates.length>0 && loading==false" class="row">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover input-sm">
                         <thead>
@@ -127,23 +134,11 @@
                 </div>
             </div>
             <br />
-            <!-- <div class="row" *ngIf="mode==1" >
-                <label class="col-md-2 control-label">Is Active</label>
-                <div class="col-md-4">
-                    <label class="switch">
-                        <input type="checkbox" [(ngModel)]="associate.IsActive" />
-                        <div class="slider round"></div>
-                    </label>
-                    <br />
-                </div>
-            </div> -->
         </div>
-        <!-- <div class="save-bar">
-           <save-bar [buttonMode]="mode" (triggerParentFunc)="saveAssociate()"></save-bar>
-        </div> -->
     </div>
 </div>
 
+<skillset *ngIf="mode==1"  [currentUserName]="getUserName()"></skillset>
 
 <a [hidden]="true" id="assocModalbtn" data-toggle="modal" data-backdrop="static"  href='#assocmodal-id'>Trigger modal</a>
 <div class="modal fade" id="assocmodal-id">

@@ -42,6 +42,7 @@ export class VWAssociateComponent implements OnInit {
   ){
 
   }
+  loading:boolean=false;
   p: number = 1;
   // set_Users:Set_User[]=[];
   users:User[]=[];
@@ -56,16 +57,23 @@ export class VWAssociateComponent implements OnInit {
     this.cleanUp();
   }
   
+  getUserName():string{
+    return this.users.find(x=>x.UserID== this.associate.UserID).UserName
+  }
+
   async getDependencies(){
+    this.loading= await true;
     this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.locations = await this.locationSvc.getLocations();
     this.departments = await this.departmentSvc.getDepartments();
     this.associates = await this.associateSvc.getAssociates();
+    this.loading=false;
   }
 
   getActiveDepartments():Department[]{
     let tempDept:Department[]=this.departments.filter(x=>x.IsActive==true);
     return tempDept;
+
   }
 
   getActiveLocations():Location[]{
@@ -138,6 +146,7 @@ export class VWAssociateComponent implements OnInit {
   }
 
   cleanUp(){
+    this.associates=[];
     this.getDependencies();
     this.associate=new Associate();
   }

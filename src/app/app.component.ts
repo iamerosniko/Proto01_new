@@ -149,7 +149,7 @@ export class AppComponent  implements OnDestroy{
   async getSignedInUser(){
     //original
     var user = await this.curUserSvc.getSignedInUser();
-    // var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     
     this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName);    
     var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);

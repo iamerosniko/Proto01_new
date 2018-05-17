@@ -126,9 +126,9 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  ngOnInit(){
+  async ngOnInit(){
     if(localStorage.getItem('AuthToken')!=null){
-      this.getDependencies()
+      await this.getDependencies()
       .then(()=>{
           if(this.users!=null){
             this.removeInactive().then(()=>{
@@ -149,10 +149,11 @@ export class SearchComponent implements OnInit {
   async getDependencies(){
     this.associates = await this.associateSvc.getAssociates();
     this.locations = await this.locationSvc.getLocations();
+    this.locations=await this.locations.filter(x=>x.IsActive==true);
     this.departments = await this.departmentSvc.getDepartments();
-    // this.set_Users = await this.setUserSvc.getSet_Users();
     this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.skillsets=await this.skillsetSvc.getSkillsets();
+    this.removeInactive();
   }
   
   async removeInactive(){
