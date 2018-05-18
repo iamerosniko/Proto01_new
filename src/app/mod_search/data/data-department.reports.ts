@@ -28,7 +28,7 @@ export class DataDepartmentReport {
 
     async getDepartmentReport(departmentID:number,locationID:number,dateFrom:Date,dateTo:Date):Promise<DepartmentRpt>{
         var department:Department=await this.skillsetRptSvc.getDepartment(departmentID);
-        var departmentRpt:DepartmentRpt=new DepartmentRpt('',[]);
+        var departmentRpt:DepartmentRpt=new DepartmentRpt('',null,[]);
         var departmentSkillsets:DepartmentSkillsets1[]=[];
         var associateDepartmentSkillsets:AssociateDepartmentSkillset[]=[];        
         var associates:Associate[]=[];
@@ -63,6 +63,7 @@ export class DataDepartmentReport {
         }
 
         departmentRpt.Department=await department.DepartmentDescr;
+        departmentRpt.DepartmentID=await department.DepartmentID;
         return new Promise<DepartmentRpt>((resolve) =>             
             resolve(departmentRpt)
         );

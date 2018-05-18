@@ -43,10 +43,10 @@ export class DataSkillsetReport {
         var mm = myDate.getMonth()+1; //January is 0!
 
         var yyyy = myDate.getFullYear();
+        dateStr+=((mm<10)?'0'+mm.toString():mm.toString()) + '/';
 
         dateStr+=((dd<10)?'0'+dd.toString():dd.toString()) + '/';
-        dateStr+=(mm<10)?'0'+mm.toString():mm.toString();
-        dateStr+='/'+yyyy.toString();
+        dateStr+=yyyy.toString();
 
         return dateStr;
     }
@@ -91,8 +91,15 @@ export class DataSkillsetReport {
             associateDetails.UpdatedOn= this.getDateString(new Date(associate.UpdatedOn));
             associateDetails.assocId=await associate.AssociateID;
             
-            (associate.LocationID==locationID  && 
-            (new Date(associate.UpdatedOn)>=dateFrom&&new Date(associate.UpdatedOn)<=dateTo)) ? this.associates.push(associateDetails): null;
+            (
+                associate.LocationID==locationID  && 
+                (
+                    (
+                        new Date(associate.UpdatedOn)>=dateFrom &&
+                        new Date(associate.UpdatedOn)<=dateTo) ||
+                        (dateFrom==null&&dateTo==null)
+                )
+                ) ? this.associates.push(associateDetails): null;
 
             associateDetails=new AssociateDetails('','','','','','',0);
             assocDeptSkillsets=assocDeptSkillsets.filter(x=>x.AssociateID!=assocDeptSkillset.AssociateID);

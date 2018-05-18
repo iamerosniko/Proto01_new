@@ -66,6 +66,9 @@ export class SearchComponent implements OnInit {
   isPrintReady:boolean=false;
   isRunReportReady:boolean=true;
 
+  isLoadingResources:boolean=true;
+  
+
   async print(){
     //determine if ie or chrome
     var ua = window.navigator.userAgent;
@@ -139,6 +142,7 @@ export class SearchComponent implements OnInit {
             this.router.navigate(['/noaccess']);
           }
       });
+      this.isLoadingResources=false;
     }
     else{
       window.location.assign("/")
@@ -153,6 +157,7 @@ export class SearchComponent implements OnInit {
     this.departments = await this.departmentSvc.getDepartments();
     this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.skillsets=await this.skillsetSvc.getSkillsets();
+    
     this.removeInactive();
   }
   
@@ -238,7 +243,8 @@ export class SearchComponent implements OnInit {
   compareDate():boolean{
     let result:boolean=false;
     result=(this.dateFrom==null||this.dateTo==null) 
-      ? (alert('Two Dates are Required'),false) 
+      ? (true) 
+      // ? (alert('Two Dates are Required'),false) 
       : (this.dateFrom>this.dateTo) 
         ? (alert('Date From is later than Date to.'),false) 
         : true;
@@ -252,7 +258,7 @@ export class SearchComponent implements OnInit {
     :(this.selectedItems.length==0)
       ? (alert('Please choose filter first.'),false)
       : true
-
+    
     return result;
   }
 

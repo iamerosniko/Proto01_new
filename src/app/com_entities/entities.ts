@@ -186,6 +186,7 @@ export class SkillsetRpt {
 export class DepartmentRpt{
     constructor(
         public Department?:string,
+        public DepartmentID?:number,
         public AssociateRpts?:AssociateRpt[]
     ){
 

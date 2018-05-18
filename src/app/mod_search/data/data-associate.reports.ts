@@ -41,9 +41,10 @@ export class DataAssociateReport {
 
         var yyyy = myDate.getFullYear();
 
+        dateStr+=((mm<10)?'0'+mm.toString():mm.toString()) + '/';
+
         dateStr+=((dd<10)?'0'+dd.toString():dd.toString()) + '/';
-        dateStr+=(mm<10)?'0'+mm.toString():mm.toString();
-        dateStr+='/'+yyyy.toString();
+        dateStr+=yyyy.toString();
 
         return dateStr;
     }
@@ -80,7 +81,7 @@ export class DataAssociateReport {
         this.associateReport.Associate.UpdatedOn= await this.getDateString(new Date(associate.UpdatedOn));
         
         return new Promise<AssociateRpt>((resolve) =>       
-            (new Date(associate.UpdatedOn)>=dateFrom&&new Date(associate.UpdatedOn)<=dateTo) ?       
+            (new Date(associate.UpdatedOn)>=dateFrom&&new Date(associate.UpdatedOn)<=dateTo) || (dateFrom==null&&dateTo==null)?       
             resolve(this.associateReport) :
             resolve(null)
         );
@@ -120,7 +121,7 @@ export class DataAssociateReport {
         this.associateReport.Associate.VPN=await associate.VPN?'Yes':'No';
         this.associateReport.Associate.UpdatedOn= this.getDateString(new Date(associate.UpdatedOn));
         return new Promise<AssociateRpt>((resolve) =>             
-            (new Date(associate.UpdatedOn)>=dateFrom&&new Date(associate.UpdatedOn)<=dateTo) ?       
+            (new Date(associate.UpdatedOn)>=dateFrom&&new Date(associate.UpdatedOn)<=dateTo)||(dateFrom==null&&dateTo==null) ?       
             resolve(this.associateReport) :
             resolve(null)
         );

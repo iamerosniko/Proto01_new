@@ -38,7 +38,7 @@
                                 <td>{{getStatus(x.VPN)}}</td>
                                 <td>{{getDepartmentName(x.DepartmentID)}}</td>
                                 <td>{{getLocationName(x.LocationID)}}</td>
-                                <td>{{x.UpdatedOn | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{x.UpdatedOn | date: 'MM/dd/yyyy'}}</td>
                                 <!-- <td>{{getStatus(x.IsActive)}}</td> -->
                                 <td>
                                     <div class="btn-group">
@@ -126,14 +126,14 @@
                     </select>
                 </div>
             </div>
-            <br />
+            <!-- <br />
             <div class="row" *ngIf="mode==1">
                 <label class="col-md-2 control-label">Updated On</label>
                 <div class="col-md-4">
-                    <input value="{{associate.UpdatedOn | date: 'dd/MM/yyyy'}}" readonly type="text" class="form-control input-sm" />
+                    <input value="{{associate.UpdatedOn }}" readonly type="text" class="form-control input-sm" />
                 </div>
             </div>
-            <br />
+            <br /> -->
         </div>
     </div>
 </div>

@@ -1,4 +1,11 @@
-<div class="col-md-12">
+<div class ="col-md-12" *ngIf="isLoadingResources">
+    <br />
+    <br />
+    <br />
+    <br />
+    <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>Loading Reports Resources
+</div>
+<div class="col-md-12" *ngIf="!isLoadingResources">
     <div class="row">
         <div class="col-md-12">
             <h3>Search</h3>
@@ -93,7 +100,7 @@
                     <label class="control-label">Date From</label>
                     <br />
                     <md-input-container>  
-                        <input style="background-color:white;" mdInput readonly [mdDatepicker]="picker1" [(ngModel)]="dateFrom">
+                        <input style="background-color:white;" mdInput  [mdDatepicker]="picker1" [(ngModel)]="dateFrom">
                         <button mdSuffix [mdDatepickerToggle]="picker1"></button>
                     </md-input-container>   
                     <md-datepicker #picker1></md-datepicker>
@@ -105,7 +112,7 @@
                     <label class="control-label">Date To</label>
                     <br />
                     <md-input-container> 
-                        <input  style="background-color:white;" mdInput readonly [mdDatepicker]="picker2" [(ngModel)]="dateTo" >
+                        <input  style="background-color:white;" mdInput  [mdDatepicker]="picker2" [(ngModel)]="dateTo" >
                         <button mdSuffix [mdDatepickerToggle]="picker2" (disabled)="dateFrom==null"> </button>
                     </md-input-container>    
                     <md-datepicker #picker2 (disabled)="dateFrom==null"></md-datepicker>
@@ -129,20 +136,24 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="radioSelect==0 ">
-                <search-associate [associate]="asoc" *ngFor="let asoc of associateRpt"></search-associate>
+            <div>
+                <div *ngIf="radioSelect==0 ">
+                    <search-associate [associate]="asoc" *ngFor="let asoc of associateRpt"></search-associate>
+                </div>
+                <div *ngIf="radioSelect==1" >
+                    <search-skillset [skillsetRpt]="skills" *ngFor="let skills of skillsetRpt"></search-skillset>
+                </div>
+                <div *ngIf="radioSelect==2" >
+                    <search-department 
+                        [departmentRpt]="deps" [locationID]="selectedLocation"
+                        [dateFrom]="dateFrom" [dateTo]="dateTo"
+                        *ngFor="let deps of departmentRpt"></search-department>
+                </div>
+                <div *ngIf="radioSelect==3">
+                    <search-lastworkedon [lastTimeWorkedOnRpt]="ltw" *ngFor="let ltw of lastTimeWorkedOnRpt"> </search-lastworkedon>
+                </div>
             </div>
-            <div *ngIf="radioSelect==1" >
-                <!--<search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>-->
-                <search-skillset [skillsetRpt]="skills" *ngFor="let skills of skillsetRpt"></search-skillset>
-            </div>
-            <div *ngIf="radioSelect==2" >
-                <search-department [departmentRpt]="deps" *ngFor="let deps of departmentRpt"></search-department>
-                <!--<search-associate [associate]="x" *ngFor="let x of associateRpt"></search-associate>-->
-            </div>
-            <div *ngIf="radioSelect==3">
-                <search-lastworkedon [lastTimeWorkedOnRpt]="ltw" *ngFor="let ltw of lastTimeWorkedOnRpt"> </search-lastworkedon>
-            </div>
+            
             <iframe id="txtArea1" style="display:none"></iframe>
         </div>
     </div>
