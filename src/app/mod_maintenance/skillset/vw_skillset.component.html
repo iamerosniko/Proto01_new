@@ -17,7 +17,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="skillsets.length>0 && loading==false">
                             <tr *ngFor="let ss of skillsets | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <td>{{ss.SkillsetDescr}}</td>
                                 <!-- <td>{{getStatus(ss.IsActive)}}</td> -->
@@ -30,6 +30,13 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div *ngIf="skillsets.length==0 && loading==true">
+                    Getting SKills
+                    <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>
+                </div>
+                <div *ngIf="skillsets.length==0 && loading==false">
+                    No Skills Found
                 </div>
             </div>
             <!--pagination-->

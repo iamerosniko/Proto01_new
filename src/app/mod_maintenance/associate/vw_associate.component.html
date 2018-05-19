@@ -7,14 +7,7 @@
             </div>
             <br />
             <!--table-->
-            <div *ngIf="associates.length==0 && loading==false">
-                no associates found
-            </div>
-            <div *ngIf="associates.length==0 && loading==true">
-                getting associate items
-                <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>
-            </div>
-            <div *ngIf="associates.length>0 && loading==false" class="row">
+            <div class="row">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover input-sm">
                         <thead>
@@ -30,7 +23,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="associates.length>0 && loading==false" >
                             <tr *ngFor="let x of associates | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <!--<td>{{x.AssociateID}}</td>-->
                                 <td>{{getFullName(x.UserID)}}</td>
@@ -49,6 +42,14 @@
                             </tr>
                         </tbody>
                     </table>
+                    
+                </div>
+                <div *ngIf="associates.length==0 && loading==true">
+                    Getting Associates
+                    <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>
+                </div>
+                <div *ngIf="associates.length==0 && loading==false">
+                    No Associates Found
                 </div>
             </div>
             <!--pagination-->

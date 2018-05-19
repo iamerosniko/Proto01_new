@@ -18,7 +18,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="locations.length>0 && loading==false">
                             <tr *ngFor="let loc of locations | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <!--<td>{{loc.LocationID}}</td>-->
                                 <td>{{loc.LocationDescr}}</td>
@@ -32,6 +32,13 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div *ngIf="locations.length==0 && loading==true">
+                    Getting Locations
+                    <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>
+                </div>
+                <div *ngIf="locations.length==0 && loading==false">
+                    No Locations Found
                 </div>
             </div>
             <!--pagination-->

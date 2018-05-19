@@ -18,11 +18,12 @@ export class VWDepartmentSkillsComponent implements OnInit {
     private departmentSkillsetSvc:DepartmentSkillsetsSvc,
     private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc
   ){
-    this.getDepartments();
   }
   ngOnInit(){
     this.getDepartments();
   }
+
+  loading:boolean=false;
   p: number = 1;
   //department combobox
   checkallValue:boolean;
@@ -57,6 +58,8 @@ export class VWDepartmentSkillsComponent implements OnInit {
     this.delDepartmentSkillsets=[];
     // console.log('getSkillsets')
     //reset checkall
+    this.loading=true;
+    
     this.checkallValue=false;
     //1. get skillsets
     this.skillsets=await this.skillsetSvc.getSkillsets();
@@ -78,7 +81,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
     this.getDepartmentSkillsets(deptID).then(()=>{
       this.compareSelectedSkillsets();
     });
-    
+    this.loading=false;    
   }
   //step3
   async getDepartmentSkillsets(deptID:number){

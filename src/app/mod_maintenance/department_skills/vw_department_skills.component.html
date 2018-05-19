@@ -32,7 +32,7 @@
                                 <th class="col-md-11">Skill</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="selectedSkillsets.length>0 && loading==false">
                             <tr *ngFor="let x of selectedSkillsets | paginate: { itemsPerPage: 10, currentPage: p }" >
                                 <td><input [id]="x.departmentSkillset.SkillsetID" [(ngModel)]="x.IsSelected" type="checkbox" class="css-checkbox med"><label [attr.for]="x.departmentSkillset.SkillsetID" class="css-label med elegant"></label></td>
                                 <td>{{x.SkillsetDescr}}</td>
@@ -40,12 +40,19 @@
                         </tbody>
                     </table>
                 </div>
+                <div *ngIf="selectedSkillsets.length==0 && loading==true">
+                    Getting Associated Skills from 
+                    <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>
+                </div>
+                <div *ngIf="selectedSkillsets.length==0 && selectedDepartmentID!=-1 && loading==false">
+                    No Skills found. Please add a skill first on the maintenance.
+                </div>
             </div>
         </div>
         <div class="row">
-                
+            
         </div>
-        <div class="col-md-6 text-center">
+        <div class="col-md-6 text-center" *ngIf="selectedDepartmentID!=-1 ">
             <div class="row">
                 <pagination-controls (pageChange)="p = $event"></pagination-controls>
             </div>
@@ -53,7 +60,7 @@
     </div>
     
 </div>
-<div class="save-bar">
+<div class="save-bar" *ngIf="selectedDepartmentID!=-1 ">
     <!--save bar component here-->
     <save-bar [buttonMode]="0" (triggerParentFunc)="saveDepartmentSkillset()" ></save-bar>
 </div>

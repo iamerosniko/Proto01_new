@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit {
 
   }
   @ViewChild('assocRpt') el:ElementRef;
-  radioSelect:number=0;
+  radioSelect:number=-1;
   selectedLocation:number=-1;
   public yourVariableName: any=[];
   //initial collection
@@ -131,17 +131,13 @@ export class SearchComponent implements OnInit {
 
   async ngOnInit(){
     if(localStorage.getItem('AuthToken')!=null){
-      await this.getDependencies()
-      .then(()=>{
-          if(this.users!=null){
-            this.removeInactive().then(()=>{
-                this.getItems();
-            });
-          }
-          else{
-            this.router.navigate(['/noaccess']);
-          }
-      });
+      await this.getDependencies();
+      if(this.users!=null){
+        await this.getItems();
+      }
+      else{
+        this.router.navigate(['/noaccess'])
+      }
       this.isLoadingResources=false;
     }
     else{
@@ -153,7 +149,6 @@ export class SearchComponent implements OnInit {
   async getDependencies(){
     this.associates = await this.associateSvc.getAssociates();
     this.locations = await this.locationSvc.getLocations();
-    this.locations=await this.locations.filter(x=>x.IsActive==true);
     this.departments = await this.departmentSvc.getDepartments();
     this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.skillsets=await this.skillsetSvc.getSkillsets();
@@ -269,6 +264,5 @@ export class SearchComponent implements OnInit {
   //ng2-select on select
   public refreshValue(value:any):void {
     this.selectedItems = value;
-  }
- 
+  } 
 }

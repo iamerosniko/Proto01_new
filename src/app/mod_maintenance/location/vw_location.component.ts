@@ -29,6 +29,8 @@ export class VWLocationComponent {
   constructor(private locSvc:LocationSvc){
     this.goBack();
   }
+  loading:boolean=false;
+  
   p: number = 1;
   location : Location = new Location(0,'',true);
   locations: Location[] = [];
@@ -95,6 +97,9 @@ export class VWLocationComponent {
   }
   
   async getLocations(){
+    this.loading= await true;
     this.locations=(await this.locSvc.getLocations()).filter(x=>x.IsActive==true);
+    this.loading=await false;
+    
   }
 }

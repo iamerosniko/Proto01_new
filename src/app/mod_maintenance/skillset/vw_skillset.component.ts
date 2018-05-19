@@ -34,6 +34,7 @@ export class VWSkillsetComponent {
     private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc){
     this.goBack();
   }
+  loading:boolean=false;
   p: number = 1;
   skillset : Skillset = new Skillset(0,'',true);
   skillsets: Skillset[] = [];
@@ -43,7 +44,6 @@ export class VWSkillsetComponent {
   message:string="";
 
   newDetails(){
-    document.getElementById("txt").focus();
     this.skillset=new Skillset(0,'',true);
   }
 
@@ -130,7 +130,9 @@ export class VWSkillsetComponent {
   }
 
   async getskillsets(){
+    this.loading = true;
     this.skillsets=(await this.skillsetSvc.getSkillsets()).filter(x=>x.IsActive==true);
+    this.loading = false;
   }
   async getDepartmentSkillsets(){
     this.departmentSkillsets = await this.departmentSkillsetSvc.getDepartmentSkillsets();

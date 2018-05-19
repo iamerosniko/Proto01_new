@@ -34,6 +34,7 @@ export class VWDepartmentComponent {
     private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc){
     this.goBack();
   }
+  loading:boolean=false;
   
   p: number = 1;
   department : Department = new Department(0,'',true);
@@ -91,12 +92,12 @@ export class VWDepartmentComponent {
     // console.log('done deleting associateDepartmentSkillset');
   }
 
-  goBack(){
+  async goBack(){
     this.mode=0;
     this.getDepartments();
     this.getDepartmentSkillsets();
     this.getAssociateDepartmentSkillsets();
-    this.department=new Department(0,'',true);
+    this.department=new Department(0,'',true);   
   }
 
   async saveDepartment(){
@@ -127,7 +128,9 @@ export class VWDepartmentComponent {
   }
 
   async getDepartments(){
+    this.loading=await true;
     this.departments=(await this.deptSvc.getDepartments()).filter(x=>x.IsActive==true);
+    this.loading=await false;
   }
 
   async getDepartmentSkillsets(){
