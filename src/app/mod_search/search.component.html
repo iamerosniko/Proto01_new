@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9" id="assocRpt" #assocRpt>
+        <div class="col-md-9">
             <!--report content here-->
             <!--<div class="report-content"></div>-->
             <div class="col-md-12">
@@ -161,9 +161,35 @@
                     </div>
                 </div>
             </div>
+            <br />
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="pull-right">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
             <div>
                 <div *ngIf="radioSelect==0 ">
-                    <search-associate [associate]="asoc" *ngFor="let asoc of associateRpt"></search-associate>
+                    <search-associate [associate]="asoc" *ngFor="let asoc of associateRpt | paginate: { itemsPerPage: 1, currentPage: p }"></search-associate>
+                </div>
+                <div *ngIf="radioSelect==1" >
+                    <search-skillset [skillsetRpt]="skills" *ngFor="let skills of skillsetRpt | paginate: { itemsPerPage: 1, currentPage: p }"></search-skillset>
+                </div>
+                <div *ngIf="radioSelect==2" >
+                    <search-department 
+                        [departmentRpt]="deps" [locationID]="selectedLocation"
+                        [dateFrom]="dateFrom" [dateTo]="dateTo"
+                        *ngFor="let deps of departmentRpt | paginate: { itemsPerPage: 1, currentPage: p }"></search-department>
+                </div>
+                <div *ngIf="radioSelect==3">
+                    <search-lastworkedon [lastTimeWorkedOnRpt]="ltw" *ngFor="let ltw of lastTimeWorkedOnRpt | paginate: { itemsPerPage: 1, currentPage: p }" > </search-lastworkedon>
+                </div>
+            </div>
+            <div id="assocRpt" #assocRpt hidden>
+                <div *ngIf="radioSelect==0 ">
+                    <search-associate [associate]="asoc" *ngFor="let asoc of associateRpt "></search-associate>
                 </div>
                 <div *ngIf="radioSelect==1" >
                     <search-skillset [skillsetRpt]="skills" *ngFor="let skills of skillsetRpt"></search-skillset>
@@ -175,10 +201,9 @@
                         *ngFor="let deps of departmentRpt"></search-department>
                 </div>
                 <div *ngIf="radioSelect==3">
-                    <search-lastworkedon [lastTimeWorkedOnRpt]="ltw" *ngFor="let ltw of lastTimeWorkedOnRpt"> </search-lastworkedon>
+                    <search-lastworkedon [lastTimeWorkedOnRpt]="ltw" *ngFor="let ltw of lastTimeWorkedOnRpt " > </search-lastworkedon>
                 </div>
             </div>
-            
             <iframe id="txtArea1" style="display:none"></iframe>
         </div>
     </div>

@@ -28,6 +28,7 @@ import { DataDepartmentReport } from './data/data-department.reports';
 import { DataLastworkedonReport } from './data/data-lastworkedon.reports';
 import { MaterialModule,MdDatepickerModule,MdNativeDateModule
    } from '@angular/material';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 //material
 @NgModule({
@@ -47,7 +48,7 @@ import { MaterialModule,MdDatepickerModule,MdNativeDateModule
   imports: [
     BrowserModule,BrowserAnimationsModule,HttpModule,CommonModule,FormsModule,
     SelectModule,MaterialModule,
-    MdNativeDateModule,
+    MdNativeDateModule,NgxPaginationModule,
     SearchRouting
   ],
   //services area

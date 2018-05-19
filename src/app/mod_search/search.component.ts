@@ -41,6 +41,8 @@ export class SearchComponent implements OnInit {
   ){
 
   }
+  p: number = 1;
+  
   @ViewChild('assocRpt') el:ElementRef;
   radioSelect:number=-1;
   selectedLocation:number=-1;
