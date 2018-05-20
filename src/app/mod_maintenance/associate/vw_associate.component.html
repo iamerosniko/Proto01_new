@@ -4,11 +4,13 @@
             <!--tool bar-->
             <div class="row">
                 <button [disabled]="loading" href="#" class="btn btn-primary btn-sm" data-toggle="tab" data-target="#asc_editor"><i class="fa fa-plus"></i>&nbsp;New Record</button>
+                <button [disabled]="loading" href="#" class="btn btn-primary btn-sm" (click)="exportAssociates()" ><i class="fa fa-file-excel-o"></i>&nbsp;Export Associate</button>
             </div>
             <br />
             <!--table-->
             <div class="row">
                 <div class="table-responsive">
+                    Number of Associates : {{associates.length}}
                     <table class="table table-bordered table-striped table-hover input-sm">
                         <thead>
                             <tr>

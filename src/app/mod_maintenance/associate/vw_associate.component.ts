@@ -3,9 +3,8 @@ import { Set_User, Associate, Department, Location, User } from '../../com_entit
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { LocationSvc } from '../../com_services/location.svc';
-// import { Set_UserSvc } from '../../com_services/set_user.svc';
 import { CurrentUserSvc } from '../../com_services/currentuser.svc';
-
+import { ExcelService } from '../../com_services/excel.service';
  
 @Component({
   moduleId: module.id,
@@ -37,8 +36,8 @@ export class VWAssociateComponent implements OnInit {
     private associateSvc:AssociateSvc,
     private departmentSvc:DepartmentSvc,
     private locationSvc:LocationSvc,
-    private currentUserSvc : CurrentUserSvc
-    // private setUserSvc:Set_UserSvc
+    private currentUserSvc : CurrentUserSvc,
+    private excelService: ExcelService
   ){
 
   }
@@ -188,5 +187,20 @@ export class VWAssociateComponent implements OnInit {
   goBack(){
     this.mode=0;
     this.cleanUp();
+  }
+
+  exportAssociates(){
+    var toExport:any[]=[];
+    this.associates.forEach(element => {
+      var assoc = {"Associate":element.FullName,
+        "VPN" : element.VPN?'Yes':'No',
+        "Location" : this.getLocationName(element.LocationID),
+        "Department":this.getDepartmentName(element.DepartmentID),
+        "Phone Number":element.PhoneNumber, 
+      }
+      toExport=toExport.concat(assoc);
+    });
+
+    this.excelService.exportAsExcelFile(toExport, "Associates");          
   }
 }
