@@ -2,27 +2,31 @@
     <div id="dep_skill_default" class="tab-pane fade in active">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="row">
                         <label class="control-label col-md-3">Department</label>
-                        <div class="col-md-7">
+                        <div class="col-md-6">
                             <select (change)="getSkillSets(selectedDepartmentID)" class="form-control input-sm" [(ngModel)]="selectedDepartmentID">
                                 <option value="-1" disabled selected> Select Department </option>
                                 <option *ngFor="let x of departments" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
                             </select>
                             <br />
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <button disabled (click)="getSkillSets(selectedDepartmentID)" style="cursor: default;" class="btn btn-primary btn-sm">
                                 <i class="fa fa-search"></i>
                             </button>
-                            <br />
+                        </div>
+                        <div class="col-md-1">    
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fa fa-file-excel-o"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="row">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover input-sm">
@@ -34,14 +38,14 @@
                         </thead>
                         <tbody *ngIf="selectedSkillsets.length>0 && loading==false">
                             <tr *ngFor="let x of selectedSkillsets | paginate: { itemsPerPage: 10, currentPage: p }" >
-                                <td><input [id]="x.departmentSkillset.SkillsetID" [(ngModel)]="x.IsSelected" type="checkbox" class="css-checkbox med"><label [attr.for]="x.departmentSkillset.SkillsetID" class="css-label med elegant"></label></td>
+                                <td><input [id]="x.departmentSkillset.SkillsetID" (change)="isModified=true;" [(ngModel)]="x.IsSelected" type="checkbox" class="css-checkbox med"><label [attr.for]="x.departmentSkillset.SkillsetID" class="css-label med elegant"></label></td>
                                 <td>{{x.SkillsetDescr}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div *ngIf="selectedSkillsets.length==0 && loading==true">
-                    Getting Associated Skills from 
+                    Getting Associated Skills from {{getDepartmentName(selectedDepartmentID)}}
                     <span class="fa fa-cog fa-spin fa-3x fa-fw col-md-offset-4 col-md-1 "></span>
                 </div>
                 <div *ngIf="selectedSkillsets.length==0 && selectedDepartmentID!=-1 && loading==false">

@@ -22,7 +22,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
   ngOnInit(){
     this.getDepartments();
   }
-
+  isModified:boolean=false;
   loading:boolean=false;
   p: number = 1;
   //department combobox
@@ -50,15 +50,19 @@ export class VWDepartmentSkillsComponent implements OnInit {
   async getAssociateDepartmentSkillsets(){
     this.associateDepartmentSkillset = await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
   }
+
+
   //step2
   async getSkillSets(deptID:number){
+    this.loading=await true;
+    this.isModified=await false;
+    this.selectedSkillsets=[];
     this.tempDepartmentSkillsets=[];
     this.newDepartmentSkillsets=[];
     this.departmentSkillsets=[];
     this.delDepartmentSkillsets=[];
     // console.log('getSkillsets')
     //reset checkall
-    this.loading=true;
     
     this.checkallValue=false;
     //1. get skillsets
@@ -201,6 +205,10 @@ export class VWDepartmentSkillsComponent implements OnInit {
           // console.log('failed')
         });
     }
+  }
+
+  getDepartmentName(departmentID:number){
+    return this.departments.find(x=>x.DepartmentID==departmentID).DepartmentDescr
   }
 
   async deleteAssociateDepartmentSkillset(ads:AssociateDepartmentSkillset[]){
