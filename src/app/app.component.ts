@@ -111,7 +111,7 @@ export class AppComponent  implements OnDestroy{
       this.idleTimeoutCount++;
       this.idleState = 'Your Session has timed out.';
       this.timedOut = true;
-      localStorage.clear();
+      sessionStorage.clear();
       document.getElementById('sessiontimeout').click();
     });
     
@@ -160,8 +160,8 @@ export class AppComponent  implements OnDestroy{
     // console.log(authenticationToken);
     // console.log(authorizationToken);
 
-    localStorage.setItem("AuthToken",authenticationToken.Token);
-    localStorage.setItem("ApiToken", authorizationToken.Token);
+    sessionStorage.setItem("AuthToken",authenticationToken.Token);
+    sessionStorage.setItem("ApiToken", authorizationToken.Token);
   }
 
   async checkIfAuthenticated(){
@@ -171,7 +171,7 @@ export class AppComponent  implements OnDestroy{
       await this.checkIfAuthenticated();
     }
     
-    if(localStorage.getItem('AuthToken')==''){
+    if(sessionStorage.getItem('AuthToken')==''){
       await this.routeOnly('noaccess');
     }
     else{

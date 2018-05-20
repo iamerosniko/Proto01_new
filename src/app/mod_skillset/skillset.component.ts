@@ -402,7 +402,7 @@ export class SkillSetComponent{
 
   ngOnInit(): void {
     console.log(this.currentUserName)
-    if(localStorage.getItem('AuthToken')!=null){
+    if(sessionStorage.getItem('AuthToken')!=null){
       this.runFunctions();
     }
     else{

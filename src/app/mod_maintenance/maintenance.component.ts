@@ -11,7 +11,7 @@ export class MaintenanceComponent implements OnInit {
     this.router.navigate(['/maintenance', {outlets: {'maintenance-route': [path]}}]);
   }
   ngOnInit(){
-    if(localStorage.getItem('AuthToken')!=null){
+    if(sessionStorage.getItem('AuthToken')!=null){
       
       this.goView("Locations");
     }

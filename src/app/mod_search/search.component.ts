@@ -132,7 +132,7 @@ export class SearchComponent implements OnInit {
   }
 
   async ngOnInit(){
-    if(localStorage.getItem('AuthToken')!=null){
+    if(sessionStorage.getItem('AuthToken')!=null){
       await this.getDependencies();
       if(this.users!=null){
         await this.getItems();
