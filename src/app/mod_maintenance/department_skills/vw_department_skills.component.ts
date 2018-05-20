@@ -6,6 +6,8 @@ import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_s
 import { Department,Skillset,
   DepartmentSkillsets,SelectedSkillset,
   DepartmentSkillsets1,AssociateDepartmentSkillset } from '../../com_entities/entities';
+import { ExcelService } from '../../com_services/excel.service';
+  
 @Component({
   moduleId: module.id,
   selector: 'vw-dept',
@@ -16,7 +18,8 @@ export class VWDepartmentSkillsComponent implements OnInit {
     private deptSvc:DepartmentSvc,
     private skillsetSvc:SkillsetSvc,
     private departmentSkillsetSvc:DepartmentSkillsetsSvc,
-    private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc
+    private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc,
+    private excelService: ExcelService
   ){
   }
   ngOnInit(){
@@ -209,6 +212,21 @@ export class VWDepartmentSkillsComponent implements OnInit {
 
   getDepartmentName(departmentID:number){
     return this.departments.find(x=>x.DepartmentID==departmentID).DepartmentDescr
+  }
+
+  exportSkills(){
+    if(!this.isModified){
+      var toExport:any[]=[];
+      var selectedSkills = this.selectedSkillsets.filter(x=>x.IsSelected==true);
+      (selectedSkills).forEach(el => {
+        var tempskill = {'Skills':el.SkillsetDescr }
+        toExport=toExport.concat(tempskill); 
+      });
+      this.excelService.exportAsExcelFile(toExport, this.getDepartmentName(this.selectedDepartmentID));    
+    }
+    else{
+      alert('Please save your changes first');
+    }
   }
 
   async deleteAssociateDepartmentSkillset(ads:AssociateDepartmentSkillset[]){

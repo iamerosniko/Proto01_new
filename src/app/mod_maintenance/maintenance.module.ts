@@ -23,7 +23,9 @@ import { AssociateDepartmentSkillsetsSvc } from '../com_services/assoc_dept_skil
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ModalModule } from 'ngx-bootstrap'
 
-import {SkillsetModule} from '../mod_skillset/skillset.module'
+import {SkillsetModule} from '../mod_skillset/skillset.module';
+import { ExcelService } from '../com_services/excel.service';
+
 @NgModule({
   //components area
   declarations: [
@@ -40,6 +42,7 @@ import {SkillsetModule} from '../mod_skillset/skillset.module'
   ],
   //services area
   providers: [
+    ExcelService,
     LocationSvc,DepartmentSvc,SkillsetSvc,AssociateSvc,
     DepartmentSkillsetsSvc,AssociateDepartmentSkillsetsSvc
   ],
