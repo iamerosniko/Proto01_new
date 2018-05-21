@@ -10,6 +10,7 @@ import { AppRouting } from './app.routing';
 // import { AppService } from './app.svc';EROS: i comment out this line because this is for simulation purposes only
 
 import { MyTokenSvc } from './com_services/mytoken.svc';
+import { BTAMSvc } from './com_services/btam.svc.';
 import { SkillsetModule } from './mod_skillset/skillset.module';
 import { SearchModule } from './mod_search/search.module';
 import { MaintenanceModule } from './mod_maintenance/maintenance.module';
@@ -36,7 +37,7 @@ import { LoadItemsComponent } from './mod_common/load-items/load-items.component
     // TestExportModule,
   ],
   //services area
-  providers: [MyTokenSvc
+  providers: [MyTokenSvc,BTAMSvc
   ],
   //initial component to be rendered
   bootstrap: [AppComponent]

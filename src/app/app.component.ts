@@ -13,6 +13,7 @@ import { Jsonp } from '@angular/http/src/http';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Observable } from 'rxjs/Observable'
 import { setTimeout } from 'timers';
+import { BTAMSvc } from './com_services/btam.svc.';
 
 @Component({
   selector: 'app-root',
@@ -82,7 +83,8 @@ export class AppComponent  implements OnDestroy{
     private route:ActivatedRoute,
     private location: Location,
     private myTokenSvc : MyTokenSvc,
-    private idle: Idle
+    private idle: Idle,
+    private btamSvc:BTAMSvc
   ){
     
     this.router.events.debounceTime(1000).subscribe(
@@ -149,8 +151,13 @@ export class AppComponent  implements OnDestroy{
   async getSignedInUser(){
     //original
     var user = await this.curUserSvc.getSignedInUser();
-    var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    // var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     
+    
+    var btamURL=await this.btamSvc.getBTAMURL();
+    console.log(btamURL);
+    sessionStorage.setItem("BTAM_URL",btamURL.BTAMURL)
+
     this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName);    
     var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);
     var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);

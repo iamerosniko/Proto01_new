@@ -243,3 +243,7 @@ export class SignedInUser{
         public Role:string,
     ){}
 }
+
+export interface BTAM {
+    BTAMURL?:string
+}

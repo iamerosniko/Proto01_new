@@ -1,0 +1,11 @@
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\bin\Debug\netcoreapp2.0\SkillsetAPI.deps.json
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\bin\Debug\netcoreapp2.0\SkillsetAPI.runtimeconfig.json
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\bin\Debug\netcoreapp2.0\SkillsetAPI.runtimeconfig.dev.json
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\bin\Debug\netcoreapp2.0\SkillsetAPI.dll
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\bin\Debug\netcoreapp2.0\SkillsetAPI.pdb
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Debug\netcoreapp2.0\SkillsetAPI.csprojResolveAssemblyReference.cache
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Debug\netcoreapp2.0\SkillsetAPI.csproj.CoreCompileInputs.cache
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Debug\netcoreapp2.0\SkillsetAPI.AssemblyInfoInputs.cache
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Debug\netcoreapp2.0\SkillsetAPI.AssemblyInfo.cs
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Debug\netcoreapp2.0\SkillsetAPI.dll
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SkillsetAPI\obj\Debug\netcoreapp2.0\SkillsetAPI.pdb

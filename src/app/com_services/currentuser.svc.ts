@@ -11,33 +11,12 @@ export class CurrentUserSvc {
         'Pragma': 'no-cache',
         'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
     });
-    // private apiUrl = 'api/CurrentUser';
-    //private apiUrl = 'https://skillsetazureuat.azurewebsites.net/api/CurrentUser';
-    //private apiUrl = 'https://skillsetazure.azurewebsites.net/api/CurrentUser';
     private apiUrl ="";
 
     constructor(private http: Http){}
 
-    // async getCurrentUser(): Promise<User> {
-    //     this.apiUrl = AppSettings.CURRENT_URL + 'CurrentUsers';
-    //     return this.http
-    //     .get(this.apiUrl, {headers: this.headers})
-    //     .toPromise()
-    //     .then(response => response.json())
-    //     .catch(AppSettings.HANDLEERROR);
-    // }
-
     async getSignedInUser(): Promise<User> {
         this.apiUrl = AppSettings.CURRENT_URL + "Claims/SignedInUserName";
-        return this.http
-        .get(this.apiUrl,{headers:this.headers})
-        .toPromise()
-        .then(response => response.json())
-        .catch(AppSettings.HANDLEERROR);
-    }
-
-    async getValues(): Promise<any> {
-        this.apiUrl = AppSettings.CURRENT_URL + "values";
         return this.http
         .get(this.apiUrl,{headers:this.headers})
         .toPromise()
@@ -55,7 +34,8 @@ export class CurrentUserSvc {
     }
 
     async GetUserRolesFromBtam(username : string):Promise<User>{
-        this.apiUrl=AppSettings.BTAM_URL+"AppSignIn";
+        this.apiUrl=sessionStorage.getItem("BTAM_URL")+"AppSignIn";
+        console.log(sessionStorage.getItem("BTAM_URL"));
         // var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
         var appSignIn = { "AppURL":"skillsetclient.azurewebsites.net","UserName":username }
 
@@ -67,7 +47,7 @@ export class CurrentUserSvc {
     }
 
     async GetUserInAppFromBtam():Promise<User[]>{
-        this.apiUrl=AppSettings.BTAM_URL+"GetUsersInApp";
+        this.apiUrl=sessionStorage.getItem("BTAM_URL")+"GetUsersInApp";
         // var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
         var appSignIn = { "AppURL":"skillsetclient.azurewebsites.net" }
 
@@ -79,7 +59,7 @@ export class CurrentUserSvc {
     }
 
     async GetAuthenticationTokenFromBtam(user : User):Promise<MyToken>{
-        this.apiUrl=AppSettings.BTAM_URL+"Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
+        this.apiUrl=sessionStorage.getItem("BTAM_URL")+"Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
         //this.apiUrl = "http://localhost:49475/api/SingleSignIn/Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
         // this.apiUrl = "http://btaccessmanagementbw-dev.azurewebsites.net/api/SingleSignIn/Authenticate/77fee2aa-d346-4f48-aeff-73b4254f1b3a";
     
