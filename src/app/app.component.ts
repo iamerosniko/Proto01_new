@@ -152,10 +152,7 @@ export class AppComponent  implements OnDestroy{
     //original
     var user = await this.curUserSvc.getSignedInUser();
     // var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
-    
-    
     var btamURL=await this.btamSvc.getBTAMURL();
-    console.log(btamURL);
     sessionStorage.setItem("BTAM_URL",btamURL.BTAMURL)
 
     this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName);    

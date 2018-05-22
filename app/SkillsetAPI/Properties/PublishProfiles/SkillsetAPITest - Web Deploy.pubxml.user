@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAGtL90gdKMEemz0OLwsI7FgAAAAACAAAAAAADZgAAwAAAABAAAAAV9Q5thUXWkMFlV6wjRu2EAAAAAASAAACgAAAAEAAAAK3zQZb/xp23g5w/zUhWMneAAAAAo3Fl+vEDghQrmM8NZzRCU5DcG7qFbscA8DXrjwIH9GpuiEpZhC9JnLW1SnRjBnPzNEBGLyrawbE8R1J0SAspg/khizNMcfIR+RaOeVGRgJjE+ussLhBco1LFoeHPWvbPmjQrM7h4kk468+qexVA26XQYGCraYpGBvDxkKlVBg1kUAAAAltuIEvSP/PrGJVC8e8iGQeb69ko=</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="dbbtSSetp1ConnectionString">
+      <Value>Data Source=jhas-azure-db-dev.database.windows.net;Initial Catalog=SkillsetAPI_DEV;User Id=biztech;Password=$k1ll$3T</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="SkillsetAPI.Entities.SkillSetContext">
+      <Value>Data Source=jhas-azure-db-dev.database.windows.net;Initial Catalog=SkillsetAPI_DEV;User Id=biztech;Password=$k1ll$3T</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

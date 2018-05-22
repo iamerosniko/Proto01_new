@@ -84,7 +84,7 @@ namespace SkillsetAPI
       app.UseAuthentication();
 
       //This is for Seeding comment this when ading migration, comment this out when creating new migration
-      skillSetContext.EnsureSeedDataForContext();
+      // skillSetContext.EnsureSeedDataForContext();
 
       AutoMapper.Mapper.Initialize(
               cfg =>
