@@ -10,7 +10,6 @@ namespace SkillsetClient.Controllers.FrontEnd
     public BTAMEntity Get()
     {
       return new BTAMEntity { BTAMURL = Startup.Configuration["BTAMURL"] };
-
     }
   }
 
