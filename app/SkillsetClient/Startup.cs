@@ -33,10 +33,10 @@ namespace SkillsetClient
       })
        .AddOpenIdConnect(options =>
        {
-         options.Authority = "https://login.microsoftonline.com/mfc.onmicrosoft.com";
-         options.ClientId = "51ef9e59-683b-49bc-96c6-4ec76609f88d";
+         options.Authority = Configuration["ADAUTH:Authority"];
+         options.ClientId = Configuration["ADAUTH:ClientID"];
          options.ResponseType = OpenIdConnectResponseType.IdToken;
-         options.CallbackPath = "/signin-oidc";
+         options.CallbackPath = Configuration["ADAUTH:Callback"];
          //options.CallbackPath = "/.auth/login/aad/callback";
        })
        .AddCookie();

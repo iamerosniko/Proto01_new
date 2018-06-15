@@ -30,4 +30,8 @@ export class SearchAssociateComponent implements OnInit {
       }
     }
   }
+  
+  getStatus(status:string):string {
+    return status=="true" ? "Yes" : "No";
+  }
 }

@@ -7,7 +7,7 @@
           <th class="col-md-1">Location:</th>
           <td class="col-md-2">{{assoc.Associate.Location}}</td><!--location-->
           <th class="col-md-1">VPN</th>
-          <td class="col-md-2">{{assoc.Associate.VPN}}</td><!--vpn-->
+          <td class="col-md-2">{{getStatus(assoc.Associate.VPN)}}</td><!--vpn-->
           <th class="col-md-3">Last updated on {{ assoc.Associate.UpdatedOn }}</th><!--last updated date-->
         </tr>
         <tr>

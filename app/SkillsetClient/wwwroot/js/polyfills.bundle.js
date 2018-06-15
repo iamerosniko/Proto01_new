@@ -1327,7 +1327,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 /***/ "../../../../core-js/modules/_core.js":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.0' };
+var core = module.exports = { version: '2.5.7' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -1893,7 +1893,6 @@ var LIBRARY = __webpack_require__("../../../../core-js/modules/_library.js");
 var $export = __webpack_require__("../../../../core-js/modules/_export.js");
 var redefine = __webpack_require__("../../../../core-js/modules/_redefine.js");
 var hide = __webpack_require__("../../../../core-js/modules/_hide.js");
-var has = __webpack_require__("../../../../core-js/modules/_has.js");
 var Iterators = __webpack_require__("../../../../core-js/modules/_iterators.js");
 var $iterCreate = __webpack_require__("../../../../core-js/modules/_iter-create.js");
 var setToStringTag = __webpack_require__("../../../../core-js/modules/_set-to-string-tag.js");
@@ -1931,7 +1930,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
       // Set @@toStringTag to native iterators
       setToStringTag(IteratorPrototype, TAG, true);
       // fix for some old engines
-      if (!LIBRARY && !has(IteratorPrototype, ITERATOR)) hide(IteratorPrototype, ITERATOR, returnThis);
+      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
     }
   }
   // fix Array#{values, @@iterator}.name in V8 / FF
@@ -2005,23 +2004,6 @@ module.exports = function (done, value) {
 /***/ (function(module, exports) {
 
 module.exports = {};
-
-
-/***/ }),
-
-/***/ "../../../../core-js/modules/_keyof.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getKeys = __webpack_require__("../../../../core-js/modules/_object-keys.js");
-var toIObject = __webpack_require__("../../../../core-js/modules/_to-iobject.js");
-module.exports = function (object, el) {
-  var O = toIObject(object);
-  var keys = getKeys(O);
-  var length = keys.length;
-  var index = 0;
-  var key;
-  while (length > index) if (O[key = keys[index++]] === el) return key;
-};
 
 
 /***/ }),
@@ -2716,12 +2698,18 @@ module.exports = function (key) {
 /***/ "../../../../core-js/modules/_shared.js":
 /***/ (function(module, exports, __webpack_require__) {
 
+var core = __webpack_require__("../../../../core-js/modules/_core.js");
 var global = __webpack_require__("../../../../core-js/modules/_global.js");
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
-module.exports = function (key) {
-  return store[key] || (store[key] = {});
-};
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: __webpack_require__("../../../../core-js/modules/_library.js") ? 'pure' : 'global',
+  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+});
 
 
 /***/ }),
@@ -3440,7 +3428,7 @@ $export($export.P + $export.F * __webpack_require__("../../../../core-js/modules
     var start = toAbsoluteIndex(begin, len);
     var upTo = toAbsoluteIndex(end, len);
     var size = toLength(upTo - start);
-    var cloned = Array(size);
+    var cloned = new Array(size);
     var i = 0;
     for (; i < size; i++) cloned[i] = klass == 'String'
       ? this.charAt(start + i)
@@ -4892,9 +4880,11 @@ function set(target, propertyKey, V /* , receiver */) {
   }
   if (has(ownDesc, 'value')) {
     if (ownDesc.writable === false || !isObject(receiver)) return false;
-    existingDescriptor = gOPD.f(receiver, propertyKey) || createDesc(0);
-    existingDescriptor.value = V;
-    dP.f(receiver, propertyKey, existingDescriptor);
+    if (existingDescriptor = gOPD.f(receiver, propertyKey)) {
+      if (existingDescriptor.get || existingDescriptor.set || existingDescriptor.writable === false) return false;
+      existingDescriptor.value = V;
+      dP.f(receiver, propertyKey, existingDescriptor);
+    } else dP.f(receiver, propertyKey, createDesc(0, V));
     return true;
   }
   return ownDesc.set === undefined ? false : (ownDesc.set.call(receiver, V), true);
@@ -5566,10 +5556,10 @@ var uid = __webpack_require__("../../../../core-js/modules/_uid.js");
 var wks = __webpack_require__("../../../../core-js/modules/_wks.js");
 var wksExt = __webpack_require__("../../../../core-js/modules/_wks-ext.js");
 var wksDefine = __webpack_require__("../../../../core-js/modules/_wks-define.js");
-var keyOf = __webpack_require__("../../../../core-js/modules/_keyof.js");
 var enumKeys = __webpack_require__("../../../../core-js/modules/_enum-keys.js");
 var isArray = __webpack_require__("../../../../core-js/modules/_is-array.js");
 var anObject = __webpack_require__("../../../../core-js/modules/_an-object.js");
+var isObject = __webpack_require__("../../../../core-js/modules/_is-object.js");
 var toIObject = __webpack_require__("../../../../core-js/modules/_to-iobject.js");
 var toPrimitive = __webpack_require__("../../../../core-js/modules/_to-primitive.js");
 var createDesc = __webpack_require__("../../../../core-js/modules/_property-desc.js");
@@ -5730,9 +5720,9 @@ $export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
       : SymbolRegistry[key] = $Symbol(key);
   },
   // 19.4.2.5 Symbol.keyFor(sym)
-  keyFor: function keyFor(key) {
-    if (isSymbol(key)) return keyOf(SymbolRegistry, key);
-    throw TypeError(key + ' is not a symbol!');
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
+    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
   },
   useSetter: function () { setter = true; },
   useSimple: function () { setter = false; }
@@ -5762,15 +5752,14 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
   return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
 })), 'JSON', {
   stringify: function stringify(it) {
-    if (it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
     var args = [it];
     var i = 1;
     var replacer, $replacer;
     while (arguments.length > i) args.push(arguments[i++]);
-    replacer = args[1];
-    if (typeof replacer == 'function') $replacer = replacer;
-    if ($replacer || !isArray(replacer)) replacer = function (key, value) {
-      if ($replacer) value = $replacer.call(this, key, value);
+    $replacer = replacer = args[1];
+    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+    if (!isArray(replacer)) replacer = function (key, value) {
+      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
       if (!isSymbol(value)) return value;
     };
     args[1] = replacer;

@@ -26,4 +26,8 @@ export class SearchDepartmentComponent implements OnInit {
     }
   }
 
+  getStatus(status:boolean){
+    return status ? "Yes" : "No";
+  }
+
 }

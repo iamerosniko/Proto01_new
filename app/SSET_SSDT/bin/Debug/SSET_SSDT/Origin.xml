@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DacOrigin xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <PackageProperties>
+    <Version>3.0.0.0</Version>
+    <ContainsExportedData>false</ContainsExportedData>
+    <StreamVersions>
+      <Version StreamName="Data">2.0.0.0</Version>
+      <Version StreamName="DeploymentContributors">1.0.0.0</Version>
+    </StreamVersions>
+  </PackageProperties>
+  <Operation>
+    <Identity>6ca731e0-4569-42e2-a0af-c59235aefb24</Identity>
+    <Start>2018-06-14T10:55:22.4137191-04:00</Start>
+    <End>2018-06-14T10:55:22.9149289-04:00</End>
+    <ProductName>Microsoft.Data.Tools.Schema.Tasks.Sql, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</ProductName>
+    <ProductVersion>15.1.61710.120</ProductVersion>
+    <ProductSchema>http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02</ProductSchema>
+  </Operation>
+  <Checksums>
+    <Checksum Uri="/model.xml">2B015FA4D1BFA218E405198FA55F03771DA472FAEF6826FDBC40B7F5E7E7EF83</Checksum>
+  </Checksums>
+  <ModelSchemaVersion>2.4</ModelSchemaVersion>
+</DacOrigin>

@@ -12,4 +12,8 @@ export class AssociateSkillsComponent implements OnInit {
   ngOnInit() {
   }
 
+  getStatus(status:string):string {
+    return status=="true" ? "Yes" : "No";
+  }
+
 }

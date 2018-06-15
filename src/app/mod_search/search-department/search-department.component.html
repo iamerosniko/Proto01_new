@@ -27,7 +27,7 @@
                             <tr *ngFor="let x of associates">
                                 <td>{{x.FullName}}</td>
                                 <td>{{x.PhoneNumber}}</td>
-                                <td>{{x.VPN}}</td>
+                                <td>{{getStatus(x.VPN)}}</td>
                                 <td>{{x.UpdatedOn | date: 'MM/dd/yyyy'}}</td>
                             </tr>
                         </tbody>
