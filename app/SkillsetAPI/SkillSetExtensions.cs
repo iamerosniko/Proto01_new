@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 using SkillsetAPI.Entities;
-using System;
+using SkillsetAPI.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,100 +10,55 @@ namespace SkillsetAPI
 
   public static class SkillSetExtensions
   {
-    public static void EnsureSeedDataForContext(this SkillSetContext ctx)
+    private static IHostingEnvironment _hostingEnvironment;
+    private static string _skills = "/Initializer/Skills.json";
+    private static string _departments = "/Initializer/Departments.json";
+    private static string _departmentSkillsets = "/Initializer/DepartmentSkillsets.json";
+    public static void EnsureSeedDataForContext(this SkillSetContext ctx, IHostingEnvironment hostingEnvironment)
     {
-      SeedAssociate(ctx);
-      SeedDepartment(ctx);
-      SeedLocation(ctx);
+      _hostingEnvironment = hostingEnvironment;
       SeedSkillset(ctx);
+      SeedDepartment(ctx);
       SeedDepartmentSkillsets(ctx);
-      SeedAssociateSeedDepartmentSkillsets(ctx);
     }
 
-    private static void SeedAssociate(SkillSetContext ctx)
+    private static void SeedDepartmentSkillsets(SkillSetContext ctx)
     {
-      if (ctx.Associates.Any())
+      if (ctx.DepartmentSkillsets.Any())
       {
         return;
       }
 
-      var associates = new List<Associate>()
-                    {
-                        new Associate()
-                        {
-                            FullName = "Federico Sarmiento",
-                            UserID = "USER-20150428-001",
-                            PhoneNumber = "22-88-7584",
-                            VPN = true,
-                            DepartmentID = 1,
-                            LocationID = 1,
-                            UpdatedOn = new DateTime(2017,04,28,19,05,40),
-                            IsActive = true
-                        },
-                        new Associate()
-                        {
-                            FullName = "Erso Alvarez",
-                            UserID = "USER-20171128-002",
-                            PhoneNumber = "22-88-7584",
-                            VPN = true,
-                            DepartmentID = 1,
-                            LocationID = 1,
-                            UpdatedOn = new DateTime(2015,11,28,19,05,40),
-                            IsActive = true
-                        }
-                    };
-
-      ctx.Associates.AddRange(associates);
-      ctx.SaveChanges();
-    }
-
-    private static void SeedDepartment(SkillSetContext ctx)
-    {
-      if (ctx.Departments.Any())
+      List<Skillset> skills = ctx.Skillsets.ToList();
+      List<Department> departments = ctx.Departments.ToList();
+      List<DepartmentSkillset> departmentSkillsets = new List<DepartmentSkillset>();
+      List<DepartmentSkillsetsSeedDTO> ds = getDepartmentSkillsets();
+      foreach (var dSkills in ds)
       {
-        return;
+        DepartmentSkillset tempDS = new DepartmentSkillset();
+        Department tempDept = departments.Find(x => x.DepartmentDescr == dSkills.DepartmentDescr);
+        if (tempDept != null)
+        {
+          foreach (var mySkill in dSkills.Skills)
+          {
+            Skillset tempSkill = skills.Find(x => x.SkillsetDescr == mySkill);
+            if (tempSkill != null)
+            {
+              tempDS.SkillsetID = tempSkill.SkillsetID;
+              departmentSkillsets.Add(new DepartmentSkillset
+              {
+                DepartmentID = tempDept.DepartmentID,
+                SkillsetID = tempSkill.SkillsetID
+              });
+            }
+            tempSkill = null;
+          }
+        }
+        //loop skills here then add to context
+
+
       }
-
-      var departments = new List<Department>()
-                    {
-                        new Department()
-                        {
-                            DepartmentDescr = "Admin",
-                            IsActive = true
-                        },
-                        new Department()
-                        {
-                            DepartmentDescr = "Marketing",
-                            IsActive = true
-                        }
-                    };
-
-      ctx.Departments.AddRange(departments);
-      ctx.SaveChanges();
-    }
-
-    private static void SeedLocation(SkillSetContext ctx)
-    {
-      if (ctx.Locations.Any())
-      {
-        return;
-      }
-
-      var locations = new List<Location>()
-                    {
-                        new Location()
-                        {
-                            LocationDescr = "Boston",
-                            IsActive = true
-                        },
-                        new Location()
-                        {
-                            LocationDescr = "Toronto",
-                            IsActive = true
-                        }
-                    };
-
-      ctx.Locations.AddRange(locations);
+      ctx.DepartmentSkillsets.AddRange(departmentSkillsets);
       ctx.SaveChanges();
     }
 
@@ -112,73 +69,54 @@ namespace SkillsetAPI
         return;
       }
 
-      var skillsets = new List<Skillset>()
-                    {
-                        new Skillset()
-                        {
-                            SkillsetDescr = "Windows",
-                            IsActive = true
-                        },
-                        new Skillset()
-                        {
-                            SkillsetDescr = "Linux",
-                            IsActive = true
-                        }
-                    };
-
-      ctx.Skillsets.AddRange(skillsets);
-      ctx.SaveChanges();
+      if (ctx.Skillsets.Count() == 0)
+      {
+        List<Skillset> skills = getSkills();
+        ctx.Skillsets.AddRange(skills);
+        ctx.SaveChanges();
+      }
     }
 
-    private static void SeedDepartmentSkillsets(SkillSetContext ctx)
+    private static void SeedDepartment(SkillSetContext ctx)
     {
-      if (ctx.DepartmentSkillsets.Any())
+      if (ctx.Departments.Any())
       {
         return;
       }
 
-      var departmentSkillsets = new List<DepartmentSkillset>()
-                    {
-                        new DepartmentSkillset()
-                        {
-                            DepartmentID = 1,
-                            SkillsetID = 1
-                        },
-                        new DepartmentSkillset()
-                        {
-                            DepartmentID = 2,
-                            SkillsetID = 2
-                        }
-                    };
-      ctx.DepartmentSkillsets.AddRange(departmentSkillsets);
-      ctx.SaveChanges();
+      if (ctx.Departments.Count() == 0)
+      {
+        List<Department> depts = getDepartments();
+        ctx.Departments.AddRange(depts);
+        ctx.SaveChanges();
+      }
     }
 
-    private static void SeedAssociateSeedDepartmentSkillsets(SkillSetContext ctx)
+    private static List<Skillset> getSkills()
     {
-      if (ctx.AssociateDepartmentSkillsets.Any())
-      {
-        return;
-      }
+      string contentRootPath = _hostingEnvironment.ContentRootPath;
+      var jsonText = System.IO.File.ReadAllText(contentRootPath + _skills);
+      var data = JsonConvert.DeserializeObject<List<Skillset>>(jsonText);
+      return data;
+    }
 
-      var associateDepartmentSkillsets = new List<AssociateDepartmentSkillset>()
-                    {
-                        new AssociateDepartmentSkillset()
-                        {
-                            AssociateID = 1,
-                            DepartmentSkillsetID = 1,
-                            LastWorkedOn=""
-                        },
-                        new AssociateDepartmentSkillset()
-                        {
-                            AssociateID = 2,
-                            DepartmentSkillsetID = 2,
-                            LastWorkedOn=""
-                        }
-                    };
+    private static List<Department> getDepartments()
+    {
+      string contentRootPath = _hostingEnvironment.ContentRootPath;
+      var jsonText = System.IO.File.ReadAllText(contentRootPath + _departments);
+      var data = JsonConvert.DeserializeObject<List<Department>>(jsonText);
+      return data;
+    }
+    private static List<DepartmentSkillsetsSeedDTO> getDepartmentSkillsets()
+    {
+      string contentRootPath = _hostingEnvironment.ContentRootPath;
+      var jsonText = System.IO.File.ReadAllText(contentRootPath + _departmentSkillsets);
+      var data = JsonConvert.DeserializeObject<List<DepartmentSkillsetsSeedDTO>>(jsonText);
+      return data;
+    }
+    private static void pushDepartmentSkillset()
+    {
 
-      ctx.AssociateDepartmentSkillsets.AddRange(associateDepartmentSkillsets);
-      ctx.SaveChanges();
     }
   }
 }

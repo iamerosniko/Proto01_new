@@ -64,7 +64,7 @@ namespace SkillsetAPI
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, SkillSetContext skillSetContext)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, SkillSetContext skillSetContext, IHostingEnvironment hostingEnvironment)
     {
       if (env.IsDevelopment())
       {
@@ -79,9 +79,6 @@ namespace SkillsetAPI
       );
       //this is used for autherization
       //app.UseAuthentication();
-
-      //This is for Seeding comment this when ading migration, comment this out when creating new migration
-      // skillSetContext.EnsureSeedDataForContext();
 
       AutoMapper.Mapper.Initialize(
               cfg =>
@@ -110,6 +107,8 @@ namespace SkillsetAPI
         .CreateScope())
         {
           serviceScope.ServiceProvider.GetService<SkillSetContext>().Database.Migrate();
+          //This is for Seeding comment this when ading migration, comment this out when creating new migration
+          skillSetContext.EnsureSeedDataForContext(hostingEnvironment);
         }
       }
       catch (Exception ex)

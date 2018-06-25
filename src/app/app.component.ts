@@ -150,8 +150,8 @@ export class AppComponent  implements OnDestroy{
   //test
   async getSignedInUser(){
     //original
-    var user = await this.curUserSvc.getSignedInUser();
-    // var user ={UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    // var user = await this.curUserSvc.getSignedInUser();
+    var user ={UserID: "", UserName: "JHDBEMD@MFCGD.COM", FirstName: "", LastName: "", Role: "NoAccess"}
     var btamURL=await this.btamSvc.getBTAMURL();
     sessionStorage.setItem("BTAM_URL",btamURL.BTAMURL)
 
