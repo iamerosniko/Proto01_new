@@ -49,6 +49,21 @@ export class Associate {
     }
 }
 
+export interface AssTmp{
+
+    AssociateID?: number;
+    DepartmentID? : number;
+    IsActive? : Boolean;
+    LocationID? : number;
+    PhoneNumber? : string;
+    UpdatedOn? : Date;
+    UserID ?:string;
+    VPN? : Boolean;
+    FullName ?: string;
+}
+
+
+
 export class Department {
     constructor (
         public DepartmentID: number,//primary key

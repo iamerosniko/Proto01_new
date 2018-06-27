@@ -44,6 +44,14 @@ export class AssociateSvc {
             .catch(AppSettings.HANDLEERROR);
     }
 
+    postAssociates(entity: Associate[]):Promise<any>{
+        return this.http
+            .post(this.apiUrl+"/Bulk", JSON.stringify(entity), {headers: this.headers})
+            .toPromise()
+            .then(() => entity)
+            .catch(AppSettings.HANDLEERROR);
+    }
+
     putAssociate(entity: Associate): Promise<any> {
         const url = `${this.apiUrl}/${entity.AssociateID}`;
         return this.http

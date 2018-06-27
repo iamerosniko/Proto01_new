@@ -24,6 +24,7 @@ namespace SkillsetAPI.Services
     Associate ReadAssociate(int ascId);
 
     void CreateAssociate(Associate associate);
+    void CreateAssociates(List<Associate> associate);
 
     void DeleteAssociate(Associate associate);
 

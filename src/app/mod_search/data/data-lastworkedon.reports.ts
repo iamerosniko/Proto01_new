@@ -13,9 +13,9 @@ import { DataSkillsetReport } from './data-skillset.reports';
 import { Location,Department,Skillset,
   Associate,
   AssociateDepartmentSkillset,DepartmentSkillsets1,
-  AssociateRpt,DepartmentSkills, User,
+  User,
   //skillsetReport
-  SkillsetRpt,AssociateDetails,
+  SkillsetRpt,
   LastTimeWorkedOnRpt
 } from '../../com_entities/entities';
 

@@ -11,11 +11,11 @@ import { DataAssociateReport } from './data/data-associate.reports';
 import { DataSkillsetReport } from './data/data-skillset.reports';
 import { DataDepartmentReport } from './data/data-department.reports';
 import { DataLastworkedonReport } from './data/data-lastworkedon.reports';
-let jsPDF = require('jspdf');
+
 import 'hammerjs';
 //entities
 import { Location,Department,Skillset,
-  Associate,User,ng2Items,
+  Associate,User,
   AssociateRpt,SelectItem,
   SkillsetRpt,DepartmentRpt,LastTimeWorkedOnRpt
 } from '../com_entities/entities';
@@ -175,7 +175,6 @@ export class SearchComponent implements OnInit {
       let associates=this.associates.filter(x=>x.LocationID==this.selectedLocation);
       for(var i = 0; i<associates.length;i++){
         // var fullName=this.getFullName(associates[i].UserName);
-        var fullName=associates[i].FullName;
         this.items.push( { 'id': associates[i].AssociateID.toString(), 'text': associates[i].FullName});
       }
     }

@@ -63,6 +63,11 @@ namespace SkillsetAPI.Services
       _ctx.Associates.Add(associate);
     }
 
+    public void CreateAssociates(List<Associate> associates)
+    {
+      _ctx.Associates.AddRange(associates);
+    }
+
     public void DeleteAssociate(Associate associate)
     {
       _ctx.Associates.Remove(associate);

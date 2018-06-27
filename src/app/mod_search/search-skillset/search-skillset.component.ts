@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SkillsetRpt,AssociateDetails } from '../../com_entities/entities';
+import { SkillsetRpt } from '../../com_entities/entities';
 @Component({
   selector: 'search-skillset',
   templateUrl: './search-skillset.component.html',

@@ -1,16 +1,14 @@
 import { 
   Component, 
-  OnInit,ViewChild,Input
+  ViewChild,Input
 } from '@angular/core';
 import { 
   FormBuilder, 
   FormGroup, 
   Validators,
-  FormControl
 } from '@angular/forms';
 import {
   Associate,
-  Set_User,
   Location,
   Department,
   Skillset,

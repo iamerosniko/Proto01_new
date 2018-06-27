@@ -13,7 +13,6 @@ import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_s
 import { Location,Department,Skillset,
   Associate,User,
   AssociateDepartmentSkillset,DepartmentSkillsets1,
-  AssociateRpt,DepartmentSkills, 
   //skillsetReport
   SkillsetRpt,AssociateDetails
 } from '../../com_entities/entities';

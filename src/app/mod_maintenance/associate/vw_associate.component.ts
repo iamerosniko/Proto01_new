@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import { Set_User, Associate, Department, Location, User } from '../../com_entities/entities';
+import {  Associate, Department, Location, User , AssTmp} from '../../com_entities/entities';
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { LocationSvc } from '../../com_services/location.svc';
@@ -45,7 +45,7 @@ export class VWAssociateComponent implements OnInit {
   p: number = 1;
   // set_Users:Set_User[]=[];
   users:User[]=[];
-  associates:Associate[]=[];
+  associates:AssTmp[]=[];
   associate:Associate=new Associate();
   locations:Location[]=[];
   departments:Department[]=[];
@@ -65,14 +65,42 @@ export class VWAssociateComponent implements OnInit {
     this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.locations = await this.locationSvc.getLocations();
     this.departments = await this.departmentSvc.getDepartments();
-    this.associates = await this.associateSvc.getAssociates();
+    this.associates =<AssTmp[]> await this.associateSvc.getAssociates();
+    //update associates that is new in btam
+    await this.addAssociateToDefault();
     this.loading=false;
+  }
+
+  async addAssociateToDefault(){
+    var tempUsers:User[]=await this.users;
+    var tempAssoc:Associate[] = [];
+
+    this.associates.forEach(async assoc => {
+      tempUsers= tempUsers.filter(x=>x.UserID!=assoc.UserID);
+    });
+
+    tempUsers.forEach(async user => {
+      var assocTemp:AssTmp = {
+        DepartmentID:0,
+        FullName:user.FirstName+' '+user.LastName,
+        LocationID:0,
+        IsActive:true,
+        PhoneNumber:'0',
+        UserID:user.UserID,
+        UpdatedOn:new Date(),
+        VPN:false
+      }
+      tempAssoc.push( assocTemp);
+    });
+
+    var assocsBulkResult = tempUsers.length>0 ? await this.associateSvc.postAssociates(tempAssoc) : [];
+    this.associates = await [];
+    this.associates = await this.associateSvc.getAssociates();
   }
 
   getActiveDepartments():Department[]{
     let tempDept:Department[]=this.departments.filter(x=>x.IsActive==true);
     return tempDept;
-
   }
 
   getActiveLocations():Location[]{
@@ -89,21 +117,30 @@ export class VWAssociateComponent implements OnInit {
     return tempUsers;
   }
 
-
   getDepartmentName(id:number):string{
-    let department:Department = this.departments.find(x=>x.DepartmentID==id);
-    if(department.IsActive==false){
+    if(id==0){
       return "Department no longer active. Please Update Immediately"
     }
-    return department.DepartmentDescr;
+    else{
+      let department:Department = this.departments.find(x=>x.DepartmentID==id);
+      if(department.IsActive==false){
+        return "Department no longer active. Please Update Immediately"
+      }
+      else return department.DepartmentDescr;
+    }
   }
 
   getLocationName(id:number):string{
-    let location:Location = this.locations.find(x=>x.LocationID==id);
-    if(location.IsActive==false){
+    if(id==0){
       return "Location no longer active. Please Update Immediately"
     }
-    return location.LocationDescr;
+    else{
+      let location:Location = this.locations.find(x=>x.LocationID==id);
+      if(location.IsActive==false){
+        return "Location no longer active. Please Update Immediately"
+      }
+      else return location.LocationDescr;
+    }
   }
 
   getStatus(status:boolean):string{

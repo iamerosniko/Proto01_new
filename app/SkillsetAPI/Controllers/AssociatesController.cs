@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SkillsetAPI.Models;
 using SkillsetAPI.Services;
+using System.Collections.Generic;
 
 namespace SkillsetAPI.Controllers
 {
@@ -68,6 +69,31 @@ namespace SkillsetAPI.Controllers
 
       return CreatedAtRoute("GetAssociate",
               new { id = newAssociateEntity.AssociateID }, newAssociateEntity);
+    }
+
+    [HttpPost("Bulk")]
+    public IActionResult PostAssociates([FromBody] List<AssociateForCreateDTO> associates)
+    {
+      if (associates == null)
+      {
+        return BadRequest();
+      }
+
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      var newAssociatesEntity = Mapper.Map<List<Entities.Associate>>(associates);
+
+      _skillSetRepository.CreateAssociates(newAssociatesEntity);
+
+      if (!_skillSetRepository.Save())
+      {
+        return StatusCode(500, "A problem happened while handling your request.");
+      }
+
+      return CreatedAtRoute("GetAssociates", 0, newAssociatesEntity);
     }
 
     //PUT: api/Associates

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SkillsetClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,22 +50,22 @@ namespace SkillsetClient.Controllers
     }
 
     [HttpPost("Bulk")]
-    public async Task<List<SS_Associates>> BulkPost([FromBody]SS_Associates[] bodies)
+    public async Task<List<SS_Associates>> BulkPost([FromBody]List<SS_Associates> bodies)
     {
       _webApiAccess.AssignAuthorization(HttpContext.Session.GetString("apiToken"));
-      List<SS_Associates> assocs = new List<SS_Associates>();
+      _webApiAccess._apiURL += "/Bulk";
 
-      foreach (var body in bodies)
+      var content = JsonConvert.SerializeObject(bodies);
+      try
       {
-        var content = JsonConvert.SerializeObject(body);
         var result = await _webApiAccess.PostRequest(content);
-        if (result != null)
-        {
-          assocs.Add(JsonConvert.DeserializeObject<SS_Associates>(result.ToString()));
-        }
-      }
+        return JsonConvert.DeserializeObject<List<SS_Associates>>(result.ToString());
 
-      return assocs;
+      }
+      catch (Exception Ex)
+      {
+      }
+      return null;
     }
 
     // PUT: api/Associates/5

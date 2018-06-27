@@ -9,7 +9,7 @@ namespace SkillsetClient.Controllers
   [EnableCors("CORS")]
   public class ApiAccess
   {
-    private string _apiURL;
+    public string _apiURL;
     private string _apiToken;
     private HttpClient _client;
 

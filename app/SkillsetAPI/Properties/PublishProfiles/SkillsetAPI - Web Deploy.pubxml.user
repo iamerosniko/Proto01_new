@@ -10,12 +10,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <DestinationConnectionStrings Include="dbbtSSetp1ConnectionString">
-      <Value>Data Source=skillsetapidbserver.database.windows.net;Initial Catalog=SkillsetAPI_db;User Id=biztech;Password=BizT3chAzure</Value>
+      <Value>Data Source=jhas-azure-db-dev.database.windows.net;Initial Catalog=SkillsetAPI_DEV;User Id=biztech;Password=$k1ll$3T</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
   <ItemGroup>
     <EFMigrations Include="SkillsetAPI.Entities.SkillSetContext">
-      <Value>Data Source=skillsetapidbserver.database.windows.net;Initial Catalog=SkillsetAPI_db;User Id=biztech;Password=BizT3chAzure</Value>
+      <Value>Data Source=jhas-azure-db-dev.database.windows.net;Initial Catalog=SkillsetAPI_DEV;User Id=biztech;Password=$k1ll$3T</Value>
     </EFMigrations>
   </ItemGroup>
 </Project>

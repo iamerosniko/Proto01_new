@@ -2,7 +2,6 @@ import { NgModule }      from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { Ng2Datetime } from 'ng2-datetime-picker';
 import { HttpModule } from '@angular/http';
 import { NgIdleModule } from '@ng-idle/core';
 import { AppComponent } from './app.component';
