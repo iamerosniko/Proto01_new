@@ -35,7 +35,7 @@ export class CurrentUserSvc {
 
     async GetUserRolesFromBtam(username : string):Promise<User>{
         this.apiUrl=sessionStorage.getItem("BTAM_URL")+"AppSignIn";
-        console.log(sessionStorage.getItem("BTAM_URL"));
+        // console.log(sessionStorage.getItem("BTAM_URL"));
         // var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
         var appSignIn = { "AppURL":"skillsetclient.azurewebsites.net","UserName":username }
 

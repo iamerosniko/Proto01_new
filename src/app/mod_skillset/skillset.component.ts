@@ -399,7 +399,7 @@ export class SkillSetComponent{
   }
 
   ngOnInit(): void {
-    console.log(this.currentUserName)
+    // console.log(this.currentUserName)
     if(sessionStorage.getItem('AuthToken')!=null){
       this.runFunctions();
     }

@@ -172,7 +172,7 @@ export class VWAssociateComponent implements OnInit {
   async deleteAssociate(assoc:Associate){
     if(confirm("Are you sure you want to delete "+assoc.FullName+"?")){
       var associate = await this.associateSvc.DeleteAssociate(assoc.AssociateID);
-      console.log(associate);
+      // console.log(associate);
       if(associate!=null){
         this.message="Associate has been successfully deleted.";
         document.getElementById('assocModalbtn').click();
