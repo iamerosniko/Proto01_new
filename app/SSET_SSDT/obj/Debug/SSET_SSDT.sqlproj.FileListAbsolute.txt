@@ -1,9 +1,9 @@
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\bin\Debug\SSET_SSDT.dacpac
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\bin\Debug\SSET_SSDT.dll
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\bin\Debug\SSET_SSDT.pdb
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\SSET_SSDT.dll
+C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\SSET_SSDT.pdb
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\Model.xml
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\refactor.xml
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\postdeploy.sql
 C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\predeploy.sql
-C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\SSET_SSDT.dll
-C:\Users\alverer\Documents\GitHub\Proto01_new\app\SSET_SSDT\obj\Debug\SSET_SSDT.pdb

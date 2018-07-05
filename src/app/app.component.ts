@@ -59,26 +59,22 @@ export class AppComponent  implements OnDestroy{
   // currentUser: User= new User('','','','');
   currentUser: User= new User('','','','','');
   routeStr:string='';
-  private data: any;
-
   /*
     IDLE
     */
   public idleState = 'Not started.';
-  private timedOut = false;
-  private isIdle=false;
-  private idleEndCount = 0;
-  private idleStartCount = 0;
-  private idleTimeoutCount = 0;
-  private idleTimeoutWarningCount = 0;
+  public timedOut = false;
+  public isIdle=false;
+  public idleEndCount = 0;
+  public idleStartCount = 0;
+  public idleTimeoutCount = 0;
+  public idleTimeoutWarningCount = 0;
 
 
   constructor(
     private curUserSvc: CurrentUserSvc,
     private router: Router,
-    private route:ActivatedRoute,
     private location: Location,
-    private myTokenSvc : MyTokenSvc,
     private idle: Idle,
     private btamSvc:BTAMSvc
   ){

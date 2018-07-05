@@ -10,7 +10,7 @@ namespace SkillsetAPI.Entities
       //Database.EnsureCreated();
 
       //Comment below for using add-migration or changing the tables
-      //Database.Migrate();
+      Database.Migrate();
     }
 
     //public DbSet<SetUser> SetUsers { get; set; }

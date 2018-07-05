@@ -26,6 +26,11 @@ import { ModalModule } from 'ngx-bootstrap'
 import {SkillsetModule} from '../mod_skillset/skillset.module';
 import { ExcelService } from '../com_services/excel.service';
 
+import { 
+  MatDatepickerModule,
+  MatNativeDateModule,
+  // MaterialModule,MdDatepickerModule,MdNativeDateModule
+} from '@angular/material';
 @NgModule({
   //components area
   declarations: [
@@ -37,6 +42,8 @@ import { ExcelService } from '../com_services/excel.service';
   imports: [
     SkillsetModule,
     ModalModule.forRoot(),
+    MatDatepickerModule,
+    MatNativeDateModule,
     BrowserModule,HttpModule,CommonModule,FormsModule,CommonCompModule,
     MaintenanceRouting,NgxPaginationModule
   ],

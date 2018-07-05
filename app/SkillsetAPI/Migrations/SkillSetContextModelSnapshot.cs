@@ -37,6 +37,10 @@ namespace SkillsetAPI.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(20);
 
+                    b.Property<DateTime?>("StartDate");
+
+                    b.Property<DateTime?>("TransferDate");
+
                     b.Property<DateTime>("UpdatedOn");
 
                     b.Property<string>("UserID")

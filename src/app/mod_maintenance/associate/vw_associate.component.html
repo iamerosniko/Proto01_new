@@ -92,6 +92,7 @@
                     <span class="add" *ngIf="mode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
                     <span class="edit" *ngIf="mode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
                 </h4>
+                <h6 *ngIf="notUpdated" style="color: red">You cannot update their skillsets until department or location is not yet updated</h6>
             </div>
             <br />
             
@@ -123,7 +124,10 @@
                 </div>
                 <label class="col-md-2 control-label">Transfer Date</label>
                 <div class="col-md-4">
-                    <input value="{{associate.UpdatedOn | date: 'MM/dd/yyyy'}}" readonly type="text" class="form-control input-sm" />
+                    <input matInput [matDatepicker]="transferdate" placeholder="Choose a date"  class="col-md-10" [(ngModel)]="associate.TransferDate" >
+                        <mat-datepicker-toggle matSuffix [for]="transferdate" class="col-md-1"></mat-datepicker-toggle>
+                    <mat-datepicker #transferdate></mat-datepicker>
+                    <!-- <input value="{{associate.UpdatedOn | date: 'MM/dd/yyyy'}}" readonly type="text" class="form-control input-sm" /> -->
                 </div>
             </div>
             <br />
@@ -137,7 +141,12 @@
                 </div>
                 <label class="col-md-2 control-label">Start Date</label>
                 <div class="col-md-4">
-                    <input value="{{associate.UpdatedOn | date: 'MM/dd/yyyy'}}" readonly type="text" class="form-control input-sm" />
+                    
+                    <input matInput [matDatepicker]="startdate" placeholder="Choose a date"  class="col-md-10" [(ngModel)]="associate.StartDate" >
+                        <mat-datepicker-toggle matSuffix [for]="startdate" class="col-md-1"></mat-datepicker-toggle>
+                    <mat-datepicker #startdate></mat-datepicker>
+                    
+                    <!-- <input value="{{associate.UpdatedOn | date: 'MM/dd/yyyy'}}" readonly type="text" class="form-control input-sm" /> -->
                 </div>
             </div>
             <br />
@@ -159,7 +168,7 @@
     </div>
 </div>
 
-<skillset *ngIf="mode==1"  [currentUserName]="getUserName()"></skillset>
+<skillset *ngIf="mode==1 && !notUpdated"  [currentUserName]="getUserName()"></skillset>
 
 <a [hidden]="true" id="assocModalbtn" data-toggle="modal" data-backdrop="static"  href='#assocmodal-id'>Trigger modal</a>
 <div class="modal fade" id="assocmodal-id">

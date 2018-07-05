@@ -28,6 +28,9 @@ namespace SkillsetAPI.Entities
 
     public DateTime UpdatedOn { get; set; }
 
+    public DateTime? StartDate { get; set; }
+    public DateTime? TransferDate { get; set; }
+
     public bool IsActive { get; set; }
   }
 }

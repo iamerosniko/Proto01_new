@@ -50,7 +50,6 @@ export class Associate {
 }
 
 export interface AssTmp{
-
     AssociateID?: number;
     DepartmentID? : number;
     IsActive? : Boolean;
@@ -60,6 +59,8 @@ export interface AssTmp{
     UserID ?:string;
     VPN? : Boolean;
     FullName ?: string;
+    StartDate? : Date;
+    TransferDate? : Date;
 }
 
 

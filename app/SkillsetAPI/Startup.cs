@@ -55,7 +55,10 @@ namespace SkillsetAPI
       //Use for migration only, then comment all statement in DB context constructor
       //var connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=dbbtSSetp1;Trusted_Connection=True";
       //Use below in Production
-      var connectionString = Startup.Configuration["ConnectionStrings:dbbtSSetp1ConnectionString"];
+      //var connectionString = Startup.Configuration["ConnectionStrings:dbbtSSetp1ConnectionString"];
+
+      //dev
+      var connectionString = "Server=(localdb)\\mssqllocaldb;Database=dbbtSSetp1;Trusted_Connection=True;MultipleActiveResultSets=true";
 
       services.AddDbContext<SkillSetContext>(o => o.UseSqlServer(connectionString));
       //comment this out when creating new migration
@@ -85,17 +88,21 @@ namespace SkillsetAPI
               {
                 cfg.CreateMap<Models.AssociateForCreateDTO, Entities.Associate>()
                         .ForMember(dest => dest.UpdatedOn, opt => opt.MapFrom(o => DateTime.Now))
+                        .ForMember(dest => dest.StartDate, opt => opt.MapFrom(o => o.StartDate))
+                        .ForMember(dest => dest.TransferDate, opt => opt.MapFrom(o => o.TransferDate))
                         .ForMember(dest => dest.IsActive, opt => opt.MapFrom(o => true));
                 cfg.CreateMap<Models.AssociateForUpdateDTO, Entities.Associate>()
-                              .ForMember(dest => dest.UpdatedOn, opt => opt.MapFrom(o => DateTime.Now));
+                        .ForMember(dest => dest.UpdatedOn, opt => opt.MapFrom(o => DateTime.Now))
+                        .ForMember(dest => dest.StartDate, opt => opt.MapFrom(o => o.StartDate))
+                        .ForMember(dest => dest.TransferDate, opt => opt.MapFrom(o => o.TransferDate));
                 cfg.CreateMap<Models.DepartmentForCreateDTO, Entities.Department>()
-                              .ForMember(dest => dest.IsActive, opt => opt.MapFrom(o => true));
+                        .ForMember(dest => dest.IsActive, opt => opt.MapFrom(o => true));
                 cfg.CreateMap<Models.DepartmentForUpdateDTO, Entities.Department>();
                 cfg.CreateMap<Models.LocationForCreateDTO, Entities.Location>()
-                              .ForMember(dest => dest.IsActive, opt => opt.MapFrom(o => true));
+                        .ForMember(dest => dest.IsActive, opt => opt.MapFrom(o => true));
                 cfg.CreateMap<Models.LocationForUpdateDTO, Entities.Location>();
                 cfg.CreateMap<Models.SkillsetForCreateDTO, Entities.Skillset>()
-                              .ForMember(dest => dest.IsActive, opt => opt.MapFrom(o => true));
+                        .ForMember(dest => dest.IsActive, opt => opt.MapFrom(o => true));
                 cfg.CreateMap<Models.SkillsetForUpdateDTO, Entities.Skillset>();
                 cfg.CreateMap<Models.DepartmentSkillsetForCreateDTO, Entities.DepartmentSkillset>();
                 cfg.CreateMap<Models.AssociateDepartmentSkillsetForCreateDTO, Entities.AssociateDepartmentSkillset>();

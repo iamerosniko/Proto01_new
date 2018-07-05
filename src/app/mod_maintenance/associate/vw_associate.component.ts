@@ -31,6 +31,7 @@ import { ExcelService } from '../../com_services/excel.service';
   }`]
 })
 export class VWAssociateComponent implements OnInit {
+  notUpdated:boolean;
 
   constructor(
     private associateSvc:AssociateSvc,
@@ -47,7 +48,7 @@ export class VWAssociateComponent implements OnInit {
   // set_Users:Set_User[]=[];
   users:User[]=[];
   associates:AssTmp[]=[];
-  associate:Associate=new Associate();
+  associate:AssTmp={};
   locations:Location[]=[];
   departments:Department[]=[];
   message:string="";
@@ -162,6 +163,7 @@ export class VWAssociateComponent implements OnInit {
 
   getDetails(assoc : Associate){
     this.associate = assoc;
+    this.notUpdated = assoc.DepartmentID==0 ||assoc.LocationID==0 ? true : false;
   }
 
   changeStatus(assoc:Associate){
@@ -192,6 +194,10 @@ export class VWAssociateComponent implements OnInit {
   async saveAssociate(){
     if(this.entryValidation()){
       this.associate.UpdatedOn=new Date();
+      this.associate.TransferDate=new Date(this.associate.TransferDate);
+      this.associate.StartDate=new Date(this.associate.StartDate);
+
+      console.log(this.associate);
       this.mode==0 ?
       ( 
         await this.associateSvc.postAssociate(this.associate),

@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { Associate } from '../com_entities/entities';
+import { Associate,AssTmp } from '../com_entities/entities';
 import { AppSettings } from '../com_entities/app_settings';
 @Injectable()
 export class AssociateSvc {
@@ -19,7 +19,7 @@ export class AssociateSvc {
 
     constructor(private http: Http){}
 
-    getAssociates(): Promise<Associate[]> {
+    getAssociates(): Promise<AssTmp[]> {
         return this.http
                 .get(this.apiUrl, {headers: this.headers})
                 .toPromise()
@@ -27,7 +27,7 @@ export class AssociateSvc {
                 .catch(AppSettings.HANDLEERROR);
     }
 
-    getAssociate(id: number): Promise<Associate> {
+    getAssociate(id: number): Promise<AssTmp> {
         const url = `${this.apiUrl}/${id}`;
         return this.http
                 .get(url)
@@ -36,7 +36,7 @@ export class AssociateSvc {
                 .catch(AppSettings.HANDLEERROR);
     }
 
-    postAssociate(entity: Associate):Promise<any>{
+    postAssociate(entity: AssTmp):Promise<any>{
         return this.http
             .post(this.apiUrl, JSON.stringify(entity), {headers: this.headers})
             .toPromise()
@@ -44,7 +44,7 @@ export class AssociateSvc {
             .catch(AppSettings.HANDLEERROR);
     }
 
-    postAssociates(entity: Associate[]):Promise<any>{
+    postAssociates(entity: AssTmp[]):Promise<any>{
         return this.http
             .post(this.apiUrl+"/Bulk", JSON.stringify(entity), {headers: this.headers})
             .toPromise()
@@ -52,7 +52,7 @@ export class AssociateSvc {
             .catch(AppSettings.HANDLEERROR);
     }
 
-    putAssociate(entity: Associate): Promise<any> {
+    putAssociate(entity: AssTmp): Promise<any> {
         const url = `${this.apiUrl}/${entity.AssociateID}`;
         return this.http
             .put(url, JSON.stringify(entity), {headers: this.headers})
