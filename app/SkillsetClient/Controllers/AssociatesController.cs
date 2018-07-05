@@ -64,6 +64,7 @@ namespace SkillsetClient.Controllers
       }
       catch (Exception Ex)
       {
+        System.Diagnostics.Debug.WriteLine(Ex.ToString());
       }
       return null;
     }

@@ -123,11 +123,14 @@
                 <div class="col-md-12">
                     <label class="control-label">Date From</label>
                     <br />
-                    <md-input-container>  
+                    <!-- <md-input-container>  
                         <input style="background-color:white;" mdInput  [mdDatepicker]="picker1" [(ngModel)]="dateFrom">
                         <button mdSuffix [mdDatepickerToggle]="picker1"></button>
                     </md-input-container>   
-                    <md-datepicker #picker1></md-datepicker>
+                    <md-datepicker #picker1></md-datepicker> -->
+                    <input matInput [matDatepicker]="picker1" placeholder="Choose a date"  [(ngModel)]="dateFrom" >
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
                 </div>
             </div>
             <br />
@@ -136,11 +139,16 @@
                 <div class="col-md-12">
                     <label class="control-label">Date To</label>
                     <br />
-                    <md-input-container> 
+                    <!-- <md-input-container> 
                         <input  style="background-color:white;" mdInput  [mdDatepicker]="picker2" [(ngModel)]="dateTo" >
                         <button mdSuffix [mdDatepickerToggle]="picker2" (disabled)="dateFrom==null"> </button>
                     </md-input-container>    
-                    <md-datepicker #picker2 (disabled)="dateFrom==null"></md-datepicker>
+                    <md-datepicker #picker2 (disabled)="dateFrom==null"></md-datepicker> -->
+
+                    <input matInput [matDatepicker]="picker2" placeholder="Choose a date"  [(ngModel)]="dateTo" >
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    
                 </div>
             </div>
             <br />

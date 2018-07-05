@@ -3,26 +3,42 @@
         <div class="col-md-12">
             <!--tool bar-->
             <div class="row">
-                <button [disabled]="loading" href="#" class="btn btn-primary btn-sm" data-toggle="tab" data-target="#asc_editor"><i class="fa fa-plus"></i>&nbsp;New Record</button>
                 <button [disabled]="loading" href="#" class="btn btn-primary btn-sm" (click)="exportAssociates()" ><i class="fa fa-file-excel-o"></i>&nbsp;Export Associate</button>
             </div>
             <br />
             <!--table-->
             <div class="row">
                 <div class="table-responsive">
-                    Number of Associates : {{associates.length}}
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label class="control-label">Number of Associates : {{associates.length}}</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Filter Department by:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select [(ngModel)]="filterDept" (change)="RefreshAssociates()"
+                                class="form-control input-sm">
+                                <option value="-1" selected>All</option>
+                                <option value="0" >Needs to be updated</option>
+                                <option *ngFor="let x of getActiveDepartments()" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                            </select>
+                        </div>
+                    </div>  
+                    <br />
+                    <br />
                     <table class="table table-bordered table-striped table-hover input-sm">
                         <thead>
-                            <tr>
+                            <tr >
                                 <!--<th>Associate Id</th>-->
                                 <th>Name</th>
                                 <th>Phone Number</th>
-                                <th>VPN Capable</th>
+                                <th>Has VPN</th>
                                 <th>Department</th>
                                 <th>Location</th>
-                                <th>Updated On</th>
+                                <th class="col-md-1">Updated On</th>
                                 <!-- <th>Is Active</th> -->
-                                <th>Actions</th>
+                                <th class="col-md-1">Actions</th>
                             </tr>
                         </thead>
                         <tbody *ngIf="associates.length>0 && loading==false" >
@@ -33,9 +49,9 @@
                                 <td>{{getStatus(x.VPN)}}</td>
                                 <td>{{getDepartmentName(x.DepartmentID)}}</td>
                                 <td>{{getLocationName(x.LocationID)}}</td>
-                                <td>{{x.UpdatedOn | date: 'MM/dd/yyyy'}}</td>
+                                <td class="col-md-1">{{x.UpdatedOn | date: 'MM/dd/yyyy'}}</td>
                                 <!-- <td>{{getStatus(x.IsActive)}}</td> -->
-                                <td>
+                                <td class="col-md-1">
                                     <div class="btn-group">
                                         <a (click)="editDetails(x)" class="btn btn-default btn-xs" data-toggle="tab" data-target="#asc_editor" title="Edit"><i class="fa fa-edit"></i></a>
                                         <a (click)="deleteAssociate(x)" class="btn btn-default btn-xs" title="Delete"><i class="fa fa-trash"></i></a>
@@ -73,8 +89,8 @@
             <!--header-->
             <div class="row">
                 <h4>
-                  <span class="add" *ngIf="mode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
-                  <span class="edit" *ngIf="mode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
+                    <span class="add" *ngIf="mode==0"><i class="fa fa-plus"></i>&nbsp;New Record</span>
+                    <span class="edit" *ngIf="mode==1"><i class="fa fa-edit"></i>&nbsp;Edit Details</span>
                 </h4>
             </div>
             <br />
@@ -90,16 +106,6 @@
                 <div  *ngIf="mode!=0"  class="col-md-4">
                     <input value="{{associate.FullName}}" readonly type="text" class="form-control input-sm" />
                 </div>
-            </div>
-            <br />
-            <div class="row">
-                <label class="col-md-2 control-label">Phone Number</label>
-                <div class="col-md-4">
-                    <input maxlength="20" [(ngModel)]="associate.PhoneNumber" type="text" class="form-control input-sm" />
-                </div>
-            </div>
-            <br />
-            <div class="row">
                 <label class="col-md-2 control-label">VPN Capable</label>
                 <div class="col-md-4">
                     <label class="switch">
@@ -111,12 +117,13 @@
             </div>
             <br />
             <div class="row">
-                <label class="col-md-2 control-label">Department</label>
+                <label class="col-md-2 control-label">Phone Number</label>
                 <div class="col-md-4">
-                    <select [(ngModel)]="associate.DepartmentID" class="form-control input-sm">
-                        <option value="0"  disabled selected> Select Department </option>
-                        <option *ngFor="let x of getActiveDepartments()" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
-                    </select>
+                    <input maxlength="20" [(ngModel)]="associate.PhoneNumber" type="text" class="form-control input-sm" />
+                </div>
+                <label class="col-md-2 control-label">Transfer Date</label>
+                <div class="col-md-4">
+                    <input value="{{associate.UpdatedOn | date: 'MM/dd/yyyy'}}" readonly type="text" class="form-control input-sm" />
                 </div>
             </div>
             <br />
@@ -128,15 +135,26 @@
                         <option *ngFor="let x of getActiveLocations()" [value]="x.LocationID"> {{x.LocationDescr}} </option>
                     </select>
                 </div>
-            </div>
-            <!-- <br />
-            <div class="row" *ngIf="mode==1">
-                <label class="col-md-2 control-label">Updated On</label>
+                <label class="col-md-2 control-label">Start Date</label>
                 <div class="col-md-4">
-                    <input value="{{associate.UpdatedOn }}" readonly type="text" class="form-control input-sm" />
+                    <input value="{{associate.UpdatedOn | date: 'MM/dd/yyyy'}}" readonly type="text" class="form-control input-sm" />
                 </div>
             </div>
-            <br /> -->
+            <br />
+            <div class="row">
+                <label class="col-md-2 control-label">Department</label>
+                <div class="col-md-4">
+                    <select [(ngModel)]="associate.DepartmentID" class="form-control input-sm">
+                        <option value="0"  disabled selected> Select Department </option>
+                        <option *ngFor="let x of getActiveDepartments()" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                    </select>
+                </div>
+                <label class="col-md-2 control-label">Updated On</label>
+                <div class="col-md-4">
+                    <input value="{{associate.UpdatedOn | date: 'MM/dd/yyyy'}}" readonly type="text" class="form-control input-sm" />
+                </div>
+            </div>
+            <br />
         </div>
     </div>
 </div>

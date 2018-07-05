@@ -33,12 +33,10 @@ export class CurrentUserSvc {
         .catch(AppSettings.HANDLEERROR);
     }
 
-    async GetUserRolesFromBtam(username : string):Promise<User>{
+    async GetUserRolesFromBtam(username : string){
         this.apiUrl=sessionStorage.getItem("BTAM_URL")+"AppSignIn";
         // console.log(sessionStorage.getItem("BTAM_URL"));
-        // var appSignIn = { "AppURL":window.location.hostname,"UserName":username }
         var appSignIn = { "AppURL":"skillsetclient.azurewebsites.net","UserName":username }
-
         return this.http
         .post(this.apiUrl,JSON.stringify(appSignIn),{headers:this.headers})
         .toPromise()

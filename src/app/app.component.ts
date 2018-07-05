@@ -1,18 +1,14 @@
 import { 
     Component,
-    OnInit,OnDestroy
+   OnDestroy
 } from '@angular/core';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 
 import { Location } from '@angular/common';
 import { Router,ActivatedRoute }  from '@angular/router';
-import { Set_User,User,Set_User_Access,Set_Group,SignedInUser } from './com_entities/entities';
+import { User } from './com_entities/entities';
 import { CurrentUserSvc } from './com_services/currentuser.svc';
 import { MyTokenSvc } from './com_services/mytoken.svc';
-import { Jsonp } from '@angular/http/src/http';
-import { forEach } from '@angular/router/src/utils/collection';
-import { Observable } from 'rxjs/Observable'
-import { setTimeout } from 'timers';
 import { BTAMSvc } from './com_services/btam.svc.';
 
 @Component({
@@ -88,14 +84,14 @@ export class AppComponent  implements OnDestroy{
   ){
     
     this.router.events.debounceTime(1000).subscribe(
-      (val)=>{
+       ()=>{
         if(this.location.path() != ''){
-          this.routeStr = this.location.path();
+          this.routeStr =  this.location.path();
         } 
         else{
-          this.routeStr='';
+          this.routeStr= '';
         }
-        this.checkIfAuthenticated();
+         this.checkIfAuthenticated();
       }
     );
     this.isIdle = false;
@@ -150,16 +146,15 @@ export class AppComponent  implements OnDestroy{
   //test
   async getSignedInUser(){
     //original
-    var user = await this.curUserSvc.getSignedInUser();
+    // var user = await this.curUserSvc.getSignedInUser();
     // console.log(user);
-    //var user ={UserID: "", UserName: "jhsbail@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    var user =  {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     var btamURL=await this.btamSvc.getBTAMURL();
     sessionStorage.setItem("BTAM_URL",btamURL.BTAMURL)
 
-    this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName);    
+    this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName); 
     var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);
     var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
-
     // console.log(user);    
     // await console.log(this.currentUser);
     // console.log(authenticationToken);
@@ -190,6 +185,7 @@ export class AppComponent  implements OnDestroy{
       }
       else if(this.currentUser.Role=="Limited")
         await this.routeOnly('skillset');
+      else{}
     }
     
   }

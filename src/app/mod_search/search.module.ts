@@ -26,11 +26,13 @@ import { DataAssociateReport } from './data/data-associate.reports';
 import { DataSkillsetReport } from './data/data-skillset.reports';
 import { DataDepartmentReport } from './data/data-department.reports';
 import { DataLastworkedonReport } from './data/data-lastworkedon.reports';
-import { MaterialModule,MdDatepickerModule,MdNativeDateModule
+import { 
+  MatDatepickerModule,
+  MatNativeDateModule,
+  // MaterialModule,MdDatepickerModule,MdNativeDateModule
    } from '@angular/material';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-//material
 @NgModule({
   //components area
   declarations: [
@@ -47,8 +49,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
   //module area
   imports: [
     BrowserModule,BrowserAnimationsModule,HttpModule,CommonModule,FormsModule,
-    SelectModule,MaterialModule,
-    MdNativeDateModule,NgxPaginationModule,
+    SelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    // MaterialModule,MdNativeDateModule,
+    NgxPaginationModule,
     SearchRouting
   ],
   //services area
@@ -60,7 +65,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   //components to be shared and used using selector
   exports: [
-    SearchComponent, MdDatepickerModule
+    SearchComponent, 
+    // MdDatepickerModule
     //maintenance-route
   ]
 })

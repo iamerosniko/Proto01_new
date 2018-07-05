@@ -86,8 +86,10 @@ export class SkillSetComponent{
     this.associates = await this.assSvc.getAssociates();//
     //this.users = await this.useSvc.getSet_Users();
     if(this.currentUserName==null){
-
-      this.currentUser = await this.curUserSvc.getSignedInUser();
+      //prod
+      // this.currentUser = await this.curUserSvc.getSignedInUser();
+      //dev
+      this.currentUser = {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
       this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(this.currentUser.UserName);
     }
     else{

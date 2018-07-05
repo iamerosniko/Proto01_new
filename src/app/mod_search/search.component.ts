@@ -206,31 +206,42 @@ export class SearchComponent implements OnInit {
       this.isPrintReady=false;
       this.isRunReportReady=false;
 
-      for(let selectedItem of this.selectedItems){
-        if(this.radioSelect==0){
-          var assoc = await this.associateReportSvc.getAssociateReport(selectedItem.id,this.dateFrom,this.dateTo)
-          if(assoc!=null){
-            this.associateRpt.push(assoc);
+      if(this.radioSelect==0 && this.selectedItems.length==0){
+        this.associates.forEach(element => {
+          element.DepartmentID>0 ?
+          this.selectedItems.push(
+            new SelectItem(element.AssociateID,element.FullName)
+          ):true
+        });
+      }
+      else{
+        for(let selectedItem of this.selectedItems){
+          if(this.radioSelect==0){
+            var assoc = await this.associateReportSvc.getAssociateReport(selectedItem.id,this.dateFrom,this.dateTo)
+            if(assoc!=null){
+              this.associateRpt.push(assoc);
+            }
+          }
+          else if (this.radioSelect==1){
+            var skills = await  this.skillsetReportSvc.getSkillsetReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
+            // .then( a=>  this.skillsetRpt.push(a));
+            this.skillsetRpt.push(skills)
+          }
+          else if (this.radioSelect==2){
+            var depts=await   this.departmentReportSvc.getDepartmentReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
+            //.
+            // then( a=>  this.departmentRpt.push(a));
+            this.departmentRpt.push(depts)
+            //console.log(this.departmentRpt);
+          }
+          else if(this.radioSelect==3){
+            var lastwork =await   this.lastWorkedOnReportSvc.getLastWorkedOnReport(selectedItem.text,this.selectedLocation,this.dateFrom,this.dateTo)
+            // .then( a=>  this.lastTimeWorkedOnRpt.push(a));
+            this.lastTimeWorkedOnRpt.push(lastwork)
           }
         }
-        else if (this.radioSelect==1){
-          var skills = await  this.skillsetReportSvc.getSkillsetReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
-          // .then( a=>  this.skillsetRpt.push(a));
-          this.skillsetRpt.push(skills)
-        }
-        else if (this.radioSelect==2){
-          var depts=await   this.departmentReportSvc.getDepartmentReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
-          //.
-          // then( a=>  this.departmentRpt.push(a));
-          this.departmentRpt.push(depts)
-          //console.log(this.departmentRpt);
-        }
-        else if(this.radioSelect==3){
-          var lastwork =await   this.lastWorkedOnReportSvc.getLastWorkedOnReport(selectedItem.text,this.selectedLocation,this.dateFrom,this.dateTo)
-          // .then( a=>  this.lastTimeWorkedOnRpt.push(a));
-          this.lastTimeWorkedOnRpt.push(lastwork)
-        }
       }
+
     }
     this.isPrintReady=await true; 
     this.isRunReportReady=await true;
@@ -252,7 +263,8 @@ export class SearchComponent implements OnInit {
     result=(this.selectedLocation==-1)
     ?(alert('Location is Required'),false)
     :(this.selectedItems.length==0)
-      ? (alert('Please choose filter first.'),false)
+    // ? (alert('Please choose filter first.'),false)
+      ? true
       : true
     
     return result;

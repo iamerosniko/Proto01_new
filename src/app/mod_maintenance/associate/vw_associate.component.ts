@@ -43,6 +43,7 @@ export class VWAssociateComponent implements OnInit {
   }
   loading:boolean=false;
   p: number = 1;
+  filterDept:number = -1;
   // set_Users:Set_User[]=[];
   users:User[]=[];
   associates:AssTmp[]=[];
@@ -95,6 +96,7 @@ export class VWAssociateComponent implements OnInit {
 
     var assocsBulkResult = tempUsers.length>0 ? await this.associateSvc.postAssociates(tempAssoc) : [];
     this.associates = await [];
+    console.log('added file'+assocsBulkResult.length)
     this.associates = await this.associateSvc.getAssociates();
   }
 
@@ -148,8 +150,8 @@ export class VWAssociateComponent implements OnInit {
   }
 
   getFullName(userID:string):string{
-    let user:User = this.users.find(x=>x.UserID==userID);
-    return user!=null ? user.FirstName+ " " + user.LastName : userID;
+    let associate:Associate = this.associates.find(x=>x.UserID==userID);
+    return associate!=null ? associate.FullName : userID;
   }
 
   editDetails(assoc : Associate){
@@ -239,5 +241,10 @@ export class VWAssociateComponent implements OnInit {
     });
 
     this.excelService.exportAsExcelFile(toExport, "Associates");          
+  }
+
+  async RefreshAssociates(){
+    this.associates= await this.associateSvc.getAssociates();
+    this.associates=this.associates.filter(x=>x.IsActive==true && this.filterDept>-1 ? x.DepartmentID == this.filterDept : true);
   }
 }
