@@ -55,10 +55,10 @@ namespace SkillsetAPI
       //Use for migration only, then comment all statement in DB context constructor
       //var connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=dbbtSSetp1;Trusted_Connection=True";
       //Use below in Production
-      //var connectionString = Startup.Configuration["ConnectionStrings:dbbtSSetp1ConnectionString"];
+      var connectionString = Startup.Configuration["ConnectionStrings:dbbtSSetp1ConnectionString"];
 
       //dev
-      var connectionString = "Server=(localdb)\\mssqllocaldb;Database=dbbtSSetp1;Trusted_Connection=True;MultipleActiveResultSets=true";
+      //var connectionString = "Server=(localdb)\\mssqllocaldb;Database=dbbtSSetp1;Trusted_Connection=True;MultipleActiveResultSets=true";
 
       services.AddDbContext<SkillSetContext>(o => o.UseSqlServer(connectionString));
       //comment this out when creating new migration
@@ -115,7 +115,7 @@ namespace SkillsetAPI
         {
           serviceScope.ServiceProvider.GetService<SkillSetContext>().Database.Migrate();
           //This is for Seeding comment this when ading migration, comment this out when creating new migration
-          skillSetContext.EnsureSeedDataForContext(hostingEnvironment);
+          //skillSetContext.EnsureSeedDataForContext(hostingEnvironment);
         }
       }
       catch (Exception ex)
