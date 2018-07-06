@@ -11,10 +11,10 @@ import { DepartmentSkillsetsSvc } from '../../com_services/dept_skillset.svc';
 import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_skillset.svc';
 //entities
 import { Location,Department,Skillset,
-  Associate,User,
+  Associate,
   AssociateDepartmentSkillset,DepartmentSkillsets1,
   //skillsetReport
-  SkillsetRpt,AssociateDetails
+  SkillsetRpt,AssociateDetails,
 } from '../../com_entities/entities';
 
 @Injectable()
@@ -27,14 +27,28 @@ export class DataSkillsetReport {
         private currentUserSvc:CurrentUserSvc,        
         // private setUserSvc:Set_UserSvc,
         private departmentSkillsetSvc:DepartmentSkillsetsSvc,
-        private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc
+        private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc,
     ){
 
     }
     associates:AssociateDetails[]=[];
-    // setUsers:Set_User[]=[];
-    users:User[]=[];
     skillsetRpt:SkillsetRpt;
+
+    allDepartmentSkillsets:DepartmentSkillsets1[]=[];
+    allAssociateDepartmentSkillset:AssociateDepartmentSkillset[]=[];
+    allAssociates:Associate[]=[];
+    allDepartments:Department[]=[];
+    allLocations:Location[]=[];
+    allSkillsets:Skillset[]=[];
+
+    async getDependencies(){
+        this.allAssociateDepartmentSkillset=await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
+        this.allDepartments=await this.departmentSvc.getDepartments();
+        this.allAssociates=await this.associateSvc.getAssociates();
+        this.allDepartmentSkillsets=await this.departmentSkillsetSvc.getDepartmentSkillsets();
+        this.allLocations=await this.locationSvc.getLocations();
+        this.allSkillsets=await this.skillsetSvc.getSkillsets();
+    }
 
     getDateString(myDate:Date):string{
         var dateStr:string='';
@@ -51,9 +65,10 @@ export class DataSkillsetReport {
     }
 
     async getSkillsetReport(skillsetID:number,locationID:number,dateFrom:Date,dateTo:Date):Promise<SkillsetRpt>{
+        // await this.getSetUser();
+        await this.getDependencies();
         this.skillsetRpt=new SkillsetRpt('',[]);
         this.associates=[];
-        await this.getSetUser();
         //step 1 get skillsetName
         var skillset:Skillset=await this.getSkillset(skillsetID);
         var associatedepartmentskillset:AssociateDepartmentSkillset[]=[];
@@ -85,7 +100,7 @@ export class DataSkillsetReport {
             var location:Location=await this.getLocation(associate.LocationID);
             associateDetails.Department=await department.DepartmentDescr;
             associateDetails.Location=await location.LocationDescr;
-            associateDetails.Name=await this.getFullName(associate.UserID);
+            associateDetails.Name=await this.getFullName(associate.AssociateID);
             associateDetails.VPN=associate.VPN?'Yes':'No';
             associateDetails.UpdatedOn= this.getDateString(new Date(associate.UpdatedOn));
             associateDetails.assocId=await associate.AssociateID;
@@ -103,26 +118,11 @@ export class DataSkillsetReport {
             associateDetails=new AssociateDetails('','','','','','',0);
             assocDeptSkillsets=assocDeptSkillsets.filter(x=>x.AssociateID!=assocDeptSkillset.AssociateID);
         }
-
-        // for(var i =0;i<assocDeptSkillset.length;i++){
-        //     let associate:Associate=await this.getAssociateDetails(assocDeptSkillset[i].AssociateID);
-           
-        //     let department:Department=await this.getDepartment(associate.DepartmentID);
-        //     let location:Location=await this.getLocation(associate.LocationID);
-        //     associateDetails.Department=await department.DepartmentDescr;
-        //     associateDetails.Location=await location.LocationDescr;
-        //     associateDetails.Name=await this.getFullName(associate.UserName);
-        //     associateDetails.VPN=associate.VPN?'Yes':'No';
-        //     associateDetails.UpdatedOn='';
-
-        //     this.associates.push(associateDetails);
-
-        //     associateDetails=new AssociateDetails('','','','','');
-        // }
     }
 
     async getDepartmentSkillsets(skillsetID:number):Promise<DepartmentSkillsets1[]>{
-        var departmentSkillsets:DepartmentSkillsets1[]=await this.departmentSkillsetSvc.getDepartmentSkillsets();
+        var departmentSkillsets:DepartmentSkillsets1[]=await this.allDepartmentSkillsets;
+        // var departmentSkillsets:DepartmentSkillsets1[]=await this.departmentSkillsetSvc.getDepartmentSkillsets();
         return new Promise<DepartmentSkillsets1[]>((resolve) =>             
             resolve(
                 departmentSkillsets.filter(x=>x.SkillsetID==skillsetID)
@@ -133,42 +133,48 @@ export class DataSkillsetReport {
     async getAssociateDetails(assocID:number):Promise<Associate>{
         //01-24-18
         return new Promise<Associate>((resolve) =>
-            resolve(this.associateSvc.getAssociate(assocID))
+            resolve(
+                this.allAssociates.find(x=>x.AssociateID==assocID)
+                // this.associateSvc.getAssociate(assocID)
+            )
         );
     }
 
-    async getSetUser(){
-        // this.setUsers=await this.setUserSvc.getSet_Users();
-        this.users = await this.currentUserSvc.GetUserInAppFromBtam();
-    }
-
-    getFullName(userid:string):string{
+    getFullName(assocID:number):string{
         // let user:Set_User= this.setUsers.find(x=>x.user_id==userid);
-        var user:User= this.users.find(x=>x.UserID==userid);
-        // //console.log(user);
-        return user==null ? null : user.FirstName + ' ' + user.LastName
-        // return user==null ? null : user.user_first_name + ' ' + user.user_last_name
+        var user=this.allAssociates.find(x=>x.AssociateID==assocID);
+        return user.FullName
     }
 
     async getDepartment(departmentID:number):Promise<Department>{
         return new Promise<Department>((resolve)=>
-            resolve(this.departmentSvc.getDepartment(departmentID))
+            resolve(
+                this.allDepartments.find(x=>x.DepartmentID==departmentID)
+                // this.departmentSvc.getDepartment(departmentID)
+            )
         );
     }
     async getLocation(locationID:number):Promise<Location>{
         return new Promise<Location>((resolve) => 
-            resolve(this.locationSvc.getLocation(locationID))
+            resolve(
+                this.allLocations.find(x=>x.LocationID==locationID)
+                // this.locationSvc.getLocation(locationID)
+            )
         );
     }
 
     async getSkillset(skillsetID:number):Promise<Skillset>{
         return new Promise<Skillset>((resolve) =>
-            resolve(this.skillsetSvc.getSkillset(skillsetID))
+            resolve(
+                this.allSkillsets.find(x=>x.SkillsetID==skillsetID)
+                // this.skillsetSvc.getSkillset(skillsetID)
+            )
         );
     }
 
     async getAssociateDepartmentSkillset(departmentSkillsetID:number):Promise<AssociateDepartmentSkillset[]>{
-        var associateDepartmentSkillset:AssociateDepartmentSkillset[]=await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
+        var associateDepartmentSkillset:AssociateDepartmentSkillset[]=await this.allAssociateDepartmentSkillset;
+        // var associateDepartmentSkillset:AssociateDepartmentSkillset[]=await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
 
         associateDepartmentSkillset=associateDepartmentSkillset.filter(x=>x.DepartmentSkillsetID==departmentSkillsetID);
         return new Promise<AssociateDepartmentSkillset[]>((resolve) =>

@@ -207,7 +207,7 @@ export class SearchComponent implements OnInit {
       this.isRunReportReady=false;
 
       if(this.radioSelect==0 && this.selectedItems.length==0){
-        this.associates.forEach(element => {
+        this.associates.filter(x=>x.LocationID==this.selectedLocation).forEach(element => {
           element.DepartmentID>0 ?
           this.selectedItems.push(
             new SelectItem(element.AssociateID,element.FullName)

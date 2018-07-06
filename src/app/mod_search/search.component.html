@@ -192,6 +192,7 @@
                         *ngFor="let deps of departmentRpt | paginate: { itemsPerPage: 1, currentPage: p }"></search-department>
                 </div>
                 <div *ngIf="radioSelect==3">
+                    <label style="color:red">Last time worked on will generates reports longer that is based on the volume of skills</label>
                     <search-lastworkedon [lastTimeWorkedOnRpt]="ltw" *ngFor="let ltw of lastTimeWorkedOnRpt | paginate: { itemsPerPage: 1, currentPage: p }" > </search-lastworkedon>
                 </div>
             </div>

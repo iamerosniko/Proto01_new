@@ -13,8 +13,6 @@ import { DataSkillsetReport } from './data-skillset.reports';
 import { Location,Department,Skillset,
   Associate,
   AssociateDepartmentSkillset,DepartmentSkillsets1,
-  User,
-  //skillsetReport
   SkillsetRpt,
   LastTimeWorkedOnRpt
 } from '../../com_entities/entities';
@@ -26,28 +24,25 @@ export class DataLastworkedonReport {
         private departmentSvc:DepartmentSvc,
         private locationSvc:LocationSvc,
         private skillsetSvc:SkillsetSvc,
-        // private setUserSvc:Set_UserSvc,
-        private currentUserSvc:CurrentUserSvc,        
         private departmentSkillsetSvc:DepartmentSkillsetsSvc,
         private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc,
         private skillsetRpt:DataSkillsetReport
     ){
 
     }
-    associateDepartmentSkillsets:AssociateDepartmentSkillset[]=[];
-    departmentSkillsets:DepartmentSkillsets1[]=[];
-    skillsets:Skillset[]=[];
-    Departments:Department[]=[];
-    associates:Associate[]=[];
+    allAssociateDepartmentSkillsets:AssociateDepartmentSkillset[]=[];
+    allDepartmentSkillsets:DepartmentSkillsets1[]=[];
+    allSkillsets:Skillset[]=[];
+    allDepartments:Department[]=[];
+    allAssociates:Associate[]=[];
     // setUser:Set_User[]=[];
-    users:User[]=[];
-    locations:Location[]=[];
+    allLocations:Location[]=[];
     lastTimeWorkedOnRpt:LastTimeWorkedOnRpt=new LastTimeWorkedOnRpt('',[]);
 
 
     async getLastWorkedOnReport(lastWorkedOn:string,locationID:number,dateFrom:Date,dateTo:Date):Promise<LastTimeWorkedOnRpt>{
         await this.getDependencies();
-        var tempADS:AssociateDepartmentSkillset[] = await this.associateDepartmentSkillsets.filter(x=>x.LastWorkedOn==lastWorkedOn);
+        var tempADS:AssociateDepartmentSkillset[] = await this.allAssociateDepartmentSkillsets.filter(x=>x.LastWorkedOn==lastWorkedOn);
         this.lastTimeWorkedOnRpt=new LastTimeWorkedOnRpt('',[]);
         this.lastTimeWorkedOnRpt.lastWorkOnItem=lastWorkedOn;
 
@@ -63,7 +58,7 @@ export class DataLastworkedonReport {
         return new Promise<LastTimeWorkedOnRpt>((resolve)=>resolve(this.lastTimeWorkedOnRpt));
     }
     async getSkillsetRpt(dsID:number,associateID:number,locationID:number,dateFrom:Date,dateTo:Date):Promise<SkillsetRpt[]>{
-        var tempDS:DepartmentSkillsets1 = await this.departmentSkillsets.find(x=>x.DepartmentSkillsetID==dsID);
+        var tempDS:DepartmentSkillsets1 = await this.allDepartmentSkillsets.find(x=>x.DepartmentSkillsetID==dsID);
         //this contains 
         var tempSkillsetReport:SkillsetRpt[]=[];
 
@@ -86,14 +81,12 @@ export class DataLastworkedonReport {
     //
 
     async getDependencies(){
-        this.associateDepartmentSkillsets= await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
-        this.locations=await this.locationSvc.getLocations();
-        this.associates=await this.associateSvc.getAssociates();
-        this.skillsets=await this.skillsetSvc.getSkillsets();
-        this.Departments=await this.departmentSvc.getDepartments();
-        this.departmentSkillsets=await this.departmentSkillsetSvc.getDepartmentSkillsets();
-        // this.setUser=await this.setUserSvc.getSet_Users();
-        this.users=await this.currentUserSvc.GetUserInAppFromBtam();
+        this.allAssociateDepartmentSkillsets= await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
+        this.allLocations=await this.locationSvc.getLocations();
+        this.allAssociates=await this.associateSvc.getAssociates();
+        this.allSkillsets=await this.skillsetSvc.getSkillsets();
+        this.allDepartments=await this.departmentSvc.getDepartments();
+        this.allDepartmentSkillsets=await this.departmentSkillsetSvc.getDepartmentSkillsets();
     }
 
 
