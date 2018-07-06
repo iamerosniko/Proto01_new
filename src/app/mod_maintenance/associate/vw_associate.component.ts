@@ -100,16 +100,6 @@ export class VWAssociateComponent implements OnInit {
     console.log('added file'+assocsBulkResult.length)
     this.associates = await this.associateSvc.getAssociates();
   }
-
-  getActiveDepartments():Department[]{
-    let tempDept:Department[]=this.departments.filter(x=>x.IsActive==true);
-    return tempDept;
-  }
-
-  getActiveLocations():Location[]{
-    let tempLocation:Location[]=this.locations.filter(x=>x.IsActive==true);
-    return tempLocation;
-  }
   
   getUnusedUsers():User[]{
     let tempUsers:User[]=this.users;
@@ -126,7 +116,7 @@ export class VWAssociateComponent implements OnInit {
     }
     else{
       let department:Department = this.departments.find(x=>x.DepartmentID==id);
-      if(department.IsActive==false){
+      if(!department){
         return "Department no longer active. Please Update Immediately"
       }
       else return department.DepartmentDescr;
@@ -139,7 +129,7 @@ export class VWAssociateComponent implements OnInit {
     }
     else{
       let location:Location = this.locations.find(x=>x.LocationID==id);
-      if(location.IsActive==false){
+      if(!location){
         return "Location no longer active. Please Update Immediately"
       }
       else return location.LocationDescr;
@@ -148,11 +138,6 @@ export class VWAssociateComponent implements OnInit {
 
   getStatus(status:boolean):string{
     return status ? "Yes" : "No";
-  }
-
-  getFullName(userID:string):string{
-    let associate:Associate = this.associates.find(x=>x.UserID==userID);
-    return associate!=null ? associate.FullName : userID;
   }
 
   editDetails(assoc : Associate){
@@ -219,10 +204,9 @@ export class VWAssociateComponent implements OnInit {
 
   entryValidation():boolean{
     var msg='';
-    let tempDept:Department[] = this.getActiveDepartments();
-    let tempLoc:Location[] = this.getActiveLocations();
-    tempDept=tempDept.filter(x=>x.DepartmentID==this.associate.DepartmentID);
-    tempLoc=tempLoc.filter(x=>x.LocationID==this.associate.LocationID);
+
+    var tempDept=this.departments.filter(x=>x.DepartmentID==this.associate.DepartmentID);
+    var tempLoc=this.locations.filter(x=>x.LocationID==this.associate.LocationID);
     tempDept==null || tempDept.length==0 ? msg+='Department is Required.\n' : null ;
     tempLoc==null || tempLoc.length==0 ? msg+='Location is Required.\n' : null ;
     this.associate.UserID=='' ? msg+='Name is Required.':null;

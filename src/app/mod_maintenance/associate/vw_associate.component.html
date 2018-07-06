@@ -21,7 +21,7 @@
                                 class="form-control input-sm">
                                 <option value="-1" selected>All</option>
                                 <option value="0" >Needs to be updated</option>
-                                <option *ngFor="let x of getActiveDepartments()" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                                <option *ngFor="let x of departments" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
                             </select>
                         </div>
                     </div>  
@@ -44,7 +44,7 @@
                         <tbody *ngIf="associates.length>0 && loading==false" >
                             <tr *ngFor="let x of associates | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <!--<td>{{x.AssociateID}}</td>-->
-                                <td>{{getFullName(x.UserID)}}</td>
+                                <td>{{x.FullName}}</td>
                                 <td>{{x.PhoneNumber}}</td>
                                 <td>{{getStatus(x.VPN)}}</td>
                                 <td>{{getDepartmentName(x.DepartmentID)}}</td>
@@ -101,7 +101,7 @@
                 <div class="col-md-4" *ngIf="mode==0">
                     <select class="form-control input-sm" [(ngModel)]="associate.UserID" (change)="associate.FullName = getFullName(associate.UserID)">
                         <option value=""  disabled selected> Select Name </option>
-                        <option *ngFor="let x of getUnusedUsers()" [value]="x.UserID"> {{getFullName(x.UserID)}} </option>
+                        <option *ngFor="let x of getUnusedUsers()" [value]="x.UserID"> {{x.FullName}}</option>
                     </select>
                 </div>
                 <div  *ngIf="mode!=0"  class="col-md-4">
@@ -136,7 +136,7 @@
                 <div class="col-md-4">
                     <select [(ngModel)]="associate.LocationID" class="form-control input-sm">
                         <option value="0"  disabled selected> Select Location </option>
-                        <option *ngFor="let x of getActiveLocations()" [value]="x.LocationID"> {{x.LocationDescr}} </option>
+                        <option *ngFor="let x of locations" [value]="x.LocationID"> {{x.LocationDescr}} </option>
                     </select>
                 </div>
                 <label class="col-md-2 control-label">Start Date</label>
@@ -155,7 +155,7 @@
                 <div class="col-md-4">
                     <select [(ngModel)]="associate.DepartmentID" class="form-control input-sm">
                         <option value="0"  disabled selected> Select Department </option>
-                        <option *ngFor="let x of getActiveDepartments()" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                        <option *ngFor="let x of departments" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
                     </select>
                 </div>
                 <label class="col-md-2 control-label">Updated On</label>
