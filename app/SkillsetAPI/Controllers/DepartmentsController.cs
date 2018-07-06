@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SkillsetAPI.Models;
 using SkillsetAPI.Services;
+using System.Linq;
 
 namespace SkillsetAPI.Controllers
 {
@@ -26,7 +27,7 @@ namespace SkillsetAPI.Controllers
     {
       var departmentsResult = _skillSetRepository.ReadDepartments();
 
-      return Ok(departmentsResult);
+      return Ok(departmentsResult.Where(x => x.IsActive == true));
     }
 
     //GET: api/Departments/{id}

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkillsetAPI.Models;
 using SkillsetAPI.Services;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SkillsetAPI.Controllers
 {
@@ -27,7 +28,7 @@ namespace SkillsetAPI.Controllers
     {
       var associatesResult = _skillSetRepository.ReadAssociates();
 
-      return Ok(associatesResult);
+      return Ok(associatesResult.Where(x => x.IsActive == true));
     }
 
     //GET: api/Associates/{id}

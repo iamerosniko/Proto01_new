@@ -6,7 +6,7 @@
                 <hr style="border-bottom: 1px solid #2196F3; margin-left: -15px; margin-right: -15px; " />
             </div>
         </div>
-        <div *ngIf="currentUserName==null" class="row">
+        <div class="row">
             <div class="profile-content">
                 <div class="col-md-12">
                     <div class="col-md-6">
@@ -31,7 +31,7 @@
                                     [formControl]="skillsetFrm.get('Department')"
                                     >
                                 <option value="0"  disabled selected> Select Department </option>
-                                <option *ngFor="let x of activeDepartments" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
+                                <option *ngFor="let x of departments" [value]="x.DepartmentID"> {{x.DepartmentDescr}} </option>
                                 <!-- <option 
                                         *ngFor="let dept of departments" 
                                         [ngValue]="dept.DepartmentID"
@@ -59,7 +59,7 @@
                                         [selected]="loc == selectedOption" >
                                     {{loc.LocationDescr}}
                                 </option> -->
-                                <option *ngFor="let x of activeLocations" [value]="x.LocationID"> {{x.LocationDescr}} </option>
+                                <option *ngFor="let x of locations" [value]="x.LocationID"> {{x.LocationDescr}} </option>
                             </select>
                             <br />
                         </div>
@@ -119,7 +119,7 @@
                                             
                             <div 
                                 class="panel panel-primary"
-                                *ngFor="let dpt of activeDepartments">
+                                *ngFor="let dpt of departments">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{dpt.DepartmentID}}">

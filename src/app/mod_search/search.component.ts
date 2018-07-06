@@ -5,8 +5,6 @@ import { SkillsetSvc } from '../com_services/skillset.svc';
 import { DepartmentSvc } from '../com_services/department.svc';
 import { AssociateSvc } from '../com_services/associate.svc';
 import { LocationSvc } from '../com_services/location.svc';
-import { CurrentUserSvc } from '../com_services/currentuser.svc';
-// import { Set_UserSvc } from '../com_services/set_user.svc';
 import { DataAssociateReport } from './data/data-associate.reports';
 import { DataSkillsetReport } from './data/data-skillset.reports';
 import { DataDepartmentReport } from './data/data-department.reports';
@@ -15,7 +13,7 @@ import { DataLastworkedonReport } from './data/data-lastworkedon.reports';
 import 'hammerjs';
 //entities
 import { Location,Department,Skillset,
-  Associate,User,
+  Associate,
   AssociateRpt,SelectItem,
   SkillsetRpt,DepartmentRpt,LastTimeWorkedOnRpt
 } from '../com_entities/entities';
@@ -31,8 +29,6 @@ export class SearchComponent implements OnInit {
     private departmentSvc:DepartmentSvc,
     private locationSvc:LocationSvc,
     private skillsetSvc:SkillsetSvc,
-    // private setUserSvc:Set_UserSvc,
-    private currentUserSvc:CurrentUserSvc,            
     private associateReportSvc:DataAssociateReport,
     private skillsetReportSvc:DataSkillsetReport,
     private departmentReportSvc:DataDepartmentReport,
@@ -52,7 +48,6 @@ export class SearchComponent implements OnInit {
   locations:Location[]=[];
   departments:Department[]=[];
   associates:Associate[]=[];
-  users:User[]=[];
   // set_Users:Set_User[]=[];
   associateRpt:AssociateRpt[]=[];
   skillsetRpt:SkillsetRpt[]=[];
@@ -134,7 +129,7 @@ export class SearchComponent implements OnInit {
   async ngOnInit(){
     if(sessionStorage.getItem('AuthToken')!=null){
       await this.getDependencies();
-      if(this.users!=null){
+      if(this.associates!=null){
         await this.getItems();
       }
       else{
@@ -152,19 +147,9 @@ export class SearchComponent implements OnInit {
     this.associates = await this.associateSvc.getAssociates();
     this.locations = await this.locationSvc.getLocations();
     this.departments = await this.departmentSvc.getDepartments();
-    this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.skillsets=await this.skillsetSvc.getSkillsets();
-    
-    this.removeInactive();
   }
   
-  async removeInactive(){
-    this.locations=await this.locations.filter(x=>x.IsActive==true);
-    this.departments=await this.departments.filter(x=>x.IsActive==true);
-    this.associates=await this.associates.filter(x=>x.IsActive==true);
-    this.skillsets=await this.skillsets.filter(x=>x.IsActive==true);
-  }
-
   async getItems(){
     this.items=[];
     this.yourVariableName=[];
@@ -174,7 +159,6 @@ export class SearchComponent implements OnInit {
     if(this.radioSelect==0){
       let associates=this.associates.filter(x=>x.LocationID==this.selectedLocation);
       for(var i = 0; i<associates.length;i++){
-        // var fullName=this.getFullName(associates[i].UserName);
         this.items.push( { 'id': associates[i].AssociateID.toString(), 'text': associates[i].FullName});
       }
     }
@@ -270,10 +254,6 @@ export class SearchComponent implements OnInit {
     return result;
   }
 
-  getFullName(username:string):string{
-    let user:User= this.users.find(x=>x.UserName==username);
-    return user==null ? null : user.FirstName + ' ' + user.LastName
-  }
   //ng2-select on select
   public refreshValue(value:any):void {
     this.selectedItems = value;

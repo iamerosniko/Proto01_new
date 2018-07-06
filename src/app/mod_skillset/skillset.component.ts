@@ -45,10 +45,7 @@ export class SkillSetComponent{
   // private users: Set_User[];
   // private user: Set_User;
   public locations: Location[];
-  public activeLocations: Location[];
   public departments: Department[];
-  public activeDepartments: Department[];
-  public activeSkills: Skillset[];
   private skillsets: Skillset[];
   private departmentSkillsets: DepartmentSkillsets[];
   private associateDepartmentSkillsets: AssociateDepartmentSkillset[];
@@ -97,19 +94,10 @@ export class SkillSetComponent{
     }
     // this.currentUser = await this.curUserSvc.GetUserRolesFromBtam("alverer@mfcgd.com");
     this.locations = await this.locSvc.getLocations();
-    this.activeLocations = await this.locations.filter(x=>x.IsActive==true);
     this.departments = await this.depSvc.getDepartments();
-    this.activeDepartments= await this.departments.filter(x=>x.IsActive==true);
     this.skillsets = await this.sklSvc.getSkillsets();
-    this.activeSkills = await this.skillsets.filter(x=>x.IsActive==true);
     this.departmentSkillsets = await this.dptSklSvc.getDepartmentSkillsets();
     this.associateDepartmentSkillsets = await this.assDptSklSvc.getAssociateDeptSkillsets();
-  }
-
-  //TEMPLATE: filter/sort data remove inactive
-  async filterDataList() {
-    this.locations = await this.locations.filter(location => location.IsActive == true);
-    this.departments = await this.departments.filter(department => department.IsActive == true);
   }
 
   //TEMPLATE: this will run functions in order
@@ -119,7 +107,6 @@ export class SkillSetComponent{
     this.skillsetCheck = await {};
     this.dateToday = await new Date();
     await this.getCurrentUserData();
-    await this.filterDataList();
     await this.prepareDBO();
     await this.assignLastWorkedOn();
   }
@@ -170,8 +157,7 @@ export class SkillSetComponent{
 
   //this will prepare DBO
   async prepareDBO()  {
-    // if(this.departmentSkillsets && this.departments && this.skillsets) {
-    if(this.departmentSkillsets && this.activeDepartments && this.activeSkills) {
+    if(this.departmentSkillsets && this.departments && this.skillsets) {
       //extract data from DepartmentSkillsets
       for (let item of this.departmentSkillsets) {
         let dptSklDBO = new DepartmentSkillsetDBO();
@@ -188,8 +174,8 @@ export class SkillSetComponent{
 
       //get description of DepartmentID
       for (let item of this.departmentSkillsetDBOs) {
-        // let dpt = this.departments.find(dept => dept.DepartmentID === item.DepartmentID);
-        let dpt = this.activeDepartments.find(dept => dept.DepartmentID === item.DepartmentID);
+        let dpt = this.departments.find(dept => dept.DepartmentID === item.DepartmentID);
+        // let dpt = this.activeDepartments.find(dept => dept.DepartmentID === item.DepartmentID);
         if(dpt!=null){
           item.DepartmentDescr = dpt.DepartmentDescr;
           item.DepartmentIsActive = dpt.IsActive;
@@ -198,7 +184,7 @@ export class SkillSetComponent{
 
       //get description of Skillsets
       for (let item of this.departmentSkillsetDBOs) {
-        let skl = this.activeSkills.find(skill => skill.SkillsetID === item.SkillsetID);
+        let skl = this.skillsets.find(skill => skill.SkillsetID === item.SkillsetID);
         if(skl!=null){
           item.SkillsetDescr = skl.SkillsetDescr;
           item.SkillsetIsActive = skl.IsActive;
@@ -368,8 +354,8 @@ export class SkillSetComponent{
   
     await this.assignValues(formData);
 
-    var curLoc = await this.activeLocations.find(x=>x.LocationID == this.associateForPosting.LocationID);
-    var curDep = await this.activeDepartments.find(x=>x.DepartmentID==this.associateForPosting.DepartmentID)
+    var curLoc = await this.locations .find(x=>x.LocationID == this.associateForPosting.LocationID);
+    var curDep = await this.departments.find(x=>x.DepartmentID==this.associateForPosting.DepartmentID)
 
     if(curLoc ==null && curDep ==null){
       this.isDepartmentAndLocationSafe = false;

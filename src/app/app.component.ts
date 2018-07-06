@@ -151,6 +151,7 @@ export class AppComponent  implements OnDestroy{
     this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName); 
     var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);
     var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
+  // this.currentUser.Role="Limited"
     // console.log(user);    
     // await console.log(this.currentUser);
     // console.log(authenticationToken);
