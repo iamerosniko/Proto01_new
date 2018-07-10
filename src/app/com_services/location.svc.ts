@@ -23,10 +23,10 @@ export class LocationSvc {
 
     getLocations(): Promise<Location[]> {
         return this.http
-                .get(this.apiUrl, {headers: this.headers})
-                .toPromise()
-                .then(response => response.json())
-                .catch(AppSettings.HANDLEERROR);
+            .get(this.apiUrl, {headers: this.headers})
+            .toPromise()
+            .then(response => response.json())
+            .catch(AppSettings.HANDLEERROR);
     }
 
     getLocation(id: number): Promise<Location> {

@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using SkillsetAPI.Entities;
 using SkillsetAPI.Services;
 using System;
+using System.Text;
 
 namespace SkillsetAPI
 {
@@ -24,21 +27,21 @@ namespace SkillsetAPI
     {
 
       var a = Startup.Configuration["JWT:ValidIssuer"];
-      //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-      //.AddJwtBearer(options =>
-      //{
-      //  options.TokenValidationParameters = new TokenValidationParameters
-      //  {
-      //    ValidateIssuer = true,
-      //    ValidateAudience = true,
-      //    ValidateLifetime = true,
-      //    ValidateIssuerSigningKey = true,
-      //    ValidIssuer = Startup.Configuration["JWT:ValidIssuer"],
-      //    ValidAudience = Startup.Configuration["JWT:ValidAudience"],
-      //    IssuerSigningKey = new SymmetricSecurityKey(
-      //                    Encoding.UTF8.GetBytes(Startup.Configuration["JWT:IssuerSigningKey"])),
-      //  };
-      //});
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+      .AddJwtBearer(options =>
+      {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidateLifetime = true,
+          ValidateIssuerSigningKey = true,
+          ValidIssuer = Startup.Configuration["JWT:ValidIssuer"],
+          ValidAudience = Startup.Configuration["JWT:ValidAudience"],
+          IssuerSigningKey = new SymmetricSecurityKey(
+                          Encoding.UTF8.GetBytes(Startup.Configuration["JWT:IssuerSigningKey"])),
+        };
+      });
 
       //this will make JSON as statement case
       services.AddMvc()
@@ -81,7 +84,7 @@ namespace SkillsetAPI
 
       );
       //this is used for autherization
-      //app.UseAuthentication();
+      app.UseAuthentication();
 
       AutoMapper.Mapper.Initialize(
               cfg =>

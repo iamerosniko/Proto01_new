@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 //using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using System;
 //using System.Text;
 
 namespace SkillsetClient
@@ -45,17 +46,18 @@ namespace SkillsetClient
       //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       //.AddJwtBearer(options =>
       //{
-      //    options.TokenValidationParameters = new TokenValidationParameters
-      //    {
-      //        ValidateIssuer = true,
-      //        ValidateAudience = true,
-      //        ValidateLifetime = true,
-      //        ValidateIssuerSigningKey = true,
-      //        ValidIssuer = Configuration["IDPServer:ValidIssuer"],
-      //        ValidAudience = Configuration["IDPServer:ValidAudience"],
-      //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["IDPServer:IssuerSigningKey"])),
+      //  options.TokenValidationParameters = new TokenValidationParameters
+      //  {
+      //    ValidateIssuer = true,
+      //    ValidateAudience = true,
+      //    ValidateLifetime = true,
+      //    ValidateIssuerSigningKey = true,
+      //    SaveSigninToken = true,
+      //    ValidIssuer = Configuration["IDPServer:ValidIssuer"],
+      //    ValidAudience = Configuration["IDPServer:ValidAudience"],
+      //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["IDPServer:IssuerSigningKey"])),
 
-      //    };
+      //  };
       //});
 
       //services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
@@ -93,8 +95,12 @@ namespace SkillsetClient
 
       });
 
-      services.AddSession();
+      //services.AddSession();
 
+      services.AddSession(options =>
+      {
+        options.IdleTimeout = TimeSpan.FromSeconds(10);
+      });
 
     }
 
