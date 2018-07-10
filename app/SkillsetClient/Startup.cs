@@ -72,6 +72,7 @@ namespace SkillsetClient
                   castedResolver.NamingStrategy = null;
                 }
               });
+
       services.AddCors(options =>
       {
 
