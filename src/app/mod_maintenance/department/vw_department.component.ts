@@ -94,10 +94,8 @@ export class VWDepartmentComponent {
 
   async goBack(){
     this.mode=0;
-    this.getDepartments();
-    this.getDepartmentSkillsets();
-    this.getAssociateDepartmentSkillsets();
-    this.department=new Department(0,'',true);   
+    await this.getDependencies();
+    this.department= await new Department(0,'',true);   
   }
 
   async saveDepartment(){
@@ -127,17 +125,11 @@ export class VWDepartmentComponent {
     return msg==''?(true):(alert(msg),false);
   }
 
-  async getDepartments(){
+  async getDependencies(){
     this.loading=await true;
     this.departments=(await this.deptSvc.getDepartments()).filter(x=>x.IsActive==true);
-    this.loading=await false;
-  }
-
-  async getDepartmentSkillsets(){
     this.departmentSkillsets = await this.departmentSkillsetSvc.getDepartmentSkillsets();
-  }
-
-  async getAssociateDepartmentSkillsets(){
     this.associateDepartmentSkillset = await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
+    this.loading=await false;
   }
 }
