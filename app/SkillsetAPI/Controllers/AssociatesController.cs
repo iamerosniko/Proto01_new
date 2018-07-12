@@ -61,8 +61,8 @@ namespace SkillsetAPI.Controllers
 
       var newAssociateEntity = Mapper.Map<Entities.Associate>(associate);
 
-      newAssociateEntity.TransferDate = new System.DateTime(1999, 1, 1);
-      newAssociateEntity.StartDate = new System.DateTime(1999, 1, 1);
+      newAssociateEntity.TransferDate = null;
+      newAssociateEntity.StartDate = null;
 
       _skillSetRepository.CreateAssociate(newAssociateEntity);
 

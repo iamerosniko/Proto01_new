@@ -4,33 +4,45 @@ import { DepartmentSkillsetsSvc } from '../../com_services/dept_skillset.svc';
 import { DataAssociateReport } from './data-associate.reports';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { AssociateSvc } from '../../com_services/associate.svc';
+import { SkillsetSvc } from '../../com_services/skillset.svc';
+import { LocationSvc } from '../../com_services/location.svc';
+import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_skillset.svc';
 //entities
 import { Department,
-  Associate,
+  Associate,Skillset,
+  Location,AssociateRpt,
   DepartmentSkillsets1,
-  DepartmentRpt
+  DepartmentRpt,AssociateDepartmentSkillset, AssociateDetails, DepartmentSkills
 } from '../../com_entities/entities';
+import { resolve } from '../../../../node_modules/@types/q';
 @Injectable()
 export class DataDepartmentReport {
     constructor(
-        private departmentSkillsetSvc:DepartmentSkillsetsSvc,
-        private assocRptSvc:DataAssociateReport,
-         private associateSvc:AssociateSvc,
+        private associateSvc:AssociateSvc,
         private departmentSvc:DepartmentSvc,
-        
+        private locationSvc:LocationSvc,
+        private skillsetSvc:SkillsetSvc,
+        private departmentSkillsetSvc:DepartmentSkillsetsSvc,
+        private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc
     ){
 
     }
 
     allDepartmentSkillsets:DepartmentSkillsets1[]=[];
+    allAssociateDepartmentSkillset:AssociateDepartmentSkillset[]=[];
     allAssociates:Associate[]=[];
     allDepartments:Department[]=[];
+    allLocations:Location[]=[];
+    allSkillsets:Skillset[]=[];
 
     
     async getDependencies(){
+        this.allAssociateDepartmentSkillset=await this.assocDeptSkillsetSvc.getAssociateDeptSkillsets();
         this.allDepartments=await this.departmentSvc.getDepartments();
         this.allAssociates=await this.associateSvc.getAssociates();
         this.allDepartmentSkillsets=await this.departmentSkillsetSvc.getDepartmentSkillsets();
+        this.allLocations=await this.locationSvc.getLocations();
+        this.allSkillsets=await this.skillsetSvc.getSkillsets();
     }
 
     async getDepartment(departmentID:number):Promise<Department>{
@@ -38,6 +50,15 @@ export class DataDepartmentReport {
             resolve(
                 this.allDepartments.find(x=>x.DepartmentID==departmentID)
                 // this.departmentSvc.getDepartment(departmentID)
+            )
+        );
+    }
+
+    async getLocation(locationID:number):Promise<Location>{
+        return new Promise<Location>((resolve) => 
+            resolve(
+                this.allLocations.find(x=>x.LocationID==locationID)
+                // this.locationSvc.getLocation(locationID)
             )
         );
     }
@@ -52,6 +73,21 @@ export class DataDepartmentReport {
         );
     }
 
+    getDateString(myDate:Date):string{
+        var dateStr:string='';
+        var dd:number = myDate.getDate();
+        var mm = myDate.getMonth()+1; //January is 0!
+
+        var yyyy = myDate.getFullYear();
+
+        dateStr+=((mm<10)?'0'+mm.toString():mm.toString()) + '/';
+
+        dateStr+=((dd<10)?'0'+dd.toString():dd.toString()) + '/';
+        dateStr+=yyyy.toString();
+
+        return dateStr;
+    }
+
     async getDepartmentReport(departmentID:number,locationID:number,dateFrom:Date,dateTo:Date):Promise<DepartmentRpt>{
         await this.getDependencies();
 
@@ -63,23 +99,85 @@ export class DataDepartmentReport {
         departmentRpt.DepartmentID=await department.DepartmentID;
 
         //get associates from associatedepartmentSkillset according to departmentskillsets
-      
         associates =this.allAssociates.filter(x=>x.DepartmentID==departmentID && x.LocationID==locationID);
-
+        associates.forEach(async element => {
+            var assrpt = await this.getSkillsets(element)
+            if(assrpt!=null){
+                departmentRpt.AssociateRpts.push(assrpt)
+            }
+        });
         //get their skills according to their current department
-        for(var assoc of associates){
-            var assocrpt=await this.assocRptSvc.getAssociateReport(assoc.AssociateID,dateFrom,dateTo);
-            // console.log(assocrpt);
-            if(assocrpt!=null)
-                departmentRpt.AssociateRpts=departmentRpt.AssociateRpts.concat(assocrpt);
-                // console.log(departmentRpt);
-        }
+        // for(var assoc of associates){
+        //     var assocrpt=await this.assocRptSvc.getAssociateReport2(assoc.AssociateID,departmentID,dateFrom,dateTo);
+        //     // console.log(assocrpt);
+        //     if(assocrpt!=null)
+        //         departmentRpt.AssociateRpts=departmentRpt.AssociateRpts.concat(assocrpt);
+        //         // console.log(departmentRpt);
+        // }
 
         return new Promise<DepartmentRpt>((resolve) =>             
             resolve(departmentRpt)
         );
 
 
+    }
+
+    async getSkillsets(associate:Associate):Promise<AssociateRpt>{
+        var associateDepartmentSkillsets = this.allAssociateDepartmentSkillset.filter(x=>x.AssociateID==associate.AssociateID);
+        var departmentSkillsetsDirty:DepartmentSkillsets1[]=[];
+        var departmentSkillsetsClean:DepartmentSkillsets1[]=[];
+        var associateRpt:AssociateRpt={};
+        //associate detail
+        associateRpt.Associate=new AssociateDetails(
+            associate.FullName,
+            associate.VPN?"Yes":"No",
+            associate.PhoneNumber,
+            (await this.getDepartment(associate.DepartmentID)).DepartmentDescr,            
+            (await this.getLocation (associate.LocationID)).LocationDescr,
+            this.getDateString(new Date(associate.UpdatedOn)),
+            associate.AssociateID            
+        );
+
+        associateRpt.DepartmentSkills=[];
+
+        associateDepartmentSkillsets.forEach(ads => {
+            var ds = this.allDepartmentSkillsets.find(x=>x.DepartmentSkillsetID==ads.DepartmentSkillsetID && x.DepartmentID==associate.DepartmentID);
+            if(ds!=null){
+                departmentSkillsetsDirty.push(ds)
+            }
+        });
+
+        departmentSkillsetsDirty.forEach(element => {
+            var dept = this.allDepartmentSkillsets.find(x=>x.DepartmentID==element.DepartmentID && x.DepartmentSkillsetID==element.DepartmentSkillsetID);
+            var skills = this.allSkillsets.find(x=>x.SkillsetID==element.SkillsetID);
+            if(dept!=null&&skills!=null){
+                departmentSkillsetsClean.push(dept)
+                dept=null;
+            }
+        });
+
+
+        while(departmentSkillsetsClean.length>0){
+
+            var tempdset = departmentSkillsetsClean[0];
+            var tempDsets = departmentSkillsetsClean.filter(x=>x.DepartmentID==tempdset.DepartmentID);
+            var dept = this.allDepartments.find(x=>x.DepartmentID==tempdset.DepartmentID);
+            var departmentSkills:DepartmentSkills= {DepartmentName:dept.DepartmentDescr,Skills:[]};
+            tempDsets.forEach(ds => {
+                var skillset= this.allSkillsets.find(x=>x.SkillsetID==ds.SkillsetID);
+                departmentSkills.Skills.push(
+                    skillset
+                )
+                skillset=null;
+            });
+            departmentSkillsetsClean=departmentSkillsetsClean.filter(x=>x.DepartmentID!=tempdset.DepartmentID);
+            associateRpt.DepartmentSkills.push(departmentSkills);
+        }
+
+
+        return new Promise<AssociateRpt>((resolve) =>             
+            resolve(associateRpt) 
+        );
     }
 
     //getDepartmentSkillsets according to departmentID

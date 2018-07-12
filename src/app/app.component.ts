@@ -79,7 +79,7 @@ export class AppComponent  implements OnDestroy{
     private btamSvc:BTAMSvc
   ){
     
-    this.router.events.debounceTime(1000).subscribe(
+    this.router.events.debounceTime(500).subscribe(
        ()=>{
         if(this.location.path() != ''){
           this.routeStr =  this.location.path();
@@ -142,33 +142,40 @@ export class AppComponent  implements OnDestroy{
   //test
   async getSignedInUser(){
     //original
-    var user = await this.curUserSvc.getSignedInUser();
+    // var user = await this.curUserSvc.getSignedInUser();
     // console.log(user);
-    // var user =  {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    var user =  {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     var btamURL=await this.btamSvc.getBTAMURL();
     sessionStorage.setItem("BTAM_URL",btamURL.BTAMURL)
 
     this.currentUser = await this.curUserSvc.GetUserRolesFromBtam(user.UserName); 
-    var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);
-    var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
-  // this.currentUser.Role="Limited"
-    // console.log(user);    
-    // await console.log(this.currentUser);
-    // console.log(authenticationToken);
-    // console.log(authorizationToken);
-
-    sessionStorage.setItem("AuthToken",authenticationToken.Token);
-    sessionStorage.setItem("ApiToken", authorizationToken.Token);
+    if(this.currentUser==null){
+      this.currentUser = {UserID: "", UserName: "NoAccess", FirstName: "", LastName: "", Role: "NoAccess"}
+    }
+    else{
+      var authenticationToken = await this.curUserSvc.GetAuthenticationTokenFromBtam(this.currentUser);
+      var authorizationToken = await this.curUserSvc.GetAuthorizationToken(authenticationToken);
+    // this.currentUser.Role="Limited"
+      // console.log(user);    
+      // await console.log(this.currentUser);
+      // console.log(authenticationToken);
+      // console.log(authorizationToken);
+  
+      sessionStorage.setItem("AuthToken",authenticationToken.Token);
+      sessionStorage.setItem("ApiToken", authorizationToken.Token);
+    }
   }
 
   async checkIfAuthenticated(){
   
-    if(this.currentUser.FirstName==""){
+    if(this.currentUser.UserName==""){
       await this.getSignedInUser();
       await this.checkIfAuthenticated();
     }
     
-    if(sessionStorage.getItem('AuthToken')==''){
+    console.log(this.currentUser)
+
+    if(this.currentUser.Role=="NoAccess"){
       await this.routeOnly('noaccess');
     }
     else{

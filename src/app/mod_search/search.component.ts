@@ -215,6 +215,7 @@ export class SearchComponent implements OnInit {
             var depts=await   this.departmentReportSvc.getDepartmentReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
             //.
             // then( a=>  this.departmentRpt.push(a));
+            console.log(depts)
             this.departmentRpt.push(depts)
             //console.log(this.departmentRpt);
           }

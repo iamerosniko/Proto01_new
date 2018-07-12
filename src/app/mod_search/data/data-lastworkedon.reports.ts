@@ -60,23 +60,23 @@ export class DataLastworkedonReport {
     async getSkillsetRpt(dsID:number,associateID:number,locationID:number,dateFrom:Date,dateTo:Date):Promise<SkillsetRpt[]>{
         var tempDS:DepartmentSkillsets1 = await this.allDepartmentSkillsets.find(x=>x.DepartmentSkillsetID==dsID);
         //this contains 
+
+        console.log(tempDS)
         var tempSkillsetReport:SkillsetRpt[]=[];
 
         // console.log(associateID);
-        tempSkillsetReport=tempSkillsetReport.concat( 
-            await this.skillsetRpt.getSkillsetReport(
-                tempDS.SkillsetID,
-                locationID,
-                dateFrom,
-                dateTo
-                )
-            ).filter(x=>(x.Associates=x.Associates.filter(y=>y.assocId==associateID)));
-        // console.log(tempSkillsetReport);
-        tempSkillsetReport
-    
-
+        if(tempDS!=null){
+            tempSkillsetReport=tempSkillsetReport.concat( 
+                await this.skillsetRpt.getSkillsetReport(
+                    tempDS.SkillsetID,
+                    locationID,
+                    dateFrom,
+                    dateTo
+                    )
+                ).filter(x=>(x.Associates=x.Associates.filter(y=>y.assocId==associateID)));
+        }
+        
         return new Promise<SkillsetRpt[]>((resolve)=>resolve(tempSkillsetReport));
-
     }
     //
 

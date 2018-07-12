@@ -185,7 +185,7 @@ export class AssociateRpt {
         // public CurrentLocation?: string,
         // public VPN?: string,
         // public LastUpdated?: string,
-        public Associate:AssociateDetails,
+        public Associate?:AssociateDetails,
         public DepartmentSkills?:DepartmentSkills[]
         ){
     }
