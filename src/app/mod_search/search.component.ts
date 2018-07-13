@@ -88,29 +88,29 @@ export class SearchComponent implements OnInit {
 
     var a = document.createElement('a');
     a.href = data_type + ', ' + table_html;
-    // a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
     a.download = await this.getReportName() + '.xls';
     a.click();
   }
-  async ieExportToExcel(){
-    var table_div = document.getElementById('assocRpt');
-    var table_html = table_div.outerHTML;
-    var tab_text=table_html;
+  
+  // async ieExportToExcel(){
+  //   var table_div = document.getElementById('assocRpt');
+  //   var table_html = table_div.outerHTML;
+  //   var tab_text=table_html;
     
-    var txtArea1:HTMLIFrameElement=<HTMLIFrameElement>document.getElementById('txtArea1');
+  //   var txtArea1:HTMLIFrameElement=<HTMLIFrameElement>document.getElementById('txtArea1');
 
-    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+  //   tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+  //   tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+  //   tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
-    var iWindow = txtArea1.contentWindow
+  //   var iWindow = txtArea1.contentWindow
     
-      iWindow.document.open("txt/html","replace");
-      iWindow.document.write(tab_text);
-      iWindow.document.close();
-      txtArea1.focus(); 
-      iWindow.document.execCommand("SaveAs",true,await this.getReportName() +".xls");
-  }
+  //     iWindow.document.open("txt/html","replace");
+  //     iWindow.document.write(tab_text);
+  //     iWindow.document.close();
+  //     txtArea1.focus(); 
+  //     iWindow.document.execCommand("SaveAs",true,await this.getReportName() +".xls");
+  // }
 
   async getReportName():Promise<string>{
     var str='';
