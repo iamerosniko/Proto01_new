@@ -44,6 +44,7 @@ export class VWAssociateComponent implements OnInit {
   }
   loading:boolean=false;
   p: number = 1;
+  items:number=20;
   filterDept:number = -1;
   // set_Users:Set_User[]=[];
   users:User[]=[];
@@ -95,10 +96,11 @@ export class VWAssociateComponent implements OnInit {
       tempAssoc.push( assocTemp);
     });
 
-    var assocsBulkResult = tempUsers.length>0 ? await this.associateSvc.postAssociates(tempAssoc) : [];
+    tempUsers.length>0 ? await this.associateSvc.postAssociates(tempAssoc) : null;
     this.associates = await [];
-    console.log('added file'+assocsBulkResult.length)
     this.associates = await this.associateSvc.getAssociates();
+    await this.RefreshAssociates();
+
   }
   
   getUnusedUsers():User[]{
@@ -170,10 +172,10 @@ export class VWAssociateComponent implements OnInit {
     }
   }
 
-  cleanUp(){
-    this.associates=[];
-    this.getDependencies();
-    this.associate=new Associate();
+  async cleanUp(){
+    this.associate=await new Associate();
+    this.associates=await [];
+    await this.getDependencies();
   }
 
   async saveAssociate(){
@@ -197,9 +199,9 @@ export class VWAssociateComponent implements OnInit {
     }
   }
 
-  btnClose(){
+  async btnClose(){
     document.getElementById("btnGoBack").click();
-    this.goBack();
+    await this.goBack();
   }
 
   entryValidation():boolean{
@@ -213,9 +215,9 @@ export class VWAssociateComponent implements OnInit {
     return msg==''?(true):(alert(msg),false);
   }
 
-  goBack(){
+  async goBack(){
     this.mode=0;
-    this.cleanUp();
+    await this.cleanUp();
   }
 
   exportAssociates(){
