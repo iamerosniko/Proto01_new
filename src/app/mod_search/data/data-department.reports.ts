@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 //services
 import { DepartmentSkillsetsSvc } from '../../com_services/dept_skillset.svc';
-import { DataAssociateReport } from './data-associate.reports';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { SkillsetSvc } from '../../com_services/skillset.svc';
@@ -14,7 +13,6 @@ import { Department,
   DepartmentSkillsets1,
   DepartmentRpt,AssociateDepartmentSkillset, AssociateDetails, DepartmentSkills
 } from '../../com_entities/entities';
-import { resolve } from '../../../../node_modules/@types/q';
 @Injectable()
 export class DataDepartmentReport {
     constructor(

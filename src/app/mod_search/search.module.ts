@@ -32,7 +32,7 @@ import {
   // MaterialModule,MdDatepickerModule,MdNativeDateModule
    } from '@angular/material';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { ProgressbarModule } from 'ngx-bootstrap';
 @NgModule({
   //components area
   declarations: [
@@ -48,6 +48,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   //module area
   imports: [
+    ProgressbarModule.forRoot(),
     BrowserModule,BrowserAnimationsModule,HttpModule,CommonModule,FormsModule,
     SelectModule,
     MatDatepickerModule,

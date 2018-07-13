@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -25,7 +27,10 @@ namespace SkillsetClient
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-
+      services.Configure<MvcOptions>(options =>
+      {
+        options.Filters.Add(new CorsAuthorizationFilterFactory("CORS"));
+      });
       services.AddAuthentication(sharedOptions =>
       {
         sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;

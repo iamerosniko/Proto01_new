@@ -66,7 +66,28 @@ namespace SkillsetAPI
       services.AddDbContext<SkillSetContext>(o => o.UseSqlServer(connectionString));
       //comment this out when creating new migration
       services.AddScoped<ISkillSetRepository, SkillSetRepository>();
-      services.AddCors();
+      services.AddCors(options =>
+      {
+
+        options.AddPolicy("CORS",
+
+        corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
+
+        // Apply CORS policy for any type of origin
+
+        .AllowAnyMethod()
+
+        // Apply CORS policy for any type of http methods
+
+        .AllowAnyHeader()
+
+        // Apply CORS policy for any headers
+
+        .AllowCredentials());
+
+        // Apply CORS policy for all users
+
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -126,7 +147,7 @@ namespace SkillsetAPI
 
         System.Diagnostics.Debug.WriteLine(ex, "Failed to migrate or seed database");
       }
-
+      app.UseCors("CORS");
       app.UseMvc();
     }
   }

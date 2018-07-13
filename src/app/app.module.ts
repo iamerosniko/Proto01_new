@@ -17,6 +17,7 @@ import { MaintenanceModule } from './mod_maintenance/maintenance.module';
 import { CommonCompModule } from './mod_common/common_comp.module';
 // import { TestExportModule } from './mod-test-export/mod-test-export.module';
 import { LoadItemsComponent } from './mod_common/load-items/load-items.component';
+import { SkillsetMaintenanceServices } from './com_services/skillsetmaintenance.service';
 @NgModule({
   //components area
   declarations: [
@@ -36,7 +37,7 @@ import { LoadItemsComponent } from './mod_common/load-items/load-items.component
     // TestExportModule,
   ],
   //services area
-  providers: [MyTokenSvc,BTAMSvc
+  providers: [MyTokenSvc,BTAMSvc,SkillsetMaintenanceServices
   ],
   //initial component to be rendered
   bootstrap: [AppComponent]

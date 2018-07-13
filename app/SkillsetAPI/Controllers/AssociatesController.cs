@@ -10,7 +10,7 @@ using System.Linq;
 namespace SkillsetAPI.Controllers
 {
   //[Authorize]
-  [EnableCors("AllowWebClient")]
+  [EnableCors("CORS")]
   [Produces("application/json")]
   [Route("api/Associates")]
   public class AssociatesController : Controller

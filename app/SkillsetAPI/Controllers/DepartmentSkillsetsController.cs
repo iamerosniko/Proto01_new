@@ -8,7 +8,7 @@ using SkillsetAPI.Services;
 namespace SkillsetAPI.Controllers
 {
   //[Authorize]
-  [EnableCors("AllowWebClient")]
+  [EnableCors("CORS")]
   [Produces("application/json")]
   [Route("api/DepartmentSkillsets")]
   public class DepartmentSkillsetsController : Controller

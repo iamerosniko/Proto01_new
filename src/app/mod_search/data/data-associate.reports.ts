@@ -69,12 +69,12 @@ export class DataAssociateReport {
         var associate:Associate=await this.getAssociateDetails(associateID);
         var currentDepartment:Department;
         var currentLocation:Location;
-        // this.getSetUser();
         //loop ads to get departmentskillsets
         for(var i=0;i<associatesDepartmentSkillsets.length;i++){
-            departmentSkillsets.push(
-                await this.getDepartmentSkillsets(associatesDepartmentSkillsets[i].DepartmentSkillsetID)
-            );
+            var dstemp=await this.getDepartmentSkillsets(associatesDepartmentSkillsets[i].DepartmentSkillsetID)
+            if(dstemp!=null){
+                departmentSkillsets.push(dstemp);
+            }
         }
         while(departmentSkillsets.length>0){
             var tempdsTobeRemoved:DepartmentSkillsets1=departmentSkillsets[0];

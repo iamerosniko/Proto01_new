@@ -62,23 +62,23 @@ export class SearchComponent implements OnInit {
 
   isPrintReady:boolean=false;
   isRunReportReady:boolean=true;
-
+  isLoading:boolean=false;
   isLoadingResources:boolean=true;
-  
-
+  progress:number=0;
+  progressFor:string='';
   async print(){
     //determine if ie or chrome
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
 
-    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-      // alert('i am currently using IE');
-      this.ieExportToExcel();
-    }
-    //chrome / ff
-    else{
+    // if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+    //   // alert('i am currently using IE');
+    //   this.ieExportToExcel();
+    // }
+    // //chrome / ff
+    // else{
       this.chromeExportToExcel();
-    }
+    // }
 
   }
   async chromeExportToExcel(){
@@ -185,6 +185,8 @@ export class SearchComponent implements OnInit {
     this.skillsetRpt=await [];
     this.departmentRpt=await [];
     this.lastTimeWorkedOnRpt=await [];
+    this.progress=0;
+    this.progressFor='';
     if(this.compareRequiredFields()&&this.compareDate()) 
     {
       this.isPrintReady=false;
@@ -197,36 +199,56 @@ export class SearchComponent implements OnInit {
             new SelectItem(element.AssociateID,element.FullName)
           ):true
         });
+        await this.getResult();
       }
       else{
+        var associateRpt:AssociateRpt[]=[];
+        var skillsetRpt:SkillsetRpt[]=[];
+        var departmentRpt:DepartmentRpt[]=[];
+        var lastTimeWorkedOnRpt:LastTimeWorkedOnRpt[]=[];
+        this.isLoading=await true;
         for(let selectedItem of this.selectedItems){
+          this.progressFor=selectedItem.text
+
           if(this.radioSelect==0){
             var assoc = await this.associateReportSvc.getAssociateReport(selectedItem.id,this.dateFrom,this.dateTo)
             if(assoc!=null){
-              this.associateRpt.push(assoc);
+              this.progress+=1;
+              associateRpt.push(assoc);
             }
           }
           else if (this.radioSelect==1){
             var skills = await  this.skillsetReportSvc.getSkillsetReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
-            // .then( a=>  this.skillsetRpt.push(a));
-            this.skillsetRpt.push(skills)
+            if(skills!=null){
+              this.progress+=1;
+
+              skillsetRpt.push(skills)
+            }
           }
           else if (this.radioSelect==2){
             var depts=await   this.departmentReportSvc.getDepartmentReport(selectedItem.id,this.selectedLocation,this.dateFrom,this.dateTo)
-            //.
-            // then( a=>  this.departmentRpt.push(a));
-            console.log(depts)
-            this.departmentRpt.push(depts)
-            //console.log(this.departmentRpt);
+            if(depts!=null){
+              this.progress+=1;
+              departmentRpt.push(depts)
+            }
           }
           else if(this.radioSelect==3){
             var lastwork =await   this.lastWorkedOnReportSvc.getLastWorkedOnReport(selectedItem.text,this.selectedLocation,this.dateFrom,this.dateTo)
-            // .then( a=>  this.lastTimeWorkedOnRpt.push(a));
-            this.lastTimeWorkedOnRpt.push(lastwork)
+            console.log(lastwork)
+            if(lastwork!=null){
+              this.progress+=1;
+              lastTimeWorkedOnRpt.push(lastwork)
+            }
           }
-        }
-      }
 
+        }
+        this.associateRpt=associateRpt;
+        this.departmentRpt=departmentRpt;
+        this.lastTimeWorkedOnRpt=lastTimeWorkedOnRpt;
+        this.skillsetRpt=skillsetRpt;
+        this.isLoading=await false;
+
+      }
     }
     this.isPrintReady=await true; 
     this.isRunReportReady=await true;
