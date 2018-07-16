@@ -263,3 +263,15 @@ export class SignedInUser{
 export interface BTAM {
     BTAMURL?:string
 }
+
+
+export interface ExportAssociateRpt{
+    Name? : string,
+    VPN? : string,
+    Phone?: string,
+    CurrentDepartment? : string,
+    CurrentLocation? : string,
+    UpdatedOn? : string,
+    Skill?:string,
+    DepartmentSkill?:string
+}

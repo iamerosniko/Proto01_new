@@ -9,6 +9,7 @@ import { DataAssociateReport } from './data/data-associate.reports';
 import { DataSkillsetReport } from './data/data-skillset.reports';
 import { DataDepartmentReport } from './data/data-department.reports';
 import { DataLastworkedonReport } from './data/data-lastworkedon.reports';
+import { ExcelService } from '../com_services/excel.service';
 
 import 'hammerjs';
 //entities
@@ -16,7 +17,10 @@ import { Location,Department,Skillset,
   Associate,
   AssociateRpt,SelectItem,
   SkillsetRpt,DepartmentRpt,LastTimeWorkedOnRpt
+  //export,
+  ,ExportAssociateRpt
 } from '../com_entities/entities';
+import { SkillsetMaintenanceServices } from '../com_services/skillsetmaintenance.service';
 @Component({
   selector: 'search',
   templateUrl: 'search.component.html',
@@ -33,6 +37,7 @@ export class SearchComponent implements OnInit {
     private skillsetReportSvc:DataSkillsetReport,
     private departmentReportSvc:DataDepartmentReport,
     private lastWorkedOnReportSvc:DataLastworkedonReport,
+    private excelService: ExcelService,
     private router:Router
   ){
 
@@ -68,8 +73,8 @@ export class SearchComponent implements OnInit {
   progressFor:string='';
   async print(){
     //determine if ie or chrome
-    var ua = window.navigator.userAgent;
-    var msie = ua.indexOf("MSIE ");
+    // var ua = window.navigator.userAgent;
+    // var msie = ua.indexOf("MSIE ");
 
     // if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
     //   // alert('i am currently using IE');
@@ -77,20 +82,62 @@ export class SearchComponent implements OnInit {
     // }
     // //chrome / ff
     // else{
-      this.chromeExportToExcel();
+      // this.chromeExportToExcel();
     // }
 
-  }
-  async chromeExportToExcel(){
-    var data_type = 'data:application/vnd.ms-excel';
-    var table_div = document.getElementById('assocRpt');
-    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+    if(this.radioSelect==0)
+    {
+      var associateExports:ExportAssociateRpt[]=[];
+      this.associateRpt.forEach(async assoc => {
+        if(assoc.DepartmentSkills.length==0){
+          var associateExport :ExportAssociateRpt = {}
+          associateExport.CurrentDepartment=assoc.Associate.Department;
+          associateExport.CurrentLocation=assoc.Associate.Location;
+          associateExport.Name=assoc.Associate.Name;
+          associateExport.Phone=assoc.Associate.Phone;
+          associateExport.UpdatedOn=assoc.Associate.UpdatedOn;
+          associateExport.VPN=assoc.Associate.VPN;
+          associateExports.push(associateExport); 
+        }
+        assoc.DepartmentSkills.forEach(async deptSkill => {
+          deptSkill.Skills.forEach(async skills=> {
+            var associateExport :ExportAssociateRpt = {}
+              associateExport.CurrentDepartment=assoc.Associate.Department;
+              associateExport.CurrentLocation=assoc.Associate.Location;
+              associateExport.Name=assoc.Associate.Name;
+              associateExport.Phone=assoc.Associate.Phone;
+              associateExport.UpdatedOn=assoc.Associate.UpdatedOn;
+              associateExport.VPN=assoc.Associate.VPN;
+              associateExport.DepartmentSkill=deptSkill.DepartmentName;
+              associateExport.Skill=skills.SkillsetDescr;
+              associateExports.push(associateExport); 
 
-    var a = document.createElement('a');
-    a.href = data_type + ', ' + table_html;
-    a.download = await this.getReportName() + '.xls';
-    a.click();
+          });
+        });
+      });
+      console.log(associateExports)
+      await this.excelService.exportAsExcelFile(associateExports, "Associates");
+    }
+    // else if(this.radioSelect==1)
+    //   str='SkillsetReport';
+    // else if(this.radioSelect==2)
+    //   str='DepartmentReport';
+    // return new Promise<string>((resolve)=>
+    //   resolve(str+new Date().toLocaleDateString())
+    // );
+
+    // this.excelService.exportAsExcelFile(toExport, "Associates");          
   }
+  // async chromeExportToExcel(){
+  //   var data_type = 'data:application/vnd.ms-excel';
+  //   var table_div = document.getElementById('assocRpt');
+  //   var table_html = table_div.outerHTML.replace(/ /g, '%20');
+
+  //   var a = document.createElement('a');
+  //   a.href = data_type + ', ' + table_html;
+  //   a.download = await this.getReportName() + '.xls';
+  //   a.click();
+  // }
   
   // async ieExportToExcel(){
   //   var table_div = document.getElementById('assocRpt');
@@ -112,19 +159,19 @@ export class SearchComponent implements OnInit {
   //     iWindow.document.execCommand("SaveAs",true,await this.getReportName() +".xls");
   // }
 
-  async getReportName():Promise<string>{
-    var str='';
+  // async getReportName():Promise<string>{
+  //   var str='';
 
-    if(this.radioSelect==0)
-      str='AssociateReport';
-    else if(this.radioSelect==1)
-      str='SkillsetReport';
-    else if(this.radioSelect==2)
-      str='DepartmentReport';
-    return new Promise<string>((resolve)=>
-      resolve(str+new Date().toLocaleDateString())
-    );
-  }
+  //   if(this.radioSelect==0)
+  //     str='AssociateReport';
+  //   else if(this.radioSelect==1)
+  //     str='SkillsetReport';
+  //   else if(this.radioSelect==2)
+  //     str='DepartmentReport';
+  //   return new Promise<string>((resolve)=>
+  //     resolve(str+new Date().toLocaleDateString())
+  //   );
+  // }
 
   async ngOnInit(){
     if(sessionStorage.getItem('AuthToken')!=null){
@@ -157,10 +204,13 @@ export class SearchComponent implements OnInit {
     this.skillsetRpt=[];
     this.selectedItems=[];
     if(this.radioSelect==0){
-      let associates=this.associates.filter(x=>x.LocationID==this.selectedLocation);
-      for(var i = 0; i<associates.length;i++){
-        this.items.push( { 'id': associates[i].AssociateID.toString(), 'text': associates[i].FullName});
-      }
+      console.log(this.selectedLocation);
+      var associates=this.associates;
+      // let associates=this.associates.filter(x=>this.selectedLocation>0?x.LocationID==this.selectedLocation : x);
+      associates.forEach(element => {
+        this.items.push( { 'id': element.AssociateID.toString(), 'text':element.FullName});
+      });
+      // let associates=this.selectedLocation>0?this.associates.filter(x=>x.LocationID==this.selectedLocation):this.associates;
     }
     else if (this.radioSelect==1){
       for(var i = 0; i<this.skillsets.length;i++){
@@ -191,15 +241,16 @@ export class SearchComponent implements OnInit {
     {
       this.isPrintReady=false;
       this.isRunReportReady=false;
-
-      if(this.radioSelect==0 && this.selectedItems.length==0){
-        this.associates.filter(x=>x.LocationID==this.selectedLocation).forEach(element => {
+      console.log(this.selectedItems)
+      console.log(this.radioSelect==0 && this.selectedItems.length==0)
+        if(this.radioSelect==0 && this.selectedItems.length==0){
+        this.associates.filter(x=>this.selectedLocation>0 ? x.LocationID==this.selectedLocation : x.LocationID!=0).forEach( element => {
           element.DepartmentID>0 ?
           this.selectedItems.push(
             new SelectItem(element.AssociateID,element.FullName)
           ):true
         });
-        await this.getResult();
+        this.getResult();
       }
       else{
         var associateRpt:AssociateRpt[]=[];
@@ -247,7 +298,7 @@ export class SearchComponent implements OnInit {
         this.lastTimeWorkedOnRpt=lastTimeWorkedOnRpt;
         this.skillsetRpt=skillsetRpt;
         this.isLoading=await false;
-
+        console.log(this.associateRpt)
       }
     }
     this.isPrintReady=await true; 

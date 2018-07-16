@@ -33,6 +33,8 @@ import {
    } from '@angular/material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProgressbarModule } from 'ngx-bootstrap';
+import { ExcelService } from '../com_services/excel.service';
+
 @NgModule({
   //components area
   declarations: [
@@ -62,6 +64,7 @@ import { ProgressbarModule } from 'ngx-bootstrap';
     LocationSvc,DepartmentSvc,SkillsetSvc,AssociateSvc,
     DepartmentSkillsetsSvc,AssociateDepartmentSkillsetsSvc,
     //reports
+    ExcelService,
     DataAssociateReport,DataSkillsetReport,DataDepartmentReport,DataLastworkedonReport
   ],
   //components to be shared and used using selector

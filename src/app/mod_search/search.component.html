@@ -12,6 +12,7 @@
                     <label class="control-label">Search by Location</label>
                     <select  [disabled]="isLoading" class="form-control input-sm" (change)="getItems()" [(ngModel)]="selectedLocation">
                         <option value="-1" disabled selected> Select Location </option>
+                        <option value="0">All </option>
                         <option *ngFor="let x of locations" [value]="x.LocationID"> {{x.LocationDescr}} </option>
                     </select>
                 </div>
