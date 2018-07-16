@@ -78,31 +78,33 @@ export class SearchComponent implements OnInit {
     //assoc
     if(this.radioSelect==0)
     {
-      var associateExports:ExportAssociateRpt[]=[];
+      // var associateExports:ExportAssociateRpt[]=[];
+      var associateExports:any[]=[];
       this.associateRpt.forEach(async assoc => {
         if(assoc.DepartmentSkills.length==0){
-          var associateExport :ExportAssociateRpt = {}
-          associateExport.CurrentDepartment=assoc.Associate.Department;
-          associateExport.CurrentLocation=assoc.Associate.Location;
-          associateExport.Name=assoc.Associate.Name;
-          associateExport.Phone=assoc.Associate.Phone;
-          associateExport.UpdatedOn=assoc.Associate.UpdatedOn;
-          associateExport.VPN=assoc.Associate.VPN;
+          var associateExport :any = {
+            "Current Department" : assoc.Associate.Department,
+            "Current Location" :assoc.Associate.Location,
+            "Full Name" : assoc.Associate.Name,
+            "Phone Number" : assoc.Associate.Phone,
+            "Updated On" : assoc.Associate.UpdatedOn,
+            VPN: assoc.Associate.VPN
+          }
           associateExports.push(associateExport); 
         }
         assoc.DepartmentSkills.forEach(async deptSkill => {
           deptSkill.Skills.forEach(async skills=> {
-            var associateExport :ExportAssociateRpt = {}
-              associateExport.CurrentDepartment=assoc.Associate.Department;
-              associateExport.CurrentLocation=assoc.Associate.Location;
-              associateExport.Name=assoc.Associate.Name;
-              associateExport.Phone=assoc.Associate.Phone;
-              associateExport.UpdatedOn=assoc.Associate.UpdatedOn;
-              associateExport.VPN=assoc.Associate.VPN;
-              associateExport.DepartmentSkill=deptSkill.DepartmentName;
-              associateExport.Skill=skills.SkillsetDescr;
-              associateExports.push(associateExport); 
-
+            var associateExport :any = {
+              "Current Department" : assoc.Associate.Department,
+              "Current Location" :assoc.Associate.Location,
+              "Full Name" : assoc.Associate.Name,
+              "Phone Number" : assoc.Associate.Phone,
+              "Updated On" : assoc.Associate.UpdatedOn,
+              VPN: assoc.Associate.VPN,
+              "Department-Skill":deptSkill.DepartmentName,
+              "Skills" : skills.SkillsetDescr 
+            }
+            associateExports.push(associateExport); 
           });
         });
       });
