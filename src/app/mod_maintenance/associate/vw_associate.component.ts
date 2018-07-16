@@ -181,8 +181,6 @@ export class VWAssociateComponent implements OnInit {
   async saveAssociate(){
     if(this.entryValidation()){
       this.associate.UpdatedOn=new Date();
-      this.associate.TransferDate=new Date(this.associate.TransferDate);
-      this.associate.StartDate=new Date(this.associate.StartDate);
 
       console.log(this.associate);
       this.mode==0 ?
