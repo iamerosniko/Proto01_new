@@ -5,7 +5,6 @@ import { SkillsetSvc } from '../../com_services/skillset.svc';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { LocationSvc } from '../../com_services/location.svc';
-import { CurrentUserSvc } from '../../com_services/currentuser.svc';
 // import { Set_UserSvc } from '../../com_services/set_user.svc';
 import { DepartmentSkillsetsSvc } from '../../com_services/dept_skillset.svc';
 import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_skillset.svc';
@@ -24,7 +23,6 @@ export class DataSkillsetReport {
         private departmentSvc:DepartmentSvc,
         private locationSvc:LocationSvc,
         private skillsetSvc:SkillsetSvc,
-        private currentUserSvc:CurrentUserSvc,        
         // private setUserSvc:Set_UserSvc,
         private departmentSkillsetSvc:DepartmentSkillsetsSvc,
         private assocDeptSkillsetSvc:AssociateDepartmentSkillsetsSvc,
@@ -98,15 +96,18 @@ export class DataSkillsetReport {
            
             var department:Department=await this.getDepartment(associate.DepartmentID);
             var location:Location=await this.getLocation(associate.LocationID);
-            associateDetails.Department=await department.DepartmentDescr;
-            associateDetails.Location=await location.LocationDescr;
-            associateDetails.Name=await this.getFullName(associate.AssociateID);
-            associateDetails.VPN=associate.VPN?'Yes':'No';
-            associateDetails.UpdatedOn= this.getDateString(new Date(associate.UpdatedOn));
-            associateDetails.assocId=await associate.AssociateID;
+            if(location!=null){
+                associateDetails.Department=await department.DepartmentDescr;
+                associateDetails.Location=await location.LocationDescr;
+                associateDetails.Name=await this.getFullName(associate.AssociateID);
+                associateDetails.VPN=associate.VPN?'Yes':'No';
+                associateDetails.UpdatedOn= this.getDateString(new Date(associate.UpdatedOn));
+                associateDetails.assocId=await associate.AssociateID;
+                associateDetails.Phone=await associate.PhoneNumber;
+            }
             
             (
-                associate.LocationID==locationID  && 
+                (associate.LocationID==locationID || locationID==0)  && 
                 (
                     (
                         new Date(associate.UpdatedOn)>=dateFrom &&

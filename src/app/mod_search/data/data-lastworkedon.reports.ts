@@ -4,7 +4,6 @@ import { SkillsetSvc } from '../../com_services/skillset.svc';
 import { DepartmentSvc } from '../../com_services/department.svc';
 import { AssociateSvc } from '../../com_services/associate.svc';
 import { LocationSvc } from '../../com_services/location.svc';
-import { CurrentUserSvc } from '../../com_services/currentuser.svc';
 // import { Set_UserSvc } from '../../com_services/set_user.svc';
 import { DepartmentSkillsetsSvc } from '../../com_services/dept_skillset.svc';
 import { AssociateDepartmentSkillsetsSvc } from '../../com_services/assoc_dept_skillset.svc';

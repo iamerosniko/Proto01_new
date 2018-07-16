@@ -275,3 +275,34 @@ export interface ExportAssociateRpt{
     Skill?:string,
     DepartmentSkill?:string
 }
+export interface ExportSkillsRpt{
+    Name? : string,
+    VPN? : string,
+    Phone?: string,
+    CurrentDepartment? : string,
+    CurrentLocation? : string,
+    UpdatedOn? : string,
+    Skill?:string,
+}
+
+export interface ExportDeptsRpt{
+    Department ?:string,
+    Name? : string,
+    VPN? : string,
+    Phone?: string,
+    CurrentDepartment? : string,
+    CurrentLocation? : string,
+    UpdatedOn? : string,
+    Skill?:string,
+}
+
+export interface ExportLastTimeWorkedOnRpt{
+    LastTimeWorkedOn ?:string,
+    Name? : string,
+    VPN? : string,
+    Phone?: string,
+    CurrentDepartment? : string,
+    CurrentLocation? : string,
+    UpdatedOn? : string,
+    Skill?:string,
+}
