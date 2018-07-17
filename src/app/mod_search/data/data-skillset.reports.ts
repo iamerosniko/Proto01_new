@@ -68,7 +68,6 @@ export class DataSkillsetReport {
         this.skillsetRpt=new SkillsetRpt('',[]);
         this.associates=[];
         //step 1 get skillsetName
-        console.log(skillsetID)
         var skillset:Skillset=await this.getSkillset(skillsetID);
         var associatedepartmentskillset:AssociateDepartmentSkillset[]=[];
         //step 2 get associates from DepartmentSkillset and associatedepartmentskillset

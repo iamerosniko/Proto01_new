@@ -108,7 +108,6 @@ export class SearchComponent implements OnInit {
           });
         });
       });
-      console.log(associateExports)
       await this.excelService.exportAsExcelFile(associateExports, "Associates");
     }
     //skillset 
@@ -216,7 +215,6 @@ export class SearchComponent implements OnInit {
     this.skillsetRpt=[];
     this.selectedItems=[];
     if(this.radioSelect==0){
-      console.log(this.selectedLocation);
       var associates=this.associates;
       // let associates=this.associates.filter(x=>this.selectedLocation>0?x.LocationID==this.selectedLocation : x);
       associates.forEach(element => {
@@ -294,7 +292,6 @@ export class SearchComponent implements OnInit {
           }
           else if(this.radioSelect==3){
             var lastwork =await   this.lastWorkedOnReportSvc.getLastWorkedOnReport(selectedItem.text,this.selectedLocation,this.dateFrom,this.dateTo)
-            console.log(lastwork)
             if(lastwork!=null){
               this.progress+=1;
               lastTimeWorkedOnRpt.push(lastwork)
@@ -307,7 +304,6 @@ export class SearchComponent implements OnInit {
         this.lastTimeWorkedOnRpt=lastTimeWorkedOnRpt;
         this.skillsetRpt=skillsetRpt;
         this.isLoading=await false;
-        console.log(this.lastTimeWorkedOnRpt)
       }
     }
     this.isPrintReady=await true; 

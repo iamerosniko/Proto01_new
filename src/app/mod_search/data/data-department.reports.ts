@@ -97,7 +97,9 @@ export class DataDepartmentReport {
         departmentRpt.DepartmentID=await department.DepartmentID;
 
         //get associates from associatedepartmentSkillset according to departmentskillsets
-        associates =this.allAssociates.filter(x=>x.DepartmentID==departmentID && (locationID>0?x.LocationID==locationID:x.LocationID!=0));
+        associates =this.allAssociates.filter(x=>x.DepartmentID==departmentID 
+            && (locationID>0?x.LocationID==locationID:x.LocationID!=0)
+            && (x.UpdatedOn>=dateFrom && x.UpdatedOn<=dateTo ));
         associates.forEach(async element => {
             var assrpt = await this.getSkillsets(element)
             if(assrpt!=null){

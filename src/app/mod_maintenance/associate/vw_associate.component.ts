@@ -182,7 +182,6 @@ export class VWAssociateComponent implements OnInit {
     if(this.entryValidation()){
       this.associate.UpdatedOn=new Date();
 
-      console.log(this.associate);
       this.mode==0 ?
       ( 
         await this.associateSvc.postAssociate(this.associate),

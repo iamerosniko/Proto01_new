@@ -27,8 +27,8 @@ namespace SkillsetAPI.Models
 
     public DateTime UpdatedOn { get; set; }
 
-    public DateTime StartDate { get; set; }
-    public DateTime TransferDate { get; set; }
+    public Nullable<DateTime> StartDate { get; set; }
+    public Nullable<DateTime> TransferDate { get; set; }
 
   }
 }

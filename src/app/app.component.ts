@@ -32,8 +32,8 @@ export class AppComponent  implements OnDestroy{
         else{
           this.routeStr= '';
         }
-         this.checkIfAuthenticated();
-       console.log(await this.maintenanceSvc.cleanme());
+        this.checkIfAuthenticated();
+        await this.maintenanceSvc.cleanme();
 
       }
     );
@@ -44,9 +44,9 @@ export class AppComponent  implements OnDestroy{
 
   async getSignedInUser(){
     //original
-    var user = await this.curUserSvc.getSignedInUser();
+    // var user = await this.curUserSvc.getSignedInUser();
     // console.log(user);
-    // var user =  {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    var user =  {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     var btamURL=await this.btamSvc.getBTAMURL();
     sessionStorage.setItem("BTAM_URL",btamURL.BTAMURL)
 

@@ -13,7 +13,7 @@ namespace SkillsetClient.Models
     public int LocationID { get; set; }
     public DateTime UpdatedOn { get; set; }
     public bool IsActive { get; set; }
-    public DateTime? StartDate { get; set; }
-    public DateTime? TransferDate { get; set; }
+    public Nullable<DateTime> StartDate { get; set; }
+    public Nullable<DateTime> TransferDate { get; set; }
   }
 }
