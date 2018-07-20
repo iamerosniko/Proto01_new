@@ -1,0 +1,14 @@
+[
+  {
+    "LocationDescr": "_Admins_",
+    "IsActive" :  true
+  },
+  {
+    "LocationDescr": "Portsmouth",
+    "IsActive": true
+  },
+  {
+    "LocationDescr": "Tempe",
+    "IsActive": true
+  }
+]

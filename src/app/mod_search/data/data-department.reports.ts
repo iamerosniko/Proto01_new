@@ -98,22 +98,19 @@ export class DataDepartmentReport {
 
         //get associates from associatedepartmentSkillset according to departmentskillsets
         associates =this.allAssociates.filter(x=>x.DepartmentID==departmentID 
-            && (locationID>0?x.LocationID==locationID:x.LocationID!=0)
-            && (x.UpdatedOn>=dateFrom && x.UpdatedOn<=dateTo ));
+            && (locationID>0?x.LocationID==locationID:x.LocationID!=0) 
+            &&
+            (
+                (new Date(x.UpdatedOn)>=dateFrom&&new Date(x.UpdatedOn)<=dateTo) || (dateFrom==null&&dateTo==null)
+            )
+            // && ((dateFrom!=null || dateTo!=null) ? x.UpdatedOn>=dateFrom && x.UpdatedOn<=dateTo : true )
+           );
         associates.forEach(async element => {
             var assrpt = await this.getSkillsets(element)
             if(assrpt!=null){
                 departmentRpt.AssociateRpts.push(assrpt)
             }
         });
-        //get their skills according to their current department
-        // for(var assoc of associates){
-        //     var assocrpt=await this.assocRptSvc.getAssociateReport2(assoc.AssociateID,departmentID,dateFrom,dateTo);
-        //     // console.log(assocrpt);
-        //     if(assocrpt!=null)
-        //         departmentRpt.AssociateRpts=departmentRpt.AssociateRpts.concat(assocrpt);
-        //         // console.log(departmentRpt);
-        // }
 
         return new Promise<DepartmentRpt>((resolve) =>             
             resolve(departmentRpt)
@@ -128,6 +125,7 @@ export class DataDepartmentReport {
         var departmentSkillsetsClean:DepartmentSkillsets1[]=[];
         var associateRpt:AssociateRpt={};
         //associate detail
+
         associateRpt.Associate=new AssociateDetails(
             associate.FullName,
             associate.VPN?"Yes":"No",

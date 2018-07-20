@@ -68,6 +68,7 @@ export class VWAssociateComponent implements OnInit {
     this.users = await this.currentUserSvc.GetUserInAppFromBtam();
     this.locations = await this.locationSvc.getLocations();
     this.departments = await this.departmentSvc.getDepartments();
+    
     this.associates =<AssTmp[]> await this.associateSvc.getAssociates();
     //update associates that is new in btam
     await this.addAssociateToDefault();
@@ -83,10 +84,12 @@ export class VWAssociateComponent implements OnInit {
     });
 
     tempUsers.forEach(async user => {
+      var userDept = user.Role!="Admin"? 0:this.departments.find(x=>x.DepartmentDescr=="_Administrators_").DepartmentID; 
+      var userLoc = user.Role!="Admin"? 0:this.locations.find(x=>x.LocationDescr=="_Admins_").LocationID; 
       var assocTemp:AssTmp = {
-        DepartmentID:0,
+         DepartmentID:userDept,
         FullName:user.FirstName+' '+user.LastName,
-        LocationID:0,
+        LocationID:userLoc,
         IsActive:true,
         PhoneNumber:'0',
         UserID:user.UserID,
@@ -179,6 +182,7 @@ export class VWAssociateComponent implements OnInit {
   }
 
   async saveAssociate(){
+    console.log(this.associate)
     if(this.entryValidation()){
       this.associate.UpdatedOn=new Date();
 

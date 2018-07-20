@@ -12,6 +12,7 @@ namespace SkillsetAPI
   {
     private static IHostingEnvironment _hostingEnvironment;
     private static string _skills = "/Initializer/Skills.json";
+    private static string _Locations = "/Initializer/Locations.json";
     private static string _departments = "/Initializer/Departments.json";
     private static string _departmentSkillsets = "/Initializer/DepartmentSkillsets.json";
     public static void EnsureSeedDataForContext(this SkillSetContext ctx, IHostingEnvironment hostingEnvironment)
@@ -62,6 +63,20 @@ namespace SkillsetAPI
       ctx.SaveChanges();
     }
 
+    private static void seedLocation(SkillSetContext ctx)
+    {
+      if (ctx.Locations.Any())
+      {
+        return;
+      }
+      if (ctx.Locations.Count() == 0)
+      {
+        List<Location> locations = getLocations();
+        ctx.Locations.AddRange(locations);
+        ctx.SaveChanges();
+      }
+    }
+
     private static void SeedSkillset(SkillSetContext ctx)
     {
       if (ctx.Skillsets.Any())
@@ -100,6 +115,14 @@ namespace SkillsetAPI
       return data;
     }
 
+    private static List<Location> getLocations()
+    {
+      string contentRootPath = _hostingEnvironment.ContentRootPath;
+      var jsonText = System.IO.File.ReadAllText(contentRootPath + _Locations);
+      var data = JsonConvert.DeserializeObject<List<Location>>(jsonText);
+      return data;
+    }
+
     private static List<Department> getDepartments()
     {
       string contentRootPath = _hostingEnvironment.ContentRootPath;
@@ -113,10 +136,6 @@ namespace SkillsetAPI
       var jsonText = System.IO.File.ReadAllText(contentRootPath + _departmentSkillsets);
       var data = JsonConvert.DeserializeObject<List<DepartmentSkillsetsSeedDTO>>(jsonText);
       return data;
-    }
-    private static void pushDepartmentSkillset()
-    {
-
     }
   }
 }

@@ -1,1 +1,31 @@
-[{"DepartmentDescr":"Adjustments","IsActive":true},{"DepartmentDescr":"Contact Center","IsActive":true},{"DepartmentDescr":"Correspondence","IsActive":true},{"DepartmentDescr":"Document Management","IsActive":true},{"DepartmentDescr":"Transaction Processing and Operations","IsActive":true},{"DepartmentDescr":"Service Administration","IsActive":true}]
+[
+
+  {
+    "DepartmentDescr": "Adjustments",
+    "IsActive": true
+  },
+  {
+    "DepartmentDescr": "Contact Center",
+    "IsActive": true
+  },
+  {
+    "DepartmentDescr": "Correspondence",
+    "IsActive": true
+  },
+  {
+    "DepartmentDescr": "Document Management",
+    "IsActive": true
+  },
+  {
+    "DepartmentDescr": "Transaction Processing and Operations",
+    "IsActive": true
+  },
+  {
+    "DepartmentDescr": "Service Administration",
+    "IsActive": true
+  },
+  {
+    "DepartmentDescr": "_Administrators_",
+    "IsActive": true
+  }
+]
