@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <!--tool bar-->
             <div class="row">
-                <a href="#" (click)="newDetails()" class="btn btn-primary btn-sm" data-toggle="tab" data-target="#loc_editor"><i class="fa fa-plus"></i>&nbsp;New Record</a>
+                <a (click)="newDetails()" class="btn btn-primary btn-sm" data-toggle="tab" data-target="#loc_editor"><i class="fa fa-plus"></i>&nbsp;New Record</a>
             </div>
             <br />
             <!--table-->
@@ -54,7 +54,7 @@
         <div class="col-md-12">
             <!--return button-->
             <div class="row">
-                <a href="#" id="btnGoBack" (click)="goBack()" class="btn btn-default btn-sm" data-toggle="tab" data-target="#loc_default"><i class="fa fa-chevron-left"></i>&nbsp;Go Back</a>
+                <a id="btnGoBack" (click)="goBack()" class="btn btn-default btn-sm" data-toggle="tab" data-target="#loc_default"><i class="fa fa-chevron-left"></i>&nbsp;Go Back</a>
                 <a (click)="saveLocation()" class="btn btn-primary btn-sm" ><i class="fa fa-save"></i>&nbsp;Save</a>
             </div>
             <br />
