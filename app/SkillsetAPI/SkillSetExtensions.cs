@@ -21,6 +21,7 @@ namespace SkillsetAPI
       SeedSkillset(ctx);
       SeedDepartment(ctx);
       SeedDepartmentSkillsets(ctx);
+      seedLocation(ctx);
     }
 
     private static void SeedDepartmentSkillsets(SkillSetContext ctx)

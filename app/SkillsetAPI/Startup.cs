@@ -97,13 +97,9 @@ namespace SkillsetAPI
       {
         app.UseDeveloperExceptionPage();
       }
-      app.UseCors(builder =>
-      {
-        builder.AllowAnyHeader();
-        builder.AllowAnyOrigin();
-      }
 
-      );
+      app.UseCors("CORS");
+
       //this is used for autherization
       app.UseAuthentication();
 
@@ -139,7 +135,7 @@ namespace SkillsetAPI
         {
           serviceScope.ServiceProvider.GetService<SkillSetContext>().Database.Migrate();
           //This is for Seeding comment this when ading migration, comment this out when creating new migration
-          //skillSetContext.EnsureSeedDataForContext(hostingEnvironment);
+          skillSetContext.EnsureSeedDataForContext(hostingEnvironment);
         }
       }
       catch (Exception ex)

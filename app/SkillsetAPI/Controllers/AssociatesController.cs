@@ -76,7 +76,7 @@ namespace SkillsetAPI.Controllers
     }
 
     [HttpPost("Bulk")]
-    public IActionResult PostAssociates([FromBody] List<AssociateForCreateDTO> associates)
+    public IActionResult PostAssociates([FromBody] List<Entities.Associate> associates)
     {
       if (associates == null)
       {
