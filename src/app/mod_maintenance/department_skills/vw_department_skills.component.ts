@@ -25,6 +25,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
   ngOnInit(){
     this.getDepartments();
   }
+  deptName:string;
   isModified:boolean=false;
   loading:boolean=false;
   p: number = 1;
@@ -57,6 +58,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
 
   //step2
   async getSkillSets(deptID:number){
+    this.deptName=this.departments.find(x=>x.DepartmentID==deptID).DepartmentDescr
     this.loading=await true;
     this.isModified=await false;
     this.selectedSkillsets=[];

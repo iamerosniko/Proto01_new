@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="row">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover input-sm">
@@ -50,6 +50,26 @@
                 </div>
                 <div *ngIf="selectedSkillsets.length==0 && selectedDepartmentID!=-1 && loading==false">
                     No Skills found. Please add a skill first on the maintenance.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover input-sm">
+                        <thead>
+                            <tr>
+                                <!-- <th class="col-md-1"><input id="checkall" [(ngModel)]="checkallValue" (change)="checkAllSkills(checkallValue)" type="checkbox" class="css-checkbox med"><label for="checkall" class="css-label med elegant"></label></th> -->
+                                <th class="col-md-11">Selected Skill for {{deptName}}</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="selectedSkillsets.length>0 && loading==false">
+                            <tr *ngFor="let x of selectedSkillsets | paginate: { itemsPerPage: 10, currentPage: p }" >
+                                <td>{{x.SkillsetDescr}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
