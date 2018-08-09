@@ -58,7 +58,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
 
   //step2
   async getSkillSets(deptID:number){
-    this.deptName=this.departments.find(x=>x.DepartmentID==deptID).DepartmentDescr
+    // this.deptName=this.departments.find(x=>x.DepartmentID==deptID).DepartmentDescr
     this.loading=await true;
     this.isModified=await false;
     this.selectedSkillsets=[];
@@ -202,13 +202,7 @@ export class VWDepartmentSkillsComponent implements OnInit {
           x=>x.DepartmentSkillsetID==departmentSkillset.DepartmentSkillsetID
         )
       );
-      this.departmentSkillsetSvc.DeleteDepartmentSkillset(departmentSkillset.DepartmentSkillsetID).then(
-        ()=>{
-          // console.log('deleted: '+departmentSkillset.DepartmentSkillsetID.toString())
-        }).catch(
-        ()=>{
-          // console.log('failed')
-        });
+      this.departmentSkillsetSvc.DeleteDepartmentSkillset(departmentSkillset.DepartmentSkillsetID)
     }
   }
 

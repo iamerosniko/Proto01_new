@@ -1,7 +1,7 @@
 import {  Component, OnDestroy} from '@angular/core';
 
 import { Location } from '@angular/common';
-import { Router }  from '@angular/router';
+import { Router,ActivatedRoute }  from '@angular/router';
 import { User } from './com_entities/entities';
 import { CurrentUserSvc } from './com_services/currentuser.svc';
 import { BTAMSvc } from './com_services/btam.svc.';
@@ -21,22 +21,33 @@ export class AppComponent  implements OnDestroy{
     private router: Router,
     private location: Location,
     private btamSvc:BTAMSvc,
+    private activatedroute :ActivatedRoute,
     private maintenanceSvc :SkillsetMaintenanceServices
   ){
     
-    this.router.events.debounceTime(500).subscribe(
-      async ()=>{
-        if(this.location.path() != ''){
-          this.routeStr =  this.location.path();
-        } 
-        else{
-          this.routeStr= '';
-        }
-        this.checkIfAuthenticated();
-        await this.maintenanceSvc.cleanme();
+    // this.router.events.debounceTime(500).subscribe(
+    //   async ()=>{
+    //     if(this.location.path() != ''){
+    //       this.routeStr =  this.location.path();
+    //     } 
+    //     else{
+    //       this.routeStr= '';
+    //     }
+    //     this.checkIfAuthenticated();
+    //     await this.maintenanceSvc.cleanme();
 
+    //   }
+    // );
+    this.activatedroute.params.subscribe(async ()=>{
+      if(this.location.path() != ''){
+        this.routeStr =  this.location.path();
+      } 
+      else{
+        this.routeStr= '';
       }
-    );
+      this.checkIfAuthenticated();
+      await this.maintenanceSvc.cleanme();
+    });
   }
 
   ngOnDestroy() {
@@ -45,8 +56,8 @@ export class AppComponent  implements OnDestroy{
   async getSignedInUser(){
     //original
     var user = await this.curUserSvc.getSignedInUser();
-    // console.log(user);
-    var user =  {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
+    // console.log(user); 
+    // var user =  {UserID: "", UserName: "alverer@mfcgd.com", FirstName: "", LastName: "", Role: "NoAccess"}
     var btamURL=await this.btamSvc.getBTAMURL();
     sessionStorage.setItem("BTAM_URL",btamURL.BTAMURL)
 
