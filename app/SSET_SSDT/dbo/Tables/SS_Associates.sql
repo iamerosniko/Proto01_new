@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[SS_Associates] (
+﻿CREATE TABLE [dbo].[SS_Associates] (
     [AssociateID]  INT            IDENTITY (1, 1) NOT NULL,
     [DepartmentID] INT            NOT NULL,
     [FullName]     NVARCHAR (100) NULL,
@@ -8,10 +8,8 @@ CREATE TABLE [dbo].[SS_Associates] (
     [UpdatedOn]    DATETIME2 (7)  NOT NULL,
     [UserID]       NVARCHAR (25)  NULL,
     [VPN]          BIT            NOT NULL,
-    [StartDate]    DATETIME2 (7)  NOT NULL,
-    [TransferDate] DATETIME2 (7)  NOT NULL,
+    [TransferDate] DATETIME2 (7)  NULL,
+    [StartDate]    DATETIME2 (7)  NULL,
     CONSTRAINT [PK_SS_Associates] PRIMARY KEY CLUSTERED ([AssociateID] ASC)
 );
-
-
 

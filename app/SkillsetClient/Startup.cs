@@ -137,6 +137,7 @@ namespace SkillsetClient
                   name: "default",
                   template: "{controller=Home}/{action=Index}/{id?}");
       });
+
     }
   }
 

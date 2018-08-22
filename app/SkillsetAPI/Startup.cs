@@ -60,6 +60,7 @@ namespace SkillsetAPI
       //Use below in Production
       var connectionString = Startup.Configuration["ConnectionStrings:dbbtSSetp1ConnectionString"];
 
+
       //dev
       //var connectionString = "Server=(localdb)\\mssqllocaldb;Database=dbbtSSetp1;Trusted_Connection=True;MultipleActiveResultSets=true";
 

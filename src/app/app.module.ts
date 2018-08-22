@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { NgIdleModule } from '@ng-idle/core';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 // import { AppService } from './app.svc';EROS: i comment out this line because this is for simulation purposes only
@@ -33,7 +32,6 @@ import { SkillsetMaintenanceServices } from './com_services/skillsetmaintenance.
     MaintenanceModule,
     SearchModule,
     AppRouting,
-    NgIdleModule.forRoot()
     // TestExportModule,
   ],
   //services area

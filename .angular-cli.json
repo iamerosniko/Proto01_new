@@ -23,14 +23,14 @@
         "../node_modules/font-awesome/css/font-awesome.min.css",
     		"assets/css/Checkboxes.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "../node_modules/bootstrap/dist/css/bootstrap-theme.css",
+        "../node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
         "assets/css/Site.css",
         "assets/css/googleicon.css",
         "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.js",
-        "../node_modules/bootstrap/dist/js/bootstrap.js"
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
