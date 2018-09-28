@@ -81,7 +81,7 @@ export class AppComponent  implements OnDestroy{
       await this.checkIfAuthenticated();
     }
     
-    if(this.currentUser.Role=="NoAccess"){
+    if(this.currentUser.Role=="NoAccess"||this.currentUser.Role==""){
       await this.routeOnly('noaccess');
     }
     else{

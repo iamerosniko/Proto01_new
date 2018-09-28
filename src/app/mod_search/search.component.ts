@@ -18,7 +18,7 @@ import { Location,Department,Skillset,
   AssociateRpt,SelectItem,
   SkillsetRpt,DepartmentRpt,LastTimeWorkedOnRpt
   //export,
-  ,ExportAssociateRpt,ExportSkillsRpt,ExportDeptsRpt, ExportLastTimeWorkedOnRpt
+  ,ExportSkillsRpt,ExportDeptsRpt, ExportLastTimeWorkedOnRpt
 } from '../com_entities/entities';
 @Component({
   selector: 'search',

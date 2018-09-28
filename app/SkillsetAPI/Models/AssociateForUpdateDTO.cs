@@ -5,6 +5,8 @@ namespace SkillsetAPI.Models
 {
   public class AssociateForUpdateDTO
   {
+    public int AssociateID { get; set; }
+
     [Required(ErrorMessage = "No UserID")]
     [MaxLength(25)]
     public string UserID { get; set; }
